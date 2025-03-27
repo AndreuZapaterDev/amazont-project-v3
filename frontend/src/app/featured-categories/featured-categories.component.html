@@ -1,0 +1,27 @@
+<!-- VERSIÓN DESKTOP -->
+<div class="hidden md:block">
+    <div class="card">
+        @for(category of featuredCategories; track category.id) {
+            <p [routerLink]="['/home/categories', category.category]">
+                <span>{{ category.name }}</span>
+            </p>
+        }
+    </div>
+</div>
+
+<!-- VERSIÓN MÓVIL -->
+<div class="block md:hidden">
+    <div class="grid grid-cols-2 gap-3">
+        @for(category of featuredCategories; track category.id) {
+            <div 
+                [routerLink]="['/home/categories', category.category]" 
+                class="flex flex-col items-center justify-center p-3 bg-[var(--card-background-color)] rounded-lg shadow-sm border border-[var(--border-color)] hover:border-[var(--secondary-color)] transition-colors duration-200 cursor-pointer"
+            >
+                <div class="mb-2 w-10 h-10 rounded-full bg-[var(--secondary-color)] bg-opacity-10 flex items-center justify-center">
+                    <i class="fi {{ getCategoryIcon(category.category) }} text-[var(--secondary-color)]"></i>
+                </div>
+                <span class="text-sm font-medium text-[var(--text-color)] text-center">{{ category.name }}</span>
+            </div>
+        }
+    </div>
+</div>

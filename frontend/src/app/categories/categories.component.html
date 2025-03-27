@@ -1,0 +1,37 @@
+<div class="categories-container">
+  <div class="categories-nav">
+    <div class="categories-wrapper">
+      <button class="nav-arrow prev-arrow" (click)="previousCategory()" aria-label="Categorías anteriores">
+        <i class="fi fi-br-angle-left"></i>
+        <span class="arrow-ripple"></span>
+      </button>
+
+      <div class="categories-slider">
+        @for(category of visibleCategories; track category.id) {
+          <a class="category-link" 
+             [routerLink]="['/home/categories', category.category]"
+             [class.active]="isCategoryActive(category.category)">
+            
+            <div class="category-icon">
+              <i [class]="getCategoryIcon(category.category)"></i>
+              <div class="icon-bg"></div>
+            </div>
+            <span class="category-name">{{ category.name }}</span>
+            @if(isCategoryActive(category.category)) {
+              <div class="active-indicator"></div>
+            }
+          </a>
+        }
+      </div>
+
+      <button class="nav-arrow next-arrow" (click)="nextCategory()" aria-label="Categorías siguientes">
+        <i class="fi fi-br-angle-right"></i>
+        <span class="arrow-ripple"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="category-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

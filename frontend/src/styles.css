@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+i{
+  padding-top: 5px;
+}
+
+html {
+  background-color: var(--background-color);
+}
+
+:root {
+  --line: black;
+  --background-color: white;
+  --background-navbar: #013A63;
+  --background-navbar2: #01497C;
+  --secondary-color: #fa9c20;
+  --text-color: #333;
+  --card-background-color: #fff;
+  --border-color: #ccc;
+  --price-color: red;
+  --star-color: #f39c12;
+  --box-shadow-color: rgba(0, 0, 0, 0.3);
+  --gradient-color: #fa9c20;
+  --text-muted: #999;
+  --discount-color: #d50000;
+  --product-background-color: #f3f3f3;
+  --shipping-color: #0082df;
+  --hover-color: #fa9b20;
+  --card-background-color:#f4f4f4;
+  --secondary-color-rgb: #FA9C20;
+  --promo-color1: #ff8800;
+  --promo-color2: #c1f700;
+}
+
+[data-theme='dark'] {
+  --line: rgb(218, 218, 218);
+  --background-navbar: black;
+  --background-navbar2: #212529;
+  --background-color: #191919;
+  --secondary-color: #fa9c20;
+  --text-color: #f8f9fa;
+  --card-background-color: #333;
+  --border-color: #555;
+  --price-color: red;
+  --star-color: #f1c40f;
+  --box-shadow-color: rgba(89, 89, 89, 0.7);
+  --gradient-color: #01497C;
+  --text-muted: #999;
+  --discount-color: red;
+  --product-background-color: #313131;
+  --shipping-color: #fa9c20;
+  --hover-color: #2c3338;
+  --card-background-color:#313131;
+  --secondary-color-rgb: #FA9C20;
+  --promo-color1: #ff8800;
+  --promo-color2: #000000;
+}
+
+
+/*   ----------------------------------------------  SCROLL BAR ----------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--card-background-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--secondary-color), var(--gradient-color));
+  border-radius: 10px;
+  border: 3px solid var(--card-background-color);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--background-navbar), var(--background-navbar2));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) var(--card-background-color);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--background-navbar);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--card-background-color);
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-track {
+  background-color: #2a2a2a;
+  border-radius: 10px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  border: 3px solid #2a2a2a;
+}

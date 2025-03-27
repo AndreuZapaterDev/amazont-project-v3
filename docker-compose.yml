@@ -1,0 +1,75 @@
+services:
+  # Frontend - Angular
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - amazont-network
+    environment:
+      - WATCHPACK_POLLING=true
+    command: npm start -- --host 0.0.0.0 --poll 500
+
+  # Backend - Laravel
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html
+      - /var/www/html/vendor
+    depends_on:
+      - db
+    networks:
+      - amazont-network
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=amazont
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - amazont-network
+    environment:
+      - MYSQL_DATABASE=amazont
+      - MYSQL_ROOT_PASSWORD=root
+    command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin - para administrar la BD
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - amazont-network
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=root
+
+networks:
+  amazont-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

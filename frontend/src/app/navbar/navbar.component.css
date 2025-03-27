@@ -1,0 +1,292 @@
+.primary-navbar{
+  background-color: var(--background-navbar);
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.primary-container {
+  padding: 10px 20px 10px 40px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.icon{
+  color: white;
+  font-size: 5vw;
+}
+
+.logo{
+  width: 8vw;
+}
+
+/* --------------------------- BUSCADOR ----------------------------------- */
+
+.search-container{
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.search-box{
+  background: white;
+  width: 90%;
+  max-width: 1150px;
+  padding: 10px;
+  display: flex;
+  align-items:center;
+  border-radius: 10px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-box input{
+  flex: 1;
+  padding: 15px 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 20px;
+  color: black;
+}
+
+.search-box input::placeholder {
+  color: black;
+}
+
+.search-box button i{
+  margin-top: 5px;
+  font-size: 25px;
+  color: black;
+}
+
+.search-box button{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider{
+  position: absolute;
+  bottom: 0;
+  left: 410px;
+  animation: slider 8s linear infinite;
+}
+
+.slider i{
+  font-size: 30px;
+  color: black;
+}
+
+/* @keyframes slider{
+  0% {transform: translateY(-50px);}
+  14% {transform: translateY(0px);}
+  28% {transform: translateY(0px);}
+  42% {transform: translateY(45px);}
+  70% {transform: translateY(45px);}
+  84% {transform: translateY(90px);}
+  100% {transform: translateY(90px);}
+} */
+
+@keyframes slider{
+  0% {transform: translateY(-50px);}
+  7% {transform: translateY(0px);}
+  35% {transform: translateY(0px);}
+  42% {transform: translateY(45px);}
+  77% {transform: translateY(45px);}
+  84% {transform: translateY(90px);}
+  100% {transform: translateY(90px);}
+}
+
+
+/* ------------------------------------------------ IDIOMAS --------------------------------------------- */
+
+.languages-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.languages-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.languages-container button:hover {
+  transform: scale(1.2);
+}
+
+.languages-container img {
+  width: 65px;
+}
+/* ---------------------------------------------------- CARRITO ----------------------------------------------- */
+
+.cart-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-container i {
+  font-size: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.number-container {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.number-container h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+
+/*------------------------------------------------- SIGN UP ----------------------------------------------*/
+ button.learn-more {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  width: 12rem;
+  height: auto;
+ }
+
+ button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #fa9c20;
+  border-radius: 1.625rem;
+ }
+
+ button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+ }
+
+ button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+ }
+
+ button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+ }
+
+ button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: white;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+ }
+
+ button:hover .circle {
+  width: 100%;
+ }
+
+ button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+ }
+
+ button:hover .button-text {
+  color: #fff;
+ }
+
+
+/*  ------------------------------------------------- SECONDARY NAVBAR ---------------------------------------------- */
+
+.secondary-navbar {
+  background-color: var(--background-navbar2);
+  padding: 10px 0;
+}
+
+.secondary-navbar .secundary-container {
+  display: flex;
+  justify-content: center;
+}
+
+.secondary-navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.secondary-navbar li {
+  display: inline;
+}
+
+.secondary-navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.secondary-navbar a:hover {
+  color: #fa9c20;
+}

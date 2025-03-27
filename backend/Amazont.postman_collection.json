@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "dbb1b836-59bb-43d7-905c-d98df553c424",
+		"name": "Amazont",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "42661012"
+	},
+	"item": [
+		{
+			"name": "Perfil Usuario",
+			"item": [
+				{
+					"name": "Perfil Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/perfil_usuarios/"
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/perfil_usuario/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"test\",\n    \"apellidos\":\"test\",\n    \"fecha_nacimiento\":\"2025/12/12\",\n    \"direccion\":\"test direccion\",\n    \"telefono\":\"664367901\",\n    \"genero\":\"1\",\n    \"imagen_usuario\":\"test imagen\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/perfil_usuario/"
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"test update\",\n    \"apellidos\":\"test update\",\n    \"fecha_nacimiento\":\"2025/12/13\",\n    \"direccion\":\"test direccion update\",\n    \"telefono\":\"664367901\",\n    \"genero\":\"1\",\n    \"imagen_usuario\":\"test imagen\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/perfil_usuario/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/perfil_usuario/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/usuarios/"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/usuario/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"user@user.com\",\n    \"password\":\"user\",\n    \"rol\":\"1\",\n    \"user_profile_id\":\"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/usuario/"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"testupdate@test.com\",\n    \"password\":\"password\",\n    \"rol\":\"1\",\n    \"user_profile_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/usuario/4/"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/usuario/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorías",
+			"item": [
+				{
+					"name": "Categorías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/categorias/"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoría",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/categoria/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"Electrónica\",\n    \"inicio\":\"0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/categoria/"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoría",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"Update\",\n    \"inicio\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/categoria/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoría",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/categoria/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/productos/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/producto/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"Teléfono\",\n    \"precio\":\"12\",\n    \"descuento\":\"10\",\n    \"descripcion\":\"test de descripcion\",\n    \"stock\":\"123\",\n    \"inicio\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/producto/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\":\"Pelota update\",\n    \"precio\":\"12\",\n    \"descuento\":\"10\",\n    \"descripcion\":\"test de descripcion\",\n    \"stock\":\"123\",\n    \"inicio\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/producto/3/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/producto/3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto Categorías",
+			"item": [
+				{
+					"name": "Productos Categorías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/producto_categorias/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto Categoría",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/producto_categoria/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto Categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"producto_id\":\"2\",\n    \"categoria_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/producto_categoria/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto Categoría",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"producto_id\":\"2\",\n    \"categoria_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/producto_categoria/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "Producto Categoría",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/producto_categoria/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Valoraciones",
+			"item": [
+				{
+					"name": "Valoraciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/valoraciones/"
+					},
+					"response": []
+				},
+				{
+					"name": "Valoración",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/valoracion/6"
+					},
+					"response": []
+				},
+				{
+					"name": "Valoración",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\":\"review en texto\",\n    \"puntuacion\":\"4\",\n    \"fecha\":\"2025/12/18\",\n    \"util\":\"124\",\n    \"usuario_id\":\"2\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/valoracion/"
+					},
+					"response": []
+				},
+				{
+					"name": "Valoración",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\":\"review en update\",\n    \"puntuacion\":\"4\",\n    \"fecha\":\"2025/12/18\",\n    \"util\":\"124\",\n    \"usuario_id\":\"2\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/valoracion/6/"
+					},
+					"response": []
+				},
+				{
+					"name": "Valoración",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/valoracion/6"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imágenes",
+			"item": [
+				{
+					"name": "Imágenes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/imagenes/"
+					},
+					"response": []
+				},
+				{
+					"name": "Imagen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/imagen/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Imagen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\"test de url\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/imagen/"
+					},
+					"response": []
+				},
+				{
+					"name": "Imagen",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\"update de url\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/imagen/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "Imagen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/imagen/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Características",
+			"item": [
+				{
+					"name": "Características",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/caracteristicas/"
+					},
+					"response": []
+				},
+				{
+					"name": "Característica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/caracteristica/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Característica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"texto\":\"test de texto\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/caracteristica/"
+					},
+					"response": []
+				},
+				{
+					"name": "Característica",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"texto\":\"test de texto actualizado\",\n    \"producto_id\":\"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/caracteristica/2/"
+					},
+					"response": []
+				},
+				{
+					"name": "Característica",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/caracteristica/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"user@user.com\",\n    \"password\":\"user\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/login/"
+			},
+			"response": []
+		}
+	]
+}

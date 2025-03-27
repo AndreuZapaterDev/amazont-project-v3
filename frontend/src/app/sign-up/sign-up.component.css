@@ -1,0 +1,409 @@
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background-color: var(--background-color);
+  background-image: linear-gradient(135deg, rgba(var(--secondary-color-rgb), 0.05), rgba(var(--background-navbar-rgb), 0.1));
+}
+
+.card-dark-mode {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--card-background-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px var(--box-shadow-color);
+  overflow: hidden;
+  position: relative;
+}
+
+.signup-header {
+  padding: 2.5rem 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1.5rem;
+}
+
+.signup-logo {
+  width: 120px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  content: url('/images/Black_logo.png');
+  transition: content 0.3s ease;
+}
+
+[data-theme='dark'] .signup-logo {
+  content: url('/images/White_logo.png');
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
+}
+
+.signup-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.signup-form {
+  padding: 0 2rem 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  position: relative;
+  display: inline-block;
+}
+
+.form-section h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 40px;
+  height: 3px;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-container i {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 2.8rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--card-background-color);
+  transition: all 0.3s ease;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.2);
+}
+
+.input-container input:focus + i {
+  color: var(--secondary-color);
+}
+
+.input-status {
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.input-status.valid {
+  opacity: 1;
+  color: #27ae60;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.toggle-password:hover {
+  color: var(--text-color);
+  background-color: rgba(var(--border-color-rgb), 0.2);
+}
+
+.toggle-password i {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  color: var(--discount-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  min-height: 1rem;
+  font-weight: 500;
+}
+
+/* Select */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 0.9rem 2.8rem 0.9rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--card-background-color);
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-wrapper i {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.select-wrapper select:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.2);
+}
+
+/* Indicador de fuerza de contraseña */
+.password-strength {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strength-bar {
+  height: 4px;
+  border-radius: 2px;
+  width: 100px;
+  background-color: var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.strength-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.strength-bar.weak::before {
+  background-color: #e74c3c;
+  width: 30%;
+}
+
+.strength-bar.medium::before {
+  background-color: #f39c12;
+  width: 60%;
+}
+
+.strength-bar.strong::before {
+  background-color: #27ae60;
+  width: 100%;
+}
+
+.checkbox-group {
+  margin-bottom: 1rem;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-color);
+}
+
+.checkbox-label {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: var(--card-background-color);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 8px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.text-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-bottom: 1px solid transparent;
+}
+
+.text-link:hover {
+  border-bottom-color: var(--secondary-color);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.signup-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(var(--secondary-color-rgb), 0.3);
+}
+
+.signup-button:hover {
+  background-color: var(--background-navbar2);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(var(--secondary-color-rgb), 0.4);
+}
+
+.signup-button i {
+  transition: transform 0.3s;
+}
+
+.signup-button:hover i {
+  transform: translateX(5px);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+

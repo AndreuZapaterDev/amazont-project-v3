@@ -1,0 +1,95 @@
+@if(product().discount){
+  <div class="product-card" (click)="navigateToProduct(product())">
+    <!-- Badge de descuento -->
+    <div class="product-badge discount">-{{ product().discount }}%</div>
+    
+    <!-- Opciones rápidas (aparecen al hacer hover) -->
+    <div class="quick-actions">
+      <button class="quick-action-btn" title="Añadir a favoritos">
+        <i class="fi fi-br-heart"></i>
+      </button>
+      <button class="quick-action-btn" title="Vista rápida">
+        <i class="fi fi-br-eye"></i>
+      </button>
+    </div>
+    
+    <!-- Imagen del producto -->
+    <div class="product-image-container">
+      <img class="product-image" [src]="product().url" [alt]="product().name">
+    </div>
+  
+    <!-- Información del producto -->
+    <div class="product-info">
+      <div class="product-category">{{ getCategoryName(product().category) }}</div>
+      <h3 class="product-name">{{ product().name }}</h3>
+      <div class="product-rating">
+        {{ numberStars }}
+        <span class="rating-count">({{ getRatingCount() }})</span>
+      </div>
+      
+      <!-- Precios -->
+      <div class="product-price-container">
+        <span class="product-price-original">{{ product().price }}€</span>
+        <span class="product-price-discounted">{{ discountedPrice }}€</span>
+      </div>
+      
+      <!-- Información de envío -->
+      <div class="product-shipping">
+        <span><i class="fi fi-br-truck-side"></i> Envío rápido</span>
+          <span class="free-shipping">Gratis</span>
+      </div>
+      
+      <!-- Botón de acción (aparece en hover) -->
+      <button class="add-to-cart-button">
+        <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+      </button>
+    </div>
+  </div>
+}@else {
+  <div class="product-card" (click)="navigateToProduct(product())">
+    <!-- Opciones rápidas (aparecen al hacer hover) -->
+    <div class="quick-actions">
+      <button class="quick-action-btn" title="Añadir a favoritos">
+        <i class="fi fi-br-heart"></i>
+      </button>
+      <button class="quick-action-btn" title="Vista rápida">
+        <i class="fi fi-br-eye"></i>
+      </button>
+    </div>
+
+    <!-- Imagen del producto -->
+    <div class="product-image-container">
+      <img class="product-image" [src]="product().url" [alt]="product().name">
+      <!-- Badge para productos nuevos (menos de 30 días) -->
+      @if(isNewProduct()) {
+        <div class="product-badge new">Nuevo</div>
+      }
+    </div>
+    
+    <!-- Información del producto -->
+    <div class="product-info">
+      <div class="product-category">{{ getCategoryName(product().category) }}</div>
+      <h3 class="product-name">{{ product().name }}</h3>
+      <div class="product-rating">
+        {{ numberStars }}
+        <span class="rating-count">({{ getRatingCount() }})</span>
+      </div>
+      
+      <!-- Precio -->
+      <div class="product-price-container">
+        <span class="product-price-regular">{{ product().price }}€</span>
+      </div>
+      
+      <!-- Información de envío -->
+      <div class="product-shipping">
+        <span><i class="fi fi-br-truck-side"></i> Envío rápido</span>
+          <span class="free-shipping">Gratis</span>
+      </div>
+      
+      <!-- Botón de acción (aparece en hover) -->
+      <button class="add-to-cart-button">
+        <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+      </button>
+    </div>
+  </div>
+}

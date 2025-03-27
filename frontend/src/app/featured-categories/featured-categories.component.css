@@ -1,0 +1,47 @@
+.card {
+  width: 1175px;
+  height: 300px;
+  border-radius: 20px;
+  display: flex;
+  gap: 10px;
+  padding: 0.8em;
+}
+
+.card p {
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.5s;
+  background: var(--card-background-color);
+  border: 3px solid var(--secondary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card p:hover {
+  flex: 2;
+  background-color: var(--hover-color);
+  border: 3px solid var(--text-color);
+}
+
+.card p span {
+  min-width: 18em;
+  padding: 1em;
+  text-align: center;
+  transform: rotate(-90deg);
+  transition: all 0.5s;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  letter-spacing: 0.15em;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.card p:hover span {
+  transform: rotate(0);
+  color: var(--text-color);
+  font-size: 1.4rem;
+}
