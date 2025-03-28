@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "===== INICINDO ENTORNO DE DESARROLLO AMAZONT ====="
+echo "===== INICIANDO ENTORNO DE DESARROLLO AMAZONT ====="
+
 echo "⏳ Iniciando contenedores Docker..."
 docker-compose up -d
 
