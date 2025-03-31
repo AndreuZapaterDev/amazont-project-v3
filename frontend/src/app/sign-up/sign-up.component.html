@@ -198,26 +198,51 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="gender">Género</label>
-            <div class="select-wrapper">
-              <select id="gender" formControlName="gender">
-                <option value="" disabled selected>
-                  Selecciona una opción
-                </option>
-                <option value="1">Hombre</option>
-                <option value="2">Mujer</option>
-                <option value="3">Prefiero no decirlo</option>
-              </select>
-              <i class="fi fi-br-angle-down"></i>
-            </div>
-            @if (submitted && f['gender'].errors) {
-            <div class="error-message">
-              @if (f['gender'].errors['required']) {
-              <span>Por favor, selecciona una opción</span>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gender">Género</label>
+              <div class="select-wrapper">
+                <select id="gender" formControlName="gender">
+                  <option value="" disabled selected>
+                    Selecciona una opción
+                  </option>
+                  <option value="1">Hombre</option>
+                  <option value="2">Mujer</option>
+                  <option value="3">Prefiero no decirlo</option>
+                </select>
+                <i class="fi fi-br-angle-down"></i>
+              </div>
+              @if (submitted && f['gender'].errors) {
+              <div class="error-message">
+                @if (f['gender'].errors['required']) {
+                <span>Por favor, selecciona una opción</span>
+                }
+              </div>
               }
             </div>
-            }
+
+            <!-- rol -->
+            <div class="form-group">
+              <label for="role">Rol</label>
+              <div class="select-wrapper">
+                <select id="role" formControlName="role">
+                  <option value="" disabled selected>
+                    Selecciona un rol
+                  </option>
+                  <option value="1">Administrador</option>
+                  <option value="2">Vendedor</option>
+                  <option value="3">Cliente</option>
+                </select>
+                <i class="fi fi-br-angle-down"></i>
+              </div>
+              @if (submitted && f['role'].errors) {
+              <div class="error-message">
+                @if (f['role'].errors['required']) {
+                <span>Por favor, selecciona un rol</span>
+                }
+              </div>
+              }
+            </div>
           </div>
 
           <div class="form-row">
@@ -560,6 +585,31 @@
             </p>
           }
         </div>
+
+        <!-- Campo de selección de rol (Mobile) -->
+          <div class="mb-4">
+            <label for="role-mobile" class="block text-sm font-medium text-[var(--text-color)] mb-1">Rol</label>
+            <div class="relative">
+              <select
+                id="role-mobile"
+                formControlName="role"
+                class="w-full py-2.5 pl-3 pr-10 bg-[var(--card-background-color)] border border-[var(--border-color)] text-[var(--text-color)] rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-[var(--secondary-color)]"
+              >
+                <option value="" disabled selected>Selecciona un rol</option>
+                <option value="1">Administrador</option>
+                <option value="2">Vendedor</option>
+                <option value="3">Cliente</option>
+              </select>
+              <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <i class="fi fi-br-angle-down text-[var(--text-muted)]"></i>
+              </span>
+            </div>
+            @if (submitted && f['role'].errors?.['required']) {
+              <p class="mt-1 text-xs text-[var(--discount-color)]">
+                Por favor, selecciona un rol
+              </p>
+            }
+          </div>
 
         <!-- Contraseña -->
         <div class="mb-4">
