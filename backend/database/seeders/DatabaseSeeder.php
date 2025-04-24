@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $perfil->genero = 1;
         $perfil->imagen_usuario = 'default.jpg';
         $perfil->save();
-        
+
         // Crear usuario administrador
         $user = new User();
         $user->email = 'admin@admin.com';
@@ -27,5 +27,11 @@ class DatabaseSeeder extends Seeder
         $user->rol = 1; // 1 = admin
         $user->perfil_usuario_id = $perfil->id;
         $user->save();
+
+
+        $this->call(ProductoSeeder::class);
+
+        $this->call(ImagenProductoSeeder::class);
+
     }
 }

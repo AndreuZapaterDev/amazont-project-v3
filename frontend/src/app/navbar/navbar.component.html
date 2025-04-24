@@ -53,7 +53,7 @@
     </div>
   </nav>
 
-  <nav class="secondary-navbar  hidden sm:block">
+  <nav class="secondary-navbar hidden sm:block">
     <div class="secundary-container">
       <ul>
         <li><a href="">Inicio</a></li>
@@ -70,139 +70,200 @@
 
 <div class="md:hidden">
   <!-- Barra principal -->
-  <nav class="bg-gradient-to-r from-primary-color to-background-navbar2 text-white shadow-md">
+  <nav
+    class="bg-gradient-to-r from-primary-color to-background-navbar2 text-white shadow-md"
+  >
     <!-- Cabecera -->
     <div class="flex items-center justify-between px-4 py-3">
       <!-- Botón de menú -->
-      <button 
-        class="text-white focus:outline-none" 
+      <button
+        class="text-white focus:outline-none"
         (click)="toggleMobileMenu()"
-        aria-label="Abrir menú">
+        aria-label="Abrir menú"
+      >
         <i class="fi fi-br-menu-burger text-2xl"></i>
       </button>
-      
+
       <!-- Logo -->
       <a routerLink="/home" class="flex items-center">
-        <img src="/images/White_logo.png" alt="Amazont Logo" class="h-10 w-auto">
+        <img
+          src="/images/White_logo.png"
+          alt="Amazont Logo"
+          class="h-10 w-auto"
+        />
       </a>
-      
+
       <!-- Acciones rápidas -->
       <div class="flex items-center space-x-4">
         <!-- Dark Mode -->
         <div class="flex items-center justify-center">
           <app-dark-mode></app-dark-mode>
         </div>
-        
+
         <!-- Carrito -->
         <a routerLink="/home/cart" class="relative flex items-center">
           <i class="fi fi-br-shopping-cart text-2xl"></i>
-          <span class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary-color text-xs font-bold text-white">0</span>
+          <span
+            class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary-color text-xs font-bold text-white"
+            >0</span
+          >
         </a>
       </div>
     </div>
-    
+
     <!-- Barra de búsqueda -->
     <div class="px-4 pb-3">
       <form class="relative">
-        <input 
-          type="text" 
-          placeholder="Buscar productos..." 
+        <input
+          type="text"
+          placeholder="Buscar productos..."
           class="w-full rounded-lg border-2 border-transparent bg-white py-2 pl-10 pr-4 text-gray-700 focus:border-secondary-color focus:outline-none"
-          aria-label="Buscar">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+          aria-label="Buscar"
+        />
+        <span
+          class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+        >
           <i class="fi fi-br-search text-lg"></i>
         </span>
       </form>
     </div>
   </nav>
-  
+
   <!-- Menú desplegable -->
-  <div 
+  <div
     class="fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out"
-    [ngClass]="{'translate-x-0': isMobileMenuOpen, '-translate-x-full': !isMobileMenuOpen}">
-    
+    [ngClass]="{
+      'translate-x-0': isMobileMenuOpen,
+      '-translate-x-full': !isMobileMenuOpen
+    }"
+  >
     <!-- Fondo con overlay -->
-    <div class="absolute inset-0 bg-black bg-opacity-50" (click)="toggleMobileMenu()"></div>
-    
+    <div
+      class="absolute inset-0 bg-black bg-opacity-50"
+      (click)="toggleMobileMenu()"
+    ></div>
+
     <!-- Panel lateral del menú -->
-    <div class="absolute inset-y-0 left-0 max-w-xs w-4/5 transform bg-card-background-color shadow-xl transition-all">
+    <div
+      class="absolute inset-y-0 left-0 max-w-xs w-4/5 transform bg-card-background-color shadow-xl transition-all"
+    >
       <!-- Encabezado del menú -->
-      <div class="bg-gradient-to-r from-primary-color to-background-navbar2 p-4">
+      <div
+        class="bg-gradient-to-r from-primary-color to-background-navbar2 p-4"
+      >
         <div class="flex justify-between items-center">
-          <img src="/images/White_logo.png" alt="Amazont Logo" class="h-8 w-auto">
-          <button 
-            class="rounded-full p-1 text-white hover:bg-white hover:bg-opacity-20" 
+          <img
+            src="/images/White_logo.png"
+            alt="Amazont Logo"
+            class="h-8 w-auto"
+          />
+          <button
+            class="rounded-full p-1 text-white hover:bg-white hover:bg-opacity-20"
             (click)="toggleMobileMenu()"
-            aria-label="Cerrar menú">
+            aria-label="Cerrar menú"
+          >
             <i class="fi fi-br-cross text-xl"></i>
           </button>
         </div>
       </div>
-      
+
       <!-- Botones de cuenta -->
       <div class="flex p-4 space-x-2">
-        <a routerLink="/login" class="flex-1 rounded-md border border-secondary-color py-2 px-3 text-center text-sm font-medium text-secondary-color">
+        <a
+          routerLink="/login"
+          class="flex-1 rounded-md border border-secondary-color py-2 px-3 text-center text-sm font-medium text-secondary-color"
+        >
           Iniciar sesión
         </a>
-        <a routerLink="/sign-up" class="flex-1 rounded-md bg-secondary-color py-2 px-3 text-center text-sm font-medium text-white">
+        <a
+          routerLink="/sign-up"
+          class="flex-1 rounded-md bg-secondary-color py-2 px-3 text-center text-sm font-medium text-white"
+        >
           Registrarse
         </a>
       </div>
-      
+
       <!-- Enlaces de navegación -->
       <nav class="px-2 pt-2 pb-4">
         <ul class="space-y-1">
           <li>
-            <a routerLink="/home" routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]" 
-               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]">
+            <a
+              routerLink="/home"
+              routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
+              class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+            >
               <i class="fi fi-br-home mr-3 text-lg"></i>
               <span>Inicio</span>
             </a>
           </li>
           <li>
-            <a routerLink="/home/categories" routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]" 
-               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]">
+            <a
+              routerLink="/home/categories"
+              routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
+              class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+            >
               <i class="fi fi-br-apps mr-3 text-lg"></i>
               <span>Categorías</span>
             </a>
           </li>
           <li>
-            <a routerLink="/home/offers" routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]" 
-               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]">
+            <a
+              routerLink="/home/offers"
+              routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
+              class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+            >
               <i class="fi fi-br-tags mr-3 text-lg"></i>
               <span>Ofertas</span>
             </a>
           </li>
           <li>
-            <a routerLink="/home/cart" routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]" 
-               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]">
+            <a
+              routerLink="/home/cart"
+              routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
+              class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+            >
               <i class="fi fi-br-shopping-cart mr-3 text-lg"></i>
               <span>Carrito</span>
             </a>
           </li>
           <li>
-            <a routerLink="/contact" routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]" 
-               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]">
+            <a
+              routerLink="/contact"
+              routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
+              class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+            >
               <i class="fi fi-br-envelope mr-3 text-lg"></i>
               <span>Contacto</span>
             </a>
           </li>
         </ul>
       </nav>
-      
+
       <!-- Divisor -->
       <div class="mx-4 my-2 h-px bg-gray-200"></div>
-      
+
       <!-- Idiomas -->
       <div class="px-4 py-2">
         <p class="mb-2 text-sm font-medium text-gray-500">Idioma</p>
         <div class="flex space-x-3">
-          <button class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color">
-            <img src="/images/circle_spain.png" alt="Español" class="mr-2 h-5 w-5">
+          <button
+            class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+          >
+            <img
+              src="/images/circle_spain.png"
+              alt="Español"
+              class="mr-2 h-5 w-5"
+            />
             <span class="text-sm text-gray-700">ES</span>
           </button>
-          <button class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color">
-            <img src="/images/circle_uk.png" alt="English" class="mr-2 h-5 w-5">
+          <button
+            class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+          >
+            <img
+              src="/images/circle_uk.png"
+              alt="English"
+              class="mr-2 h-5 w-5"
+            />
             <span class="text-sm text-gray-700">EN</span>
           </button>
         </div>

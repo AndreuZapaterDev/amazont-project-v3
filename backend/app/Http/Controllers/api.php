@@ -11,6 +11,8 @@ use App\Models\productoCategorias;
 use App\Models\imagenes;
 use App\Models\valoraciones;
 use App\Models\caracteristicas;
+use App\Models\productos_carrito;
+use App\Models\carrito;
 use Illuminate\Support\Facades\Hash;
 
 //Perfil de usuario
@@ -21,6 +23,8 @@ use Illuminate\Support\Facades\Hash;
 //Valoraciones
 //Imágenes
 //Características
+//Carrito
+//Productos Carrito
 
 class api extends Controller
 {
@@ -225,6 +229,56 @@ class api extends Controller
         return response()->json($caracteristicas, 200);
     }
 
+    //Carrito
+    public function getCarrito()
+    {
+        $carrito = carrito::all();
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "Carrito no encontrado"
+            ], 404);
+        }
+
+        return response()->json($carrito, 200);
+    }
+
+    public function getCarritoId($id)
+    {
+        $carrito = carrito::find($id);
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "Carrito no encontrado"
+            ], 404);
+        }
+
+        return response()->json($carrito, 200);
+    }
+
+    //Productos Carrito
+    public function getProductosCarrito()
+    {
+        $productos_carrito = productos_carrito::all();
+        if ($productos_carrito == null) {
+            return response()->json([
+                "message" => "Productos Carrito no encontrados"
+            ], 404);
+        }
+
+        return response()->json($productos_carrito, 200);
+    }
+
+    public function getProductosCarritoId($id)
+    {
+        $productos_carrito = productos_carrito::find($id);
+        if ($productos_carrito == null) {
+            return response()->json([
+                "message" => "Productos Carrito no encontrados"
+            ], 404);
+        }
+
+        return response()->json($productos_carrito, 200);
+    }
+
 
     //Funciones post
     //Perfil de usuario
@@ -406,6 +460,46 @@ class api extends Controller
         ], 201);
     }
 
+    //Carrito
+    public function postCarrito(Request $request)
+    {
+        if ($request->user_id == null) {
+            return response()->json([
+                "message" => "Error, el carrito debe tener usuario_id"
+            ], 400);
+        }
+
+        $carrito = new carrito;
+        $carrito->user_id = $request->user_id;
+        $carrito->total = 0;
+
+        $carrito->save();
+        return response()->json([
+            "message" => "Carrito creado"
+        ], 201);
+    }
+
+    //Productos Carrito
+    public function postProductosCarrito(Request $request)
+    {
+        if ($request->carrito_id == null || $request->producto_id == null || $request->cantidad == null || $request->precio == null) {
+            return response()->json([
+                "message" => "Error, el producto carrito debe tener carrito_id, producto_id, cantidad y precio"
+            ], 400);
+        }
+
+        $productos_carrito = new productos_carrito;
+        $productos_carrito->carrito_id = $request->carrito_id;
+        $productos_carrito->producto_id = $request->producto_id;
+        $productos_carrito->cantidad = $request->cantidad;
+        $productos_carrito->precio = $request->precio;
+
+
+        $productos_carrito->save();
+        return response()->json([
+            "message" => "Producto carrito creado"
+        ], 201);
+    }
 
 
 
@@ -635,6 +729,64 @@ class api extends Controller
         ], 200);
     }
 
+    //Carrito
+
+    public function putCarrito(Request $request, $id)
+    {
+        $carrito = carrito::find($id);
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "Carrito no encontrado"
+            ], 404);
+        }
+
+        if ($request->usuario_id != null) {
+            $carrito->usuario_id = $request->usuario_id;
+        }
+
+        if ($request->total != null) {
+            $carrito->total = $request->total;
+        }
+
+        $carrito->save();
+        return response()->json([
+            "message" => "Carrito actualizado"
+        ], 200);
+    }
+
+    //Productos Carrito
+
+    public function putProductosCarrito(Request $request, $id)
+    {
+        $productos_carrito = productos_carrito::find($id);
+        if ($productos_carrito == null) {
+            return response()->json([
+                "message" => "Productos Carrito no encontrados"
+            ], 404);
+        }
+
+        if($request->carrito_id){
+            $productos_carrito->carrito_id = $request->carrito_id;
+        }
+
+        if($request->producto_id){
+            $productos_carrito->producto_id = $request->producto_id;
+        }
+
+        if($request->cantidad){
+            $productos_carrito->cantidad = $request->cantidad;
+        }
+
+        if($request->precio){
+            $productos_carrito->precio = $request->precio;
+        }
+
+        $productos_carrito->save();
+        return response()->json([
+            "message" => "Producto carrito actualizado"
+        ], 200);
+    }
+
     //Funciones delete
     //Perfil de usuario
     public function deletePerfilUsuario($id)
@@ -764,6 +916,44 @@ class api extends Controller
         ], 200);
     }
 
+    //Carrito
+    public function deleteCarrito($id)
+    {
+        $carrito = carrito::find($id);
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "Carrito no encontrado"
+            ], 404);
+        }
+
+        $productos_carrito = productos_carrito::where('carrito_id', $id)->get();
+        foreach ($productos_carrito as $producto) {
+            $producto->delete();
+        }
+
+        $carrito->delete();
+        return response()->json([
+            "message" => "Carrito eliminado"
+        ], 200);
+    }
+
+    //Productos Carrito
+    public function deleteProductosCarrito($id)
+    {
+        $productos_carrito = productos_carrito::find($id);
+        if ($productos_carrito == null) {
+            return response()->json([
+                "message" => "Productos Carrito no encontrados"
+            ], 404);
+        }
+
+        $productos_carrito->delete();
+        return response()->json([
+            "message" => "Productos Carrito eliminados"
+        ], 200);
+    }
+
+
     //Funciones login
     public function login(Request $request)
     {
@@ -787,3 +977,5 @@ class api extends Controller
         }
     }
 }
+
+

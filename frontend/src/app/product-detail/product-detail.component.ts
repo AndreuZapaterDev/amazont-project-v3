@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, ProductsComponent],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  styleUrl: './product-detail.component.css',
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   productId: number = 0;
@@ -24,7 +24,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     url: '',
     category: '',
   };
-  
+
   mainImage: string = '';
   productImages: string[] = [];
   activeImageIndex: number = 0;
@@ -41,7 +41,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   maxInitialReviews: number = 2;
   showingAllReviews: boolean = false;
 
-
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
@@ -51,7 +50,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // Inicializa el componente y se suscribe a cambios en la URL
   // para cargar el producto correspondiente cuando cambia el parámetro id de la URL
   ngOnInit() {
-    this.routeSub = this.route.paramMap.subscribe(params => {
+    this.routeSub = this.route.paramMap.subscribe((params: any) => {
       const idParam = params.get('id');
       if (idParam) {
         this.productId = Number(idParam);
@@ -72,7 +71,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const product = this.productService.getProduct(this.productId);
     if (product) {
       this.product = product;
-      
+
       // Configura las reseñas y muestra solo las iniciales
       this.reviews = this.product.reviews || [];
       this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
@@ -82,7 +81,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.productImages = [
         this.product.url,
         '/images/test1.jpg',
-        '/images/test2.jpg'
+        '/images/test2.jpg',
       ];
 
       // Inicializa variables y carga datos adicionales
@@ -90,7 +89,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.generateStars();
       this.calculateDiscountedPrice();
       this.loadRelatedProducts();
-      
+
       // Reinicia el estado de la interfaz
       this.quantity = 1;
       this.activeTab = 'description';
@@ -121,9 +120,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // Carga productos de la misma categoría para mostrar como recomendaciones (Maximo 4 productos muestra)
   loadRelatedProducts() {
     const allProducts = this.productService.getProducts();
-    this.relatedProducts = allProducts.filter(p => 
-      p.category === this.product.category && p.id !== this.product.id
-    ).slice(0, 4); // maximo 4 productos
+    this.relatedProducts = allProducts
+      .filter(
+        (p) => p.category === this.product.category && p.id !== this.product.id
+      )
+      .slice(0, 4); // maximo 4 productos
   }
 
   // Navega a otro producto cuando se hace clic en las recomendaciones
@@ -133,13 +134,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   // Genera la valoración con estrellas
   generateStars() {
-    this.numberStars = '⭐'.repeat(this.product.stars);
+    this.numberStars = '⭐'.repeat(this.product.stars ?? 0);
   }
 
   // Calcula el precio final después de aplicar el descuento
   calculateDiscountedPrice() {
     if (this.product.discount) {
-      this.discountedPrice = this.product.price - (this.product.price * this.product.discount / 100);
+      this.discountedPrice =
+        this.product.price - (this.product.price * this.product.discount) / 100;
     } else {
       this.discountedPrice = this.product.price;
     }
@@ -174,18 +176,18 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const stats = {
       total: this.reviews.length,
       average: 0,
-      distribution: [0, 0, 0, 0, 0] // Conteo para cada nivel de estrellas
+      distribution: [0, 0, 0, 0, 0], // Conteo para cada nivel de estrellas
     };
-    
+
     if (stats.total > 0) {
       let sum = 0;
-      this.reviews.forEach(review => {
+      this.reviews.forEach((review) => {
         sum += review.rating;
         stats.distribution[review.rating - 1]++;
       });
       stats.average = Math.round((sum / stats.total) * 10) / 10;
     }
-    
+
     return stats;
   }
 
@@ -205,5 +207,4 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.showingAllReviews = false;
     }
   }
-
 }

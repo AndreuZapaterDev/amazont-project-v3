@@ -1,0 +1,802 @@
+[
+    {
+        "nombre": "Máscara de pestañas Essence Lash Princess",
+        "precio": "392",
+        "descuento": "23",
+        "descripcion": "La máscara de pestañas Essence Lash Princess es una popular máscara conocida por sus efectos voluminizadores y alargadores. Consigue unas pestañas espectaculares con esta fórmula duradera y sin crueldad animal.",
+        "stock": "454",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Paleta de sombras de ojos con espejo",
+        "precio": "496",
+        "descuento": "27",
+        "descripcion": "La paleta de sombras con espejo ofrece una gama versátil de tonos para crear looks de ojos espectaculares. Con un espejo incorporado, es práctica para maquillarte dondequiera que estés.",
+        "stock": "920",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Bote de polvo",
+        "precio": "355",
+        "descuento": "46",
+        "descripcion": "El Powder Canister es un polvo fijador finamente molido, diseñado para fijar el maquillaje y controlar el brillo. Con una fórmula ligera y translúcida, proporciona un acabado suave y mate.",
+        "stock": "338",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Lápiz labial rojo",
+        "precio": "160",
+        "descuento": "10",
+        "descripcion": "El labial rojo es una opción clásica y atrevida para añadir un toque de color a tus labios. Con una fórmula cremosa y pigmentada, proporciona un acabado vibrante y duradero.",
+        "stock": "920",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Esmalte de uñas rojo",
+        "precio": "440",
+        "descuento": "43",
+        "descripcion": "El esmalte de uñas rojo ofrece un tono rojo intenso y brillante para unas uñas vibrantes y pulidas. Con su fórmula de secado rápido, proporciona un acabado de salón en casa.",
+        "stock": "719",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Calvin Klein CK One",
+        "precio": "12",
+        "descuento": "14",
+        "descripcion": "CK One de Calvin Klein es una fragancia unisex de Clásica, conocida por su aroma fresco y limpio.Es una fragancia versátil adecuada para el uso diario.",
+        "stock": "980",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Chanel Coco Noir Eau De",
+        "precio": "83",
+        "descuento": "46",
+        "descripcion": "Coco Noir de Chanel es una fragancia elegante y misteriosa, con notas de toronja, rosa y sándalo.Perfecto para ocasiones nocturnas.",
+        "stock": "692",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Dior J'adore",
+        "precio": "199",
+        "descuento": "35",
+        "descripcion": "J'adore de Dior es una fragancia lujosa y floral, conocida por su mezcla de Ylang-Ylang, Rose y Jasmine.Encarna la feminidad y la sofisticación.",
+        "stock": "910",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Dolce Shine Eau de",
+        "precio": "215",
+        "descuento": "5",
+        "descripcion": "Dolce Shine de Dolce & Gabbana es una fragancia vibrante y afrutada, con notas de mango, jazmín y maderas rubias.Es un aroma alegre y juvenil.",
+        "stock": "691",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Gucci Bloom Eau de",
+        "precio": "451",
+        "descuento": "23",
+        "descripcion": "Gucci Bloom de Gucci es una fragancia floral y cautivadora, con notas de tuberosos, jazmín y enredadera de rangoon.Es un aroma moderno y romántico.",
+        "stock": "343",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Annibale Colombo Cama",
+        "precio": "137",
+        "descuento": "12",
+        "descripcion": "La cama Annibale Colombo es un marco de cama lujoso y elegante, elaborado con materiales de alta calidad para un dormitorio cómodo y elegante.",
+        "stock": "440",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Annibale Colombo Sofá",
+        "precio": "73",
+        "descuento": "7",
+        "descripcion": "El sofá Annibale Colombo es una opción de asiento sofisticada y cómoda, con un diseño exquisito y tapicería premium para su sala de estar.",
+        "stock": "448",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Mesita de noche cereza africana",
+        "precio": "270",
+        "descuento": "20",
+        "descripcion": "La mesita de noche en la cereza africana es una adición elegante y funcional a su habitación, que proporciona espacio de almacenamiento conveniente y un toque de elegancia.",
+        "stock": "391",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Knoll Saarinen Presidenta de la Conferencia Ejecutiva",
+        "precio": "122",
+        "descuento": "41",
+        "descripcion": "El presidente de la Conferencia Ejecutiva Knoll Saarinen es una silla moderna y ergonómica, perfecta para su oficina o sala de conferencias con su diseño atemporal.",
+        "stock": "714",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Fregadero de baño de madera con espejo",
+        "precio": "266",
+        "descuento": "8",
+        "descripcion": "El fregadero de baño de madera con espejo es una adición única y elegante a su baño, con una encimera de fregadero de madera y un espejo a juego.",
+        "stock": "844",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Manzana",
+        "precio": "389",
+        "descuento": "31",
+        "descripcion": "Manzanas frescas y nítidas, perfectas para refrigerarse o incorporar en varias recetas.",
+        "stock": "393",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Bistec de carne de ternera",
+        "precio": "136",
+        "descuento": "7",
+        "descripcion": "High-quality beef steak, great for grilling or cooking to your preferred level of doneness.",
+        "stock": "7",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Cat Food",
+        "precio": "254",
+        "descuento": "16",
+        "descripcion": "Nutritious cat food formulated to meet the dietary needs of your feline friend.",
+        "stock": "16",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Chicken Meat",
+        "precio": "471",
+        "descuento": "35",
+        "descripcion": "Fresh and tender chicken meat, suitable for various culinary preparations.",
+        "stock": "110",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Cooking Oil",
+        "precio": "140",
+        "descuento": "22",
+        "descripcion": "Versatile cooking oil suitable for frying, sautéing, and various culinary applications.",
+        "stock": "919",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Cucumber",
+        "precio": "357",
+        "descuento": "24",
+        "descripcion": "Crisp and hydrating cucumbers, ideal for salads, snacks, or as a refreshing side.",
+        "stock": "676",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Dog Food",
+        "precio": "252",
+        "descuento": "49",
+        "descripcion": "Specially formulated dog food designed to provide essential nutrients for your canine companion.",
+        "stock": "600",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Eggs",
+        "precio": "146",
+        "descuento": "38",
+        "descripcion": "Fresh eggs, a versatile ingredient for baking, cooking, or breakfast.",
+        "stock": "729",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Fish Steak",
+        "precio": "408",
+        "descuento": "50",
+        "descripcion": "Quality fish steak, suitable for grilling, baking, or pan-searing.",
+        "stock": "689",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Green Bell Pepper",
+        "precio": "39",
+        "descuento": "21",
+        "descripcion": "Fresh and vibrant green bell pepper, perfect for adding color and flavor to your dishes.",
+        "stock": "907",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Green Chili Pepper",
+        "precio": "261",
+        "descuento": "19",
+        "descripcion": "Spicy green chili pepper, ideal for adding heat to your favorite recipes.",
+        "stock": "502",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Honey Jar",
+        "precio": "329",
+        "descuento": "37",
+        "descripcion": "Pure and natural honey in a convenient jar, perfect for sweetening beverages or drizzling over food.",
+        "stock": "400",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Ice Cream",
+        "precio": "45",
+        "descuento": "34",
+        "descripcion": "Creamy and delicious ice cream, available in various flavors for a delightful treat.",
+        "stock": "812",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Juice",
+        "precio": "307",
+        "descuento": "47",
+        "descripcion": "Refreshing fruit juice, packed with vitamins and great for staying hydrated.",
+        "stock": "355",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Kiwi",
+        "precio": "479",
+        "descuento": "37",
+        "descripcion": "Nutrient-rich kiwi, perfect for snacking or adding a tropical twist to your dishes.",
+        "stock": "17",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Lemon",
+        "precio": "70",
+        "descuento": "38",
+        "descripcion": "Zesty and tangy lemons, versatile for cooking, baking, or making refreshing beverages.",
+        "stock": "890",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Milk",
+        "precio": "384",
+        "descuento": "50",
+        "descripcion": "Fresh and nutritious milk, a staple for various recipes and daily consumption.",
+        "stock": "394",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Mulberry",
+        "precio": "152",
+        "descuento": "47",
+        "descripcion": "Sweet and juicy mulberries, perfect for snacking or adding to desserts and cereals.",
+        "stock": "321",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Nescafe Coffee",
+        "precio": "60",
+        "descuento": "27",
+        "descripcion": "Quality coffee from Nescafe, available in various blends for a rich and satisfying cup.",
+        "stock": "464",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Potatoes",
+        "precio": "432",
+        "descuento": "48",
+        "descripcion": "Versatile and starchy potatoes, great for roasting, mashing, or as a side dish.",
+        "stock": "131",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Protein Powder",
+        "precio": "266",
+        "descuento": "22",
+        "descripcion": "Nutrient-packed protein powder, ideal for supplementing your diet with essential proteins.",
+        "stock": "41",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Red Onions",
+        "precio": "278",
+        "descuento": "46",
+        "descripcion": "Flavorful and aromatic red onions, perfect for adding depth to your savory dishes.",
+        "stock": "308",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Rice",
+        "precio": "73",
+        "descuento": "50",
+        "descripcion": "High-quality rice, a staple for various cuisines and a versatile base for many dishes.",
+        "stock": "906",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Soft Drinks",
+        "precio": "308",
+        "descuento": "33",
+        "descripcion": "Assorted soft drinks in various flavors, perfect for refreshing beverages.",
+        "stock": "745",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Strawberry",
+        "precio": "125",
+        "descuento": "13",
+        "descripcion": "Sweet and succulent strawberries, great for snacking, desserts, or blending into smoothies.",
+        "stock": "2",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Tissue Paper Box",
+        "precio": "235",
+        "descuento": "22",
+        "descripcion": "Convenient tissue paper box for everyday use, providing soft and absorbent tissues.",
+        "stock": "776",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Water",
+        "precio": "214",
+        "descuento": "15",
+        "descripcion": "Pure and refreshing bottled water, essential for staying hydrated throughout the day.",
+        "stock": "944",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Decoration Swing",
+        "precio": "211",
+        "descuento": "49",
+        "descripcion": "The Decoration Swing is a charming addition to your home decor. Crafted with intricate details, it adds a touch of elegance and whimsy to any room.",
+        "stock": "932",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Family Tree Photo Frame",
+        "precio": "180",
+        "descuento": "42",
+        "descripcion": "The Family Tree Photo Frame is a sentimental and stylish way to display your cherished family memories. With multiple photo slots, it tells the story of your loved ones.",
+        "stock": "863",
+        "inicio": "0"
+    },
+    {
+        "nombre": "House Showpiece Plant",
+        "precio": "457",
+        "descuento": "14",
+        "descripcion": "The House Showpiece Plant is an artificial plant that brings a touch of nature to your home without the need for maintenance. It adds greenery and style to any space.",
+        "stock": "796",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Plant Pot",
+        "precio": "77",
+        "descuento": "14",
+        "descripcion": "The Plant Pot is a stylish container for your favorite plants. With a sleek design, it complements your indoor or outdoor garden, adding a modern touch to your plant display.",
+        "stock": "158",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Table Lamp",
+        "precio": "484",
+        "descuento": "41",
+        "descripcion": "The Table Lamp is a functional and decorative lighting solution for your living space. With a modern design, it provides both ambient and task lighting, enhancing the atmosphere.",
+        "stock": "174",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Bamboo Spatula",
+        "precio": "482",
+        "descuento": "41",
+        "descripcion": "The Bamboo Spatula is a versatile kitchen tool made from eco-friendly bamboo. Ideal for flipping, stirring, and serving various dishes.",
+        "stock": "550",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Black Aluminium Cup",
+        "precio": "133",
+        "descuento": "5",
+        "descripcion": "The Black Aluminium Cup is a stylish and durable cup suitable for both hot and cold beverages. Its sleek black design adds a modern touch to your drinkware collection.",
+        "stock": "771",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Black Whisk",
+        "precio": "470",
+        "descuento": "6",
+        "descripcion": "The Black Whisk is a kitchen essential for whisking and beating ingredients. Its ergonomic handle and sleek design make it a practical and stylish tool.",
+        "stock": "715",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Boxed Blender",
+        "precio": "139",
+        "descuento": "11",
+        "descripcion": "The Boxed Blender is a powerful and compact blender perfect for smoothies, shakes, and more. Its convenient design and multiple functions make it a versatile kitchen appliance.",
+        "stock": "87",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Carbon Steel Wok",
+        "precio": "137",
+        "descuento": "5",
+        "descripcion": "The Carbon Steel Wok is a versatile cooking pan suitable for stir-frying, sautéing, and deep frying. Its sturdy construction ensures even heat distribution for delicious meals.",
+        "stock": "16",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Chopping Board",
+        "precio": "454",
+        "descuento": "17",
+        "descripcion": "The Chopping Board is an essential kitchen accessory for food preparation. Made from durable material, it provides a safe and hygienic surface for cutting and chopping.",
+        "stock": "895",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Citrus Squeezer Yellow",
+        "precio": "29",
+        "descuento": "32",
+        "descripcion": "The Citrus Squeezer in Yellow is a handy tool for extracting juice from citrus fruits. Its vibrant color adds a cheerful touch to your kitchen gadgets.",
+        "stock": "90",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Egg Slicer",
+        "precio": "121",
+        "descuento": "27",
+        "descripcion": "The Egg Slicer is a convenient tool for slicing boiled eggs evenly. It's perfect for salads, sandwiches, and other dishes where sliced eggs are desired.",
+        "stock": "841",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Electric Stove",
+        "precio": "341",
+        "descuento": "19",
+        "descripcion": "The Electric Stove provides a portable and efficient cooking solution. Ideal for small kitchens or as an additional cooking surface for various culinary needs.",
+        "stock": "285",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Fine Mesh Strainer",
+        "precio": "468",
+        "descuento": "29",
+        "descripcion": "The Fine Mesh Strainer is a versatile tool for straining liquids and sifting dry ingredients. Its fine mesh ensures efficient filtering for smooth cooking and baking.",
+        "stock": "611",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Fork",
+        "precio": "131",
+        "descuento": "19",
+        "descripcion": "The Fork is a classic utensil for various dining and serving purposes. Its durable and ergonomic design makes it a reliable choice for everyday use.",
+        "stock": "987",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Glass",
+        "precio": "423",
+        "descuento": "45",
+        "descripcion": "The Glass is a versatile and elegant drinking vessel suitable for a variety of beverages. Its clear design allows you to enjoy the colors and textures of your drinks.",
+        "stock": "609",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Grater Black",
+        "precio": "227",
+        "descuento": "6",
+        "descripcion": "The Grater in Black is a handy kitchen tool for grating cheese, vegetables, and more. Its sleek design and sharp blades make food preparation efficient and easy.",
+        "stock": "863",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Hand Blender",
+        "precio": "119",
+        "descuento": "34",
+        "descripcion": "The Hand Blender is a versatile kitchen appliance for blending, pureeing, and mixing. Its compact design and powerful motor make it a convenient tool for various recipes.",
+        "stock": "82",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Ice Cube Tray",
+        "precio": "309",
+        "descuento": "17",
+        "descripcion": "The Ice Cube Tray is a practical accessory for making ice cubes in various shapes. Perfect for keeping your drinks cool and adding a fun element to your beverages.",
+        "stock": "581",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Kitchen Sieve",
+        "precio": "259",
+        "descuento": "30",
+        "descripcion": "The Kitchen Sieve is a versatile tool for sifting and straining dry and wet ingredients. Its fine mesh design ensures smooth results in your cooking and baking.",
+        "stock": "219",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Knife",
+        "precio": "289",
+        "descuento": "36",
+        "descripcion": "The Knife is an essential kitchen tool for chopping, slicing, and dicing. Its sharp blade and ergonomic handle make it a reliable choice for food preparation.",
+        "stock": "803",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Lunch Box",
+        "precio": "116",
+        "descuento": "35",
+        "descripcion": "The Lunch Box is a convenient and portable container for packing and carrying your meals. With compartments for different foods, it's perfect for on-the-go dining.",
+        "stock": "549",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Microwave Oven",
+        "precio": "497",
+        "descuento": "32",
+        "descripcion": "The Microwave Oven is a versatile kitchen appliance for quick and efficient cooking, reheating, and defrosting. Its compact size makes it suitable for various kitchen setups.",
+        "stock": "600",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Mug Tree Stand",
+        "precio": "496",
+        "descuento": "23",
+        "descripcion": "The Mug Tree Stand is a stylish and space-saving solution for organizing your mugs. Keep your favorite mugs easily accessible and neatly displayed in your kitchen.",
+        "stock": "960",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Pan",
+        "precio": "227",
+        "descuento": "29",
+        "descripcion": "The Pan is a versatile and essential cookware item for frying, sautéing, and cooking various dishes. Its non-stick coating ensures easy food release and cleanup.",
+        "stock": "78",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Plate",
+        "precio": "201",
+        "descuento": "46",
+        "descripcion": "The Plate is a classic and essential dishware item for serving meals. Its durable and stylish design makes it suitable for everyday use or special occasions.",
+        "stock": "937",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Red Tongs",
+        "precio": "298",
+        "descuento": "39",
+        "descripcion": "The Red Tongs are versatile kitchen tongs suitable for various cooking and serving tasks. Their vibrant color adds a pop of excitement to your kitchen utensils.",
+        "stock": "267",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Silver Pot With Glass Cap",
+        "precio": "17",
+        "descuento": "27",
+        "descripcion": "The Silver Pot with Glass Cap is a stylish and functional cookware item for boiling, simmering, and preparing delicious meals. Its glass cap allows you to monitor cooking progress.",
+        "stock": "195",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Slotted Turner",
+        "precio": "322",
+        "descuento": "39",
+        "descripcion": "The Slotted Turner is a kitchen utensil designed for flipping and turning food items. Its slotted design allows excess liquid to drain, making it ideal for frying and sautéing.",
+        "stock": "496",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Spice Rack",
+        "precio": "303",
+        "descuento": "37",
+        "descripcion": "The Spice Rack is a convenient organizer for your spices and seasonings. Keep your kitchen essentials within reach and neatly arranged with this stylish spice rack.",
+        "stock": "384",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Spoon",
+        "precio": "498",
+        "descuento": "30",
+        "descripcion": "The Spoon is a versatile kitchen utensil for stirring, serving, and tasting. Its ergonomic design and durable construction make it an essential tool for every kitchen.",
+        "stock": "646",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Tray",
+        "precio": "376",
+        "descuento": "44",
+        "descripcion": "The Tray is a functional and decorative item for serving snacks, appetizers, or drinks. Its stylish design makes it a versatile accessory for entertaining guests.",
+        "stock": "483",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Wooden Rolling Pin",
+        "precio": "191",
+        "descuento": "33",
+        "descripcion": "The Wooden Rolling Pin is a classic kitchen tool for rolling out dough for baking. Its smooth surface and sturdy handles make it easy to achieve uniform thickness.",
+        "stock": "442",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Yellow Peeler",
+        "precio": "147",
+        "descuento": "34",
+        "descripcion": "The Yellow Peeler is a handy tool for peeling fruits and vegetables with ease. Its bright yellow color adds a cheerful touch to your kitchen gadgets.",
+        "stock": "355",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Apple MacBook Pro 14 Inch Space Grey",
+        "precio": "369",
+        "descuento": "46",
+        "descripcion": "The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.",
+        "stock": "636",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Asus Zenbook Pro Dual Screen Laptop",
+        "precio": "167",
+        "descuento": "9",
+        "descripcion": "The Asus Zenbook Pro Dual Screen Laptop is a high-performance device with dual screens, providing productivity and versatility for creative professionals.",
+        "stock": "105",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Huawei Matebook X Pro",
+        "precio": "122",
+        "descuento": "28",
+        "descripcion": "The Huawei Matebook X Pro is a slim and stylish laptop with a high-resolution touchscreen display, offering a premium experience for users on the go.",
+        "stock": "842",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Lenovo Yoga 920",
+        "precio": "449",
+        "descuento": "25",
+        "descripcion": "The Lenovo Yoga 920 is a 2-in-1 convertible laptop with a flexible hinge, allowing you to use it as a laptop or tablet, offering versatility and portability.",
+        "stock": "882",
+        "inicio": "1"
+    },
+    {
+        "nombre": "New DELL XPS 13 9300 Laptop",
+        "precio": "236",
+        "descuento": "25",
+        "descripcion": "The New DELL XPS 13 9300 Laptop is a compact and powerful device, featuring a virtually borderless InfinityEdge display and high-end performance for various tasks.",
+        "stock": "723",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Blue & Black Check Shirt",
+        "precio": "396",
+        "descuento": "24",
+        "descripcion": "The Blue & Black Check Shirt is a stylish and comfortable men's shirt featuring a classic check pattern. Made from high-quality fabric, it's suitable for both casual and semi-formal occasions.",
+        "stock": "872",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Gigabyte Aorus Men Tshirt",
+        "precio": "122",
+        "descuento": "10",
+        "descripcion": "The Gigabyte Aorus Men Tshirt is a cool and casual shirt for gaming enthusiasts. With the Aorus logo and sleek design, it's perfect for expressing your gaming style.",
+        "stock": "851",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Man Plaid Shirt",
+        "precio": "235",
+        "descuento": "47",
+        "descripcion": "The Man Plaid Shirt is a timeless and versatile men's shirt with a classic plaid pattern. Its comfortable fit and casual style make it a wardrobe essential for various occasions.",
+        "stock": "485",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Man Short Sleeve Shirt",
+        "precio": "267",
+        "descuento": "11",
+        "descripcion": "The Man Short Sleeve Shirt is a breezy and stylish option for warm days. With a comfortable fit and short sleeves, it's perfect for a laid-back yet polished look.",
+        "stock": "334",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Men Check Shirt",
+        "precio": "487",
+        "descuento": "9",
+        "descripcion": "The Men Check Shirt is a classic and versatile shirt featuring a stylish check pattern. Suitable for various occasions, it adds a smart and polished touch to your wardrobe.",
+        "stock": "413",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Nike Air Jordan 1 Red And Black",
+        "precio": "132",
+        "descuento": "19",
+        "descripcion": "The Nike Air Jordan 1 in Red and Black is an iconic basketball sneaker known for its stylish design and high-performance features, making it a favorite among sneaker enthusiasts and athletes.",
+        "stock": "984",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Nike Baseball Cleats",
+        "precio": "12",
+        "descuento": "28",
+        "descripcion": "Nike Baseball Cleats are designed for maximum traction and performance on the baseball field. They provide stability and support for players during games and practices.",
+        "stock": "248",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Puma Future Rider Trainers",
+        "precio": "244",
+        "descuento": "45",
+        "descripcion": "The Puma Future Rider Trainers offer a blend of retro style and modern comfort. Perfect for casual wear, these trainers provide a fashionable and comfortable option for everyday use.",
+        "stock": "414",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Sports Sneakers Off White & Red",
+        "precio": "193",
+        "descuento": "34",
+        "descripcion": "The Sports Sneakers in Off White and Red combine style and functionality, making them a fashionable choice for sports enthusiasts. The red and off-white color combination adds a bold and energetic touch.",
+        "stock": "842",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Sports Sneakers Off White Red",
+        "precio": "368",
+        "descuento": "33",
+        "descripcion": "Another variant of the Sports Sneakers in Off White Red, featuring a unique design. These sneakers offer style and comfort for casual occasions.",
+        "stock": "788",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Brown Leather Belt Watch",
+        "precio": "351",
+        "descuento": "21",
+        "descripcion": "The Brown Leather Belt Watch is a stylish timepiece with a classic design. Featuring a genuine leather strap and a sleek dial, it adds a touch of sophistication to your look.",
+        "stock": "616",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Longines Master Collection",
+        "precio": "201",
+        "descuento": "36",
+        "descripcion": "The Longines Master Collection is an elegant and refined watch known for its precision and craftsmanship. With a timeless design, it's a symbol of luxury and sophistication.",
+        "stock": "795",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Rolex Cellini Date Black Dial",
+        "precio": "217",
+        "descuento": "11",
+        "descripcion": "The Rolex Cellini Date with Black Dial is a classic and prestigious watch. With a black dial and date complication, it exudes sophistication and is a symbol of Rolex's heritage.",
+        "stock": "14",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Rolex Cellini Moonphase",
+        "precio": "126",
+        "descuento": "29",
+        "descripcion": "The Rolex Cellini Moonphase is a masterpiece of horology, featuring a moon phase complication and exquisite design. It reflects Rolex's commitment to precision and elegance.",
+        "stock": "480",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Rolex Datejust",
+        "precio": "414",
+        "descuento": "15",
+        "descripcion": "The Rolex Datejust is an iconic and versatile timepiece with a date window. Known for its timeless design and reliability, it's a symbol of Rolex's watchmaking excellence.",
+        "stock": "821",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Rolex Submariner Watch",
+        "precio": "30",
+        "descuento": "37",
+        "descripcion": "The Rolex Submariner is a legendary dive watch with a rich history. Known for its durability and water resistance, it's a symbol of adventure and exploration.",
+        "stock": "323",
+        "inicio": "0"
+    },
+    {
+        "nombre": "Amazon Echo Plus",
+        "precio": "264",
+        "descuento": "10",
+        "descripcion": "The Amazon Echo Plus is a smart speaker with built-in Alexa voice control. It features premium sound quality and serves as a hub for controlling smart home devices.",
+        "stock": "193",
+        "inicio": "1"
+    },
+    {
+        "nombre": "Apple Airpods",
+        "precio": "216",
+        "descuento": "31",
+        "descripcion": "The Apple Airpods offer a seamless wireless audio experience. With easy pairing, high-quality sound, and Siri integration, they are perfect for on-the-go listening.",
+        "stock": "181",
+        "inicio": "0"
+    }
+]

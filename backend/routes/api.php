@@ -61,6 +61,21 @@ Route::post('/caracteristica', [api::class, 'postCaracteristicas']);
 Route::put('/caracteristica/{id}', [api::class, 'putCaracteristicas']);
 Route::delete('/caracteristica/{id}', [api::class, 'deleteCaracteristicas']);
 
+//Carrito
+Route::get('/carritos', [api::class, 'getCarrito']);
+Route::get('/carrito/{id}', [api::class, 'getCarritoId']);
+Route::post('/carrito', [api::class, 'postCarrito']);
+Route::put('/carrito/{id}', [api::class, 'putCarrito']);
+Route::delete('/carrito/{id}', [api::class, 'deleteCarrito']);
+
+//Productos Carrito
+Route::get('/productos_carritos', [api::class, 'getProductosCarrito']);
+Route::get('/producto_carrito/{id}', [api::class, 'getProductosCarritoId']);
+Route::post('/producto_carrito', [api::class, 'postProductosCarrito']);
+Route::put('/producto_carrito/{id}', [api::class, 'putProductosCarrito']);
+Route::delete('/producto_carrito/{id}', [api::class, 'deleteProductosCarrito']);
+
+
 //Login
 Route::post('/login', [api::class, 'login']);
 
