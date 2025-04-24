@@ -1,16 +1,25 @@
 import { Component } from '@angular/core';
-import { DarkModeComponent } from '../dark-mode/dark-mode.component';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { ProductService } from '../services/product.service';
 import { CommonModule } from '@angular/common';
+import { DarkModeComponent } from '../dark-mode/dark-mode.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [DarkModeComponent, RouterModule, CommonModule], // Añadir CommonModule aquí
+  imports: [RouterLink, CommonModule, DarkModeComponent],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  constructor(private productService: ProductService) {}
+
+  // Método para obtener el número total de items en el carrito
+  get cartItemCount(): number {
+    const cartItems = this.productService.getCartItems();
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+  
   isMobileMenuOpen = false;
 
   toggleMobileMenu() {
