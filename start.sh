@@ -53,7 +53,7 @@ docker-compose exec backend php artisan db:seed --force
 
 # Verificar que el frontend esté listo
 echo "⏳ Verificando el frontend Angular..."
-for i in {1..10}; do
+for i in {1..50}; do
     if docker-compose logs frontend | grep -q "compiled successfully"; then
         echo "  ✅ Angular compilado correctamente!"
         break

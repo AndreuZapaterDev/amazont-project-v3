@@ -50,7 +50,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // Inicializa el componente y se suscribe a cambios en la URL
   // para cargar el producto correspondiente cuando cambia el parámetro id de la URL
   ngOnInit() {
-    this.routeSub = this.route.paramMap.subscribe((params: any) => {
+    this.routeSub = this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
         this.productId = Number(idParam);
@@ -206,5 +206,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
       this.showingAllReviews = false;
     }
+  }
+
+  addToCart() {
+    // Aquí puedes implementar la lógica para agregar el producto al carrito
+    this.productService.addToCart(this.product, this.quantity);
+    console.log(this.productService.getCartItems());
   }
 }

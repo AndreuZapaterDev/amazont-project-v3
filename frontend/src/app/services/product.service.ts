@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartItem, Product, Review } from '../interfaces/product.interface';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -496,24 +498,49 @@ export class ProductService {
   ];
 
   private _shoppingCart: CartItem[] = [];
+  apiPath = 'http://127.0.0.1:8000';
 
-  setShoppingCart(cart: CartItem[]) {
-    localStorage.setItem('shoppingCart', JSON.stringify(cart));
-  }
-
-  getShoppingCart(): CartItem[] {
-    const cart = localStorage.getItem('shoppingCart');
-    if (cart) {
-      this._shoppingCart = JSON.parse(cart);
-    }
-    return this._shoppingCart;
-  }
-
-  constructor() {
+  constructor(private http: HttpClient) {
     // Asignar reseñas a los productos
     this.products.forEach((product) => {
       product.reviews = this.reviews[product.id] || [];
     });
+    this.loadCart();
+  }
+
+  private saveCart(): void {
+    localStorage.setItem('shoppingCart', JSON.stringify(this._shoppingCart));
+  }
+
+  private loadCart(): void {
+    const cart = localStorage.getItem('shoppingCart');
+    if (cart) {
+      this._shoppingCart = JSON.parse(cart);
+    }
+  }
+
+  addToCart(product: Product, quantity: number): void {
+    const existingItem = this._shoppingCart.find(
+      (item) => item.id === product.id
+    );
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      this._shoppingCart.push({ ...product, quantity });
+    }
+    this.saveCart();
+  }
+
+  removeFromCart(productId: number): void {
+    const index = this._shoppingCart.findIndex((item) => item.id === productId);
+    if (index !== -1) {
+      this._shoppingCart.splice(index, 1);
+    }
+    this.saveCart();
+  }
+
+  getCartItems(): CartItem[] {
+    return this._shoppingCart;
   }
 
   getProducts(): Product[] {
@@ -557,5 +584,9 @@ export class ProductService {
       });
     });
     return maxId + 1;
+  }
+
+  getShoppingCart(): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/usuarios`);
   }
 }

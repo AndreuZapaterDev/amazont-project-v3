@@ -2,264 +2,341 @@
   <!-- Columna izquierda: Imagen del producto -->
   <div class="product-images">
     <div class="main-image">
-      <img [src]="mainImage" [alt]="product.name">
+      <img [src]="mainImage" [alt]="product.name" />
     </div>
     <div class="image-thumbnails">
       @for(img of productImages; track $index) {
-        <div 
-          class="thumbnail" 
-          [class.active]="$index === activeImageIndex"
-          (click)="changeMainImage(img, $index)">
-          <img [src]="img" [alt]="'Vista ' + $index">
-        </div>
+      <div
+        class="thumbnail"
+        [class.active]="$index === activeImageIndex"
+        (click)="changeMainImage(img, $index)"
+      >
+        <img [src]="img" [alt]="'Vista ' + $index" />
+      </div>
       }
     </div>
   </div>
-  
-    <!-- Columna derecha: Información del producto -->
-    <div class="product-info">
-      <h1 class="product-title">{{ product.name }}</h1>
-      
-      <div class="product-meta">
-        <div class="product-rating">
-          <div class="stars">{{ numberStars }}</div>
-          <span class="review-count">{{ product.stars }} valoraciones</span>
-        </div>
-        <span class="product-id">REF: #{{ product.id }}</span>
+
+  <!-- Columna derecha: Información del producto -->
+  <div class="product-info">
+    <h1 class="product-title">{{ product.name }}</h1>
+
+    <div class="product-meta">
+      <div class="product-rating">
+        <div class="stars">{{ numberStars }}</div>
+        <span class="review-count">{{ product.stars }} valoraciones</span>
       </div>
-      
-      <div class="product-price-container">
-        @if(product.discount) {
-          <div class="discount-tag">-{{ product.discount }}%</div>
-          <div class="prices">
-            <span class="original-price">{{ product.price }}€</span>
-            <span class="discounted-price">{{ discountedPrice }}€</span>
-          </div>
-        } @else {
-          <div class="regular-price">{{ product.price }}€</div>
-        }
+      <span class="product-id">REF: #{{ product.id }}</span>
+    </div>
+
+    <div class="product-price-container">
+      @if(product.discount) {
+      <div class="discount-tag">-{{ product.discount }}%</div>
+      <div class="prices">
+        <span class="original-price">{{ product.price }}€</span>
+        <span class="discounted-price">{{ discountedPrice }}€</span>
       </div>
-  
-      <div class="product-description">
-        <p>Este producto de alta calidad ofrece un rendimiento excepcional. 
-        Fabricado con materiales premium para garantizar durabilidad y confiabilidad.</p>
+      } @else {
+      <div class="regular-price">{{ product.price }}€</div>
+      }
+    </div>
+
+    <div class="product-description">
+      <p>
+        Este producto de alta calidad ofrece un rendimiento excepcional.
+        Fabricado con materiales premium para garantizar durabilidad y
+        confiabilidad.
+      </p>
+    </div>
+
+    <div class="product-features">
+      <div class="feature">
+        <i class="fi fi-br-check-circle"></i>
+        <span>Envío gratis</span>
       </div>
-      
-      <div class="product-features">
-        <div class="feature">
-          <i class="fi fi-br-check-circle"></i>
-          <span>Envío gratis</span>
-        </div>
-        <div class="feature">
-          <i class="fi fi-br-check-circle"></i>
-          <span>Garantía de 2 años</span>
-        </div>
-        <div class="feature availability">
-          <i class="fi fi-br-check-circle"></i>
-          <span>En stock - Entrega en 24h</span>
-        </div>
+      <div class="feature">
+        <i class="fi fi-br-check-circle"></i>
+        <span>Garantía de 2 años</span>
       </div>
-      
-      <div class="product-actions">
-        <div class="quantity-selector">
-          <button (click)="decreaseQuantity()" class="qty-btn">
-            <i class="fi fi-br-minus"></i>
-          </button>
-          <input type="number" id="quantity" [(ngModel)]="quantity" min="1" max="10" readonly>
-          <button (click)="increaseQuantity()" class="qty-btn">
-            <i class="fi fi-br-plus"></i>
-          </button>
-        </div>
-        
-        <button class="add-to-cart-btn">
-          <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
-        </button>
+      <div class="feature availability">
+        <i class="fi fi-br-check-circle"></i>
+        <span>En stock - Entrega en 24h</span>
       </div>
     </div>
-  
-    <!-- Tabs de información adicional -->
-    <div class="product-tabs">
-      <div class="tab-headers">
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'description'" 
-          (click)="setActiveTab('description')">
-          Descripción
+
+    <div class="product-actions">
+      <div class="quantity-selector">
+        <button (click)="decreaseQuantity()" class="qty-btn">
+          <i class="fi fi-br-minus"></i>
         </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'reviews'" 
-          (click)="setActiveTab('reviews')">
-          Opiniones
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="activeTab === 'shipping'" 
-          (click)="setActiveTab('shipping')">
-          Envío y devoluciones
+        <input
+          type="number"
+          id="quantity"
+          [(ngModel)]="quantity"
+          min="1"
+          max="10"
+          readonly
+        />
+        <button (click)="increaseQuantity()" class="qty-btn">
+          <i class="fi fi-br-plus"></i>
         </button>
       </div>
-    
-      <div class="tab-content">
-        <div class="tab-panel" [class.active]="activeTab === 'description'">
-          <h3>Descripción del producto</h3>
-          <div class="tab-content-inner">
-            <div class="description-text">
-              <p>Este producto de alta calidad ofrece un rendimiento excepcional. 
-                Fabricado con materiales premium, el {{ product.name }} es duradero y confiable.</p>
-              <p>Diseñado pensando en la comodidad y funcionalidad, este producto se adapta perfectamente a tus necesidades diarias.</p>
-            </div>
-            <div class="description-features">
-              <h4>Características principales</h4>
-              <ul>
-                <li><i class="fi fi-br-star"></i> Diseño ergonómico y moderno</li>
-                <li><i class="fi fi-br-star"></i> Alta calidad y durabilidad</li>
-                <li><i class="fi fi-br-star"></i> Materiales ecológicos y sostenibles</li>
-                <li><i class="fi fi-br-star"></i> Garantía completa de 2 años</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab-panel" [class.active]="activeTab === 'reviews'">
-            <h3>Opiniones de clientes</h3>
-            <div class="reviews-summary">
-              <div class="rating-overall">
-                <div class="big-rating">{{ reviewStats.average }}</div>
-                <div class="stars-big">{{ numberStars }}</div>
-                <span>Basado en {{ reviewStats.total }} opiniones</span>
-              </div>
-              <div class="rating-bars">
-                <div class="rating-bar">
-                  <span>5 estrellas</span>
-                  <div class="bar-container">
-                    <div class="bar" [style.width.%]="reviewStats.total > 0 ? (reviewStats.distribution[4]/reviewStats.total)*100 : 0"></div>
-                  </div>
-                  <span>{{ reviewStats.distribution[4] }}</span>
-                </div>
-                <div class="rating-bar">
-                  <span>4 estrellas</span>
-                  <div class="bar-container">
-                    <div class="bar" [style.width.%]="reviewStats.total > 0 ? (reviewStats.distribution[3]/reviewStats.total)*100 : 0"></div>
-                  </div>
-                  <span>{{ reviewStats.distribution[3] }}</span>
-                </div>
-                <div class="rating-bar">
-                  <span>3 estrellas</span>
-                  <div class="bar-container">
-                    <div class="bar" [style.width.%]="reviewStats.total > 0 ? (reviewStats.distribution[2]/reviewStats.total)*100 : 0"></div>
-                  </div>
-                  <span>{{ reviewStats.distribution[2] }}</span>
-                </div>
-                <div class="rating-bar">
-                  <span>2 estrellas</span>
-                  <div class="bar-container">
-                    <div class="bar" [style.width.%]="reviewStats.total > 0 ? (reviewStats.distribution[1]/reviewStats.total)*100 : 0"></div>
-                  </div>
-                  <span>{{ reviewStats.distribution[1] }}</span>
-                </div>
-                <div class="rating-bar">
-                  <span>1 estrella</span>
-                  <div class="bar-container">
-                    <div class="bar" [style.width.%]="reviewStats.total > 0 ? (reviewStats.distribution[0]/reviewStats.total)*100 : 0"></div>
-                  </div>
-                  <span>{{ reviewStats.distribution[0] }}</span>
-                </div>
-              </div>
-            </div>
-          
-            <div class="reviews-list">
-              @if(reviews.length > 0) {
-                @for(review of visibleReviews; track review.id) {
-                  <div class="review">
-                    <div class="reviewer-avatar">
-                      <img [src]="review.avatar || '/images/avatar-default.jpg'" alt="Avatar usuario">
-                    </div>
-                    <div class="review-content">
-                      <div class="reviewer-header">
-                        <span class="reviewer-name">{{ review.author }}</span>
-                        <div class="review-stars">{{ getStarsForRating(review.rating) }}</div>
-                        <span class="review-date">{{ review.date }}</span>
-                      </div>
-                      <p class="review-text">{{ review.comment }}</p>
-                      <div class="review-helpful">
-                        <span>¿Te ha resultado útil esta opinión?</span>
-                        <button class="helpful-btn">
-                          <i class="fi fi-br-thumbs-up"></i> Sí ({{ review.helpful }})
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                }
-                
-                @if(reviews.length > maxInitialReviews) {
-                    <button class="load-more-reviews" (click)="showMoreReviews()">
-                      {{ showingAllReviews ? 'Ver menos opiniones' : 'Ver más opiniones' }}
-                    </button>
-                  }
-                } @else {
-                  <p class="no-reviews">No hay opiniones para este producto. ¿Quieres ser el primero en opinar?</p>
-                }
-              </div>
-          </div>
-        
-        <div class="tab-panel" [class.active]="activeTab === 'shipping'">
-          <h3>Envío y Devoluciones</h3>
-          <div class="shipping-info">
-            <div class="info-section">
-              <i class="fi fi-br-truck-side"></i>
-              <div class="info-content">
-                <h4>Política de envío</h4>
-                <p>Entrega en 24-48 horas para pedidos realizados antes de las 14:00h. Envío gratuito para compras superiores a 50€.</p>
-                <p>Opciones de envío disponibles:</p>
-                <ul>
-                  <li>Envío estándar: 2-3 días (Gratuito)</li>
-                  <li>Envío express: 24h (+3.99€)</li>
-                  <li>Recogida en punto de recogida (Gratuito)</li>
-                </ul>
-              </div>
-            </div>
-  
-            <div class="info-section">
-              <i class="fi fi-br-undo"></i>
-              <div class="info-content">
-                <h4>Devoluciones</h4>
-                <p>Dispones de 30 días para devolver tu producto si no estás satisfecho. Las devoluciones son gratuitas.</p>
-                <p>Pasos para realizar una devolución:</p>
-                <ol>
-                  <li>Inicia sesión en tu cuenta</li>
-                  <li>Selecciona el pedido y solicita la devolución</li>
-                  <li>Imprime la etiqueta de devolución</li>
-                  <li>Entrega el paquete en el punto de recogida más cercano</li>
-                </ol>
-              </div>
-            </div>
-  
-            <div class="info-section">
-              <i class="fi fi-br-shield-check"></i>
-              <div class="info-content">
-                <h4>Garantía</h4>
-                <p>Todos nuestros productos cuentan con 2 años de garantía contra defectos de fabricación.</p>
-                <p>Para hacer uso de la garantía, contacta con nuestro servicio de atención al cliente.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <button class="add-to-cart-btn" (click)="addToCart()">
+        <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+      </button>
     </div>
-  
-    <!-- Productos relacionados -->
-    <div class="related-products">
-        <h3>También te puede interesar</h3>
-        <div class="related-items">
-          @if(relatedProducts.length > 0) {
-            @for(product of relatedProducts; track product.id) {
-              <div (click)="navigateToProduct(product)">
-                <app-products [product]="product"></app-products>
+  </div>
+
+  <!-- Tabs de información adicional -->
+  <div class="product-tabs">
+    <div class="tab-headers">
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'description'"
+        (click)="setActiveTab('description')"
+      >
+        Descripción
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'reviews'"
+        (click)="setActiveTab('reviews')"
+      >
+        Opiniones
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'shipping'"
+        (click)="setActiveTab('shipping')"
+      >
+        Envío y devoluciones
+      </button>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-panel" [class.active]="activeTab === 'description'">
+        <h3>Descripción del producto</h3>
+        <div class="tab-content-inner">
+          <div class="description-text">
+            <p>
+              Este producto de alta calidad ofrece un rendimiento excepcional.
+              Fabricado con materiales premium, el {{ product.name }} es
+              duradero y confiable.
+            </p>
+            <p>
+              Diseñado pensando en la comodidad y funcionalidad, este producto
+              se adapta perfectamente a tus necesidades diarias.
+            </p>
+          </div>
+          <div class="description-features">
+            <h4>Características principales</h4>
+            <ul>
+              <li><i class="fi fi-br-star"></i> Diseño ergonómico y moderno</li>
+              <li><i class="fi fi-br-star"></i> Alta calidad y durabilidad</li>
+              <li>
+                <i class="fi fi-br-star"></i> Materiales ecológicos y
+                sostenibles
+              </li>
+              <li><i class="fi fi-br-star"></i> Garantía completa de 2 años</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" [class.active]="activeTab === 'reviews'">
+        <h3>Opiniones de clientes</h3>
+        <div class="reviews-summary">
+          <div class="rating-overall">
+            <div class="big-rating">{{ reviewStats.average }}</div>
+            <div class="stars-big">{{ numberStars }}</div>
+            <span>Basado en {{ reviewStats.total }} opiniones</span>
+          </div>
+          <div class="rating-bars">
+            <div class="rating-bar">
+              <span>5 estrellas</span>
+              <div class="bar-container">
+                <div
+                  class="bar"
+                  [style.width.%]="
+                    reviewStats.total > 0
+                      ? (reviewStats.distribution[4] / reviewStats.total) * 100
+                      : 0
+                  "
+                ></div>
               </div>
-            }
-          } @else {
-            <p>No hay productos relacionados disponibles</p>
+              <span>{{ reviewStats.distribution[4] }}</span>
+            </div>
+            <div class="rating-bar">
+              <span>4 estrellas</span>
+              <div class="bar-container">
+                <div
+                  class="bar"
+                  [style.width.%]="
+                    reviewStats.total > 0
+                      ? (reviewStats.distribution[3] / reviewStats.total) * 100
+                      : 0
+                  "
+                ></div>
+              </div>
+              <span>{{ reviewStats.distribution[3] }}</span>
+            </div>
+            <div class="rating-bar">
+              <span>3 estrellas</span>
+              <div class="bar-container">
+                <div
+                  class="bar"
+                  [style.width.%]="
+                    reviewStats.total > 0
+                      ? (reviewStats.distribution[2] / reviewStats.total) * 100
+                      : 0
+                  "
+                ></div>
+              </div>
+              <span>{{ reviewStats.distribution[2] }}</span>
+            </div>
+            <div class="rating-bar">
+              <span>2 estrellas</span>
+              <div class="bar-container">
+                <div
+                  class="bar"
+                  [style.width.%]="
+                    reviewStats.total > 0
+                      ? (reviewStats.distribution[1] / reviewStats.total) * 100
+                      : 0
+                  "
+                ></div>
+              </div>
+              <span>{{ reviewStats.distribution[1] }}</span>
+            </div>
+            <div class="rating-bar">
+              <span>1 estrella</span>
+              <div class="bar-container">
+                <div
+                  class="bar"
+                  [style.width.%]="
+                    reviewStats.total > 0
+                      ? (reviewStats.distribution[0] / reviewStats.total) * 100
+                      : 0
+                  "
+                ></div>
+              </div>
+              <span>{{ reviewStats.distribution[0] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-list">
+          @if(reviews.length > 0) { @for(review of visibleReviews; track
+          review.id) {
+          <div class="review">
+            <div class="reviewer-avatar">
+              <img
+                [src]="review.avatar || '/images/avatar-default.jpg'"
+                alt="Avatar usuario"
+              />
+            </div>
+            <div class="review-content">
+              <div class="reviewer-header">
+                <span class="reviewer-name">{{ review.author }}</span>
+                <div class="review-stars">
+                  {{ getStarsForRating(review.rating) }}
+                </div>
+                <span class="review-date">{{ review.date }}</span>
+              </div>
+              <p class="review-text">{{ review.comment }}</p>
+              <div class="review-helpful">
+                <span>¿Te ha resultado útil esta opinión?</span>
+                <button class="helpful-btn">
+                  <i class="fi fi-br-thumbs-up"></i> Sí ({{ review.helpful }})
+                </button>
+              </div>
+            </div>
+          </div>
+          } @if(reviews.length > maxInitialReviews) {
+          <button class="load-more-reviews" (click)="showMoreReviews()">
+            {{
+              showingAllReviews ? "Ver menos opiniones" : "Ver más opiniones"
+            }}
+          </button>
+          } } @else {
+          <p class="no-reviews">
+            No hay opiniones para este producto. ¿Quieres ser el primero en
+            opinar?
+          </p>
           }
         </div>
       </div>
+
+      <div class="tab-panel" [class.active]="activeTab === 'shipping'">
+        <h3>Envío y Devoluciones</h3>
+        <div class="shipping-info">
+          <div class="info-section">
+            <i class="fi fi-br-truck-side"></i>
+            <div class="info-content">
+              <h4>Política de envío</h4>
+              <p>
+                Entrega en 24-48 horas para pedidos realizados antes de las
+                14:00h. Envío gratuito para compras superiores a 50€.
+              </p>
+              <p>Opciones de envío disponibles:</p>
+              <ul>
+                <li>Envío estándar: 2-3 días (Gratuito)</li>
+                <li>Envío express: 24h (+3.99€)</li>
+                <li>Recogida en punto de recogida (Gratuito)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <i class="fi fi-br-undo"></i>
+            <div class="info-content">
+              <h4>Devoluciones</h4>
+              <p>
+                Dispones de 30 días para devolver tu producto si no estás
+                satisfecho. Las devoluciones son gratuitas.
+              </p>
+              <p>Pasos para realizar una devolución:</p>
+              <ol>
+                <li>Inicia sesión en tu cuenta</li>
+                <li>Selecciona el pedido y solicita la devolución</li>
+                <li>Imprime la etiqueta de devolución</li>
+                <li>Entrega el paquete en el punto de recogida más cercano</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <i class="fi fi-br-shield-check"></i>
+            <div class="info-content">
+              <h4>Garantía</h4>
+              <p>
+                Todos nuestros productos cuentan con 2 años de garantía contra
+                defectos de fabricación.
+              </p>
+              <p>
+                Para hacer uso de la garantía, contacta con nuestro servicio de
+                atención al cliente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Productos relacionados -->
+  <div class="related-products">
+    <h3>También te puede interesar</h3>
+    <div class="related-items">
+      @if(relatedProducts.length > 0) { @for(product of relatedProducts; track
+      product.id) {
+      <div (click)="navigateToProduct(product)">
+        <app-products [product]="product"></app-products>
+      </div>
+      } } @else {
+      <p>No hay productos relacionados disponibles</p>
+      }
+    </div>
+  </div>
+</div>

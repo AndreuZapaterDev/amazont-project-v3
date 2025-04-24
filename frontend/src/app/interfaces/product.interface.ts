@@ -26,13 +26,3 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
-
-// interface CartItem {
-//   id: number;
-//   name: string;
-//   url: string;
-//   price: number;
-//   category: string;
-//   quantity: number;
-//   discount?: number;
-// }

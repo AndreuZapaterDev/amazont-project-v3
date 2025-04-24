@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './products.component.css',
 })
 export class ProductsComponent {
-  product = input.required<Product>();
+  product = input.required<Product | any>();
 
   numberStars: string = '';
   discountedPrice: number = 0;
@@ -29,10 +29,10 @@ export class ProductsComponent {
   }
 
   getDiscount() {
-    const discount = this.product()?.discount || 0;
+    const discount = this.product().discount || 0;
     this.discountedPrice =
       Math.round(
-        (this.product()?.price - (this.product()?.price * discount) / 100) * 100
+        (this.product().price - (this.product().price * discount) / 100) * 100
       ) / 100;
   }
 
