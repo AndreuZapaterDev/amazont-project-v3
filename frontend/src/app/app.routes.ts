@@ -10,6 +10,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { PaymentProcessComponent } from './payment-process/payment-process.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,6 +36,7 @@ export const routes: Routes = [
       },
       { path: 'product/:id', component: ProductDetailComponent },
       { path: 'cart', component: ShoppingCartComponent },
+      { path: 'checkout', component: PaymentProcessComponent }
     ],
   },
   { path: 'offers', component: OffersComponent },
