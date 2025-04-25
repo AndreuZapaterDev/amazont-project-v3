@@ -1,5 +1,6 @@
 <div class="payment-container">
-  <!-- Success Message Overlay (appears when payment is successful) -->
+  
+  <!-- Success Message Overlay -->
   @if (paymentSuccess) {
     <div class="success-overlay">
       <div class="success-modal">
@@ -29,10 +30,8 @@
   </div>
 
   <div class="payment-content" [class.blur-background]="paymentSuccess">
-    <!-- Main Form Area -->
     <div class="payment-main">
       <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
-        <!-- Shipping Address Section -->
         <div class="payment-section">
           <div class="section-header">
             <h2>Dirección de envío</h2>
@@ -185,7 +184,7 @@
             </div>
           </div>
 
-          <!-- Card Details Form (shows only when card is selected) -->
+          <!-- Card Details Form -->
           @if (paymentMethod === 'card') {
             <div class="card-details">
               <div class="form-group">
@@ -309,12 +308,28 @@
                   </div>
                   <div class="item-price">
                     @if (item.discount) {
-                      <p class="original-price">{{ item.price }}€</p>
-                      <p class="discounted-price">
-                        {{ item.price - (item.price * item.discount / 100) | number:'1.2-2' }}€
-                      </p>
+                      <div class="price-container">
+                        <div class="price-details">
+                          <span class="price-label">Precio unitario:</span>
+                          <span class="original-price">{{ item.price }}€</span>
+                          <span class="unit-price">{{ (item.price - (item.price * item.discount / 100)) | number:'1.2-2' }}€/ud</span>
+                        </div>
+                        <div class="price-details">
+                          <span class="price-label">Total:</span>
+                          <span class="total-price discounted-price">{{ getItemTotal(item) | number:'1.2-2' }}€</span>
+                        </div>
+                      </div>
                     } @else {
-                      <p class="regular-price">{{ item.price }}€</p>
+                      <div class="price-container">
+                        <div class="price-details">
+                          <span class="price-label">Precio unitario:</span>
+                          <span class="unit-price regular-price">{{ item.price }}€/ud</span>
+                        </div>
+                        <div class="price-details">
+                          <span class="price-label">Total:</span>
+                          <span class="total-price regular-price">{{ item.price * item.quantity | number:'1.2-2' }}€</span>
+                        </div>
+                      </div>
                     }
                   </div>
                 </div>
@@ -342,7 +357,7 @@
 
         <!-- Submit Button -->
         <div class="payment-actions">
-          <button type="button" class="back-button" routerLink="/shopping-cart">
+          <button type="button" class="back-button" routerLink="/home/cart">
             <i class="fi fi-br-angle-left"></i> Volver al carrito
           </button>
           <button type="submit" class="pay-button" [disabled]="isProcessing">
@@ -393,13 +408,6 @@
           <i class="fi fi-br-shield-check"></i>
         </div>
         <p>Pago 100% seguro. Tus datos están protegidos con encriptación SSL.</p>
-      </div>
-
-      <div class="payment-methods-icons">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968299.png" alt="Visa" height="24">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968375.png" alt="MasterCard" height="24">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968145.png" alt="American Express" height="24">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968207.png" alt="PayPal" height="24">
       </div>
     </div>
   </div>

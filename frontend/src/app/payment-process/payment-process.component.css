@@ -796,3 +796,69 @@ label {
     font-size: 0.85rem;
   }
 }
+
+/* Estilos para los precios en la sección de revisar pedido */
+.review-item .price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: right;
+}
+
+.review-item .price-details {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.review-item .price-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.review-item .original-price {
+  text-decoration: line-through;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.review-item .unit-price {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.review-item .total-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.review-item .discounted-price {
+  color: var(--discount-color);
+}
+
+.review-item .regular-price {
+  color: var(--price-color);
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .review-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-item .item-price {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .review-item .price-container {
+    width: 100%;
+  }
+  
+  .review-item .price-details {
+    justify-content: space-between;
+    width: 100%;
+  }
+}

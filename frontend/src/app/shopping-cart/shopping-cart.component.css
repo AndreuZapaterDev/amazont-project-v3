@@ -441,3 +441,49 @@
       gap: 1rem;
     }
   }
+  /* Añade estos estilos para el desglose de precios */
+  
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.price-breakdown {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.quantity-price {
+  font-weight: 500;
+}
+
+.original-price {
+  color: var(--text-color);
+  opacity: 0.6;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+}
+
+.discounted-price-unit {
+  color: var(--discount-color);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.total-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.discounted-price {
+  color: var(--discount-color);
+}
+
+.regular-price {
+  color: var(--price-color);
+}

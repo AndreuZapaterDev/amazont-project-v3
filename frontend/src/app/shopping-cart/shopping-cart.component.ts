@@ -102,12 +102,13 @@ export class ShoppingCartComponent implements OnInit {
     this.productService.removeFromCart(item.id);
   }
 
-  getDiscountedPrice(item: CartItem): number {
-    if (item.discount) {
-      return item.price - (item.price * item.discount) / 100;
-    }
-    return item.price;
+getDiscountedPrice(item: CartItem): number {
+  if (item.discount) {
+    const discountedUnitPrice = item.price - (item.price * item.discount / 100);
+    return discountedUnitPrice * item.quantity;
   }
+  return item.price * item.quantity;
+}
 
   // Cargar productos recomendados (ejemplo)
   loadRecommendedProducts(): void {
