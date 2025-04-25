@@ -7,6 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
+
+  clearCart(): void {
+    this._shoppingCart = [];
+    this.saveCart();
+  }
+
   private reviews: { [key: number]: Review[] } = {
     1: [
       {

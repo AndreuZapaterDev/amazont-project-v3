@@ -1,277 +1,406 @@
 <div class="payment-container">
-  <div class="payment-header">
-    <h1 class="payment-title">Finalizar compra</h1>
-    <div class="steps-indicator">
-      <div class="step" [class.active]="currentStep === 'shipping'" [class.completed]="currentStep === 'payment' || currentStep === 'confirmation'">
-        <span class="step-number">1</span>
-        <span class="step-name">Envío</span>
-      </div>
-      <div class="step-separator"></div>
-      <div class="step" [class.active]="currentStep === 'payment'" [class.completed]="currentStep === 'confirmation'">
-        <span class="step-number">2</span>
-        <span class="step-name">Pago</span>
-      </div>
-      <div class="step-separator"></div>
-      <div class="step" [class.active]="currentStep === 'confirmation'" [class.completed]="orderCompleted">
-        <span class="step-number">3</span>
-        <span class="step-name">Confirmación</span>
+  <!-- Success Message Overlay (appears when payment is successful) -->
+  @if (paymentSuccess) {
+    <div class="success-overlay">
+      <div class="success-modal">
+        <div class="success-icon">
+          <i class="fi fi-br-check-circle"></i>
+        </div>
+        <h2>¡Pago realizado correctamente!</h2>
+        <p>Tu pedido #{{ orderNumber }} ha sido procesado con éxito.</p>
+        <p class="success-total">Total pagado: {{ totalPaid | number:'1.2-2' }}€</p>
+        <p class="success-message">Te hemos enviado los detalles de tu compra por correo electrónico.</p>
+        <div class="success-actions">
+          <button class="continue-shopping-btn" routerLink="/home">
+            <i class="fi fi-br-shopping-bag"></i> Seguir comprando
+          </button>
+          <button class="view-order-btn" routerLink="/profile/orders">
+            <i class="fi fi-br-package"></i> Ver mis pedidos
+          </button>
+        </div>
       </div>
     </div>
+  }
+
+  <!-- Header -->
+  <div class="payment-header" [class.blur-background]="paymentSuccess">
+    <h1 class="payment-title">Finalizar compra</h1>
+    <p class="payment-subtitle">Completa tu información de pago y envío</p>
   </div>
 
-  <div class="payment-content">
-    <!-- Formulario de dirección de envío -->
-    @if (currentStep === 'shipping') {
-      <div class="payment-form-section shipping-form">
-        <h2>Dirección de envío</h2>
-        <form [formGroup]="shippingForm" (ngSubmit)="nextStep()">
-          <div class="form-group">
-            <label for="fullName">Nombre completo</label>
-            <input type="text" id="fullName" formControlName="fullName" placeholder="Nombre y apellidos">
-            @if (sf['fullName'].touched && sf['fullName'].errors?.['required']) {
-              <div class="error-message">El nombre completo es obligatorio</div>
-            }
+  <div class="payment-content" [class.blur-background]="paymentSuccess">
+    <!-- Main Form Area -->
+    <div class="payment-main">
+      <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
+        <!-- Shipping Address Section -->
+        <div class="payment-section">
+          <div class="section-header">
+            <h2>Dirección de envío</h2>
+            <span class="section-step">Paso 1 de 3</span>
           </div>
 
-          <div class="form-group">
-            <label for="address">Dirección</label>
-            <input type="text" id="address" formControlName="address" placeholder="Calle, número, piso">
-            @if (sf['address'].touched && sf['address'].errors?.['required']) {
-              <div class="error-message">La dirección es obligatoria</div>
-            }
-          </div>
-
-          <div class="form-row">
+          <div class="address-form">
             <div class="form-group">
-              <label for="city">Ciudad</label>
-              <input type="text" id="city" formControlName="city" placeholder="Ciudad">
-              @if (sf['city'].touched && sf['city'].errors?.['required']) {
-                <div class="error-message">La ciudad es obligatoria</div>
+              <label for="fullName">Nombre completo</label>
+              <div class="input-container">
+                <i class="fi fi-br-user"></i>
+                <input 
+                  type="text" 
+                  id="fullName" 
+                  formControlName="fullName" 
+                  placeholder="Nombre y apellidos"
+                >
+              </div>
+              @if (submitted && f['fullName'].errors) {
+                <div class="error-message">
+                  @if (f['fullName'].errors['required']) {
+                    <span>El nombre es obligatorio</span>
+                  }
+                </div>
               }
             </div>
 
             <div class="form-group">
-              <label for="postalCode">Código postal</label>
-              <input type="text" id="postalCode" formControlName="postalCode" placeholder="28000">
-              @if (sf['postalCode'].touched && sf['postalCode'].errors?.['required']) {
-                <div class="error-message">El código postal es obligatorio</div>
+              <label for="address">Dirección</label>
+              <div class="input-container">
+                <i class="fi fi-br-map-marker"></i>
+                <input 
+                  type="text" 
+                  id="address" 
+                  formControlName="address" 
+                  placeholder="Calle, número, piso..."
+                >
+              </div>
+              @if (submitted && f['address'].errors) {
+                <div class="error-message">
+                  @if (f['address'].errors['required']) {
+                    <span>La dirección es obligatoria</span>
+                  }
+                </div>
               }
-              @if (sf['postalCode'].touched && sf['postalCode'].errors?.['pattern']) {
-                <div class="error-message">El código postal debe tener 5 dígitos</div>
-              }
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="phone">Teléfono de contacto</label>
-            <input type="tel" id="phone" formControlName="phone" placeholder="612345678">
-            @if (sf['phone'].touched && sf['phone'].errors?.['required']) {
-              <div class="error-message">El teléfono es obligatorio</div>
-            }
-            @if (sf['phone'].touched && sf['phone'].errors?.['pattern']) {
-              <div class="error-message">El teléfono debe tener 9 dígitos</div>
-            }
-          </div>
-
-          <div class="form-actions">
-            <a routerLink="/home/cart" class="back-button">
-              <i class="fi fi-br-angle-left"></i> Volver al carrito
-            </a>
-            <button type="submit" class="next-button">
-              Continuar al pago <i class="fi fi-br-angle-right"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    }
-
-    <!-- Formulario de métodos de pago -->
-    @if (currentStep === 'payment') {
-      <div class="payment-form-section payment-method-form">
-        <h2>Método de pago</h2>
-        <form [formGroup]="paymentForm" (ngSubmit)="nextStep()">
-          <div class="payment-methods">
-            <div class="payment-method-selector">
-              <label>
-                <input type="radio" formControlName="paymentMethod" value="credit">
-                <span class="payment-method-label">
-                  <i class="fi fi-br-credit-card"></i> Tarjeta de crédito
-                </span>
-              </label>
-            </div>
-            
-            <div class="payment-method-selector">
-              <label>
-                <input type="radio" formControlName="paymentMethod" value="paypal">
-                <span class="payment-method-label">
-                  <i class="fi fi-brands-paypal"></i> PayPal
-                </span>
-              </label>
-            </div>
-            
-            <div class="payment-method-selector">
-              <label>
-                <input type="radio" formControlName="paymentMethod" value="bizum">
-                <span class="payment-method-label">
-                  <i class="fi fi-br-smartphone"></i> Bizum
-                </span>
-              </label>
-            </div>
-          </div>
-
-          @if (pf['paymentMethod'].value === 'credit') {
-            <div class="credit-card-form">
+            <div class="form-row">
               <div class="form-group">
-                <label for="cardHolder">Titular de la tarjeta</label>
-                <input type="text" id="cardHolder" formControlName="cardHolder" placeholder="Nombre del titular">
-                @if (pf['cardHolder'].touched && pf['cardHolder'].errors?.['required']) {
-                  <div class="error-message">El nombre del titular es obligatorio</div>
+                <label for="city">Ciudad</label>
+                <div class="input-container">
+                  <i class="fi fi-br-building"></i>
+                  <input 
+                    type="text" 
+                    id="city" 
+                    formControlName="city" 
+                    placeholder="Ciudad"
+                  >
+                </div>
+                @if (submitted && f['city'].errors) {
+                  <div class="error-message">
+                    @if (f['city'].errors['required']) {
+                      <span>La ciudad es obligatoria</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="zipCode">Código postal</label>
+                <div class="input-container">
+                  <i class="fi fi-br-envelope"></i>
+                  <input 
+                    type="text" 
+                    id="zipCode" 
+                    formControlName="zipCode" 
+                    placeholder="Código postal"
+                  >
+                </div>
+                @if (submitted && f['zipCode'].errors) {
+                  <div class="error-message">
+                    @if (f['zipCode'].errors['required']) {
+                      <span>El código postal es obligatorio</span>
+                    }
+                    @if (f['zipCode'].errors['pattern']) {
+                      <span>Código postal inválido</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Teléfono de contacto</label>
+              <div class="input-container">
+                <i class="fi fi-br-phone-call"></i>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  formControlName="phone" 
+                  placeholder="Teléfono para el envío"
+                >
+              </div>
+              @if (submitted && f['phone'].errors) {
+                <div class="error-message">
+                  @if (f['phone'].errors['required']) {
+                    <span>El teléfono es obligatorio</span>
+                  }
+                  @if (f['phone'].errors['pattern']) {
+                    <span>Formato de teléfono inválido</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="payment-section">
+          <div class="section-header">
+            <h2>Método de pago</h2>
+            <span class="section-step">Paso 2 de 3</span>
+          </div>
+
+          <div class="payment-methods">
+            <div class="payment-method" [class.selected]="paymentMethod === 'card'" (click)="selectPaymentMethod('card')">
+              <div class="method-icon">
+                <i class="fi fi-br-credit-card"></i>
+              </div>
+              <div class="method-details">
+                <h3>Tarjeta de crédito/débito</h3>
+                <p>Pago seguro con tarjeta</p>
+              </div>
+              <div class="method-selector">
+                <div class="radio-button"></div>
+              </div>
+            </div>
+
+            <div class="payment-method" [class.selected]="paymentMethod === 'paypal'" (click)="selectPaymentMethod('paypal')">
+              <div class="method-icon paypal">
+                <i class="fi fi-brands-paypal"></i>
+              </div>
+              <div class="method-details">
+                <h3>PayPal</h3>
+                <p>Pago rápido y seguro</p>
+              </div>
+              <div class="method-selector">
+                <div class="radio-button"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Details Form (shows only when card is selected) -->
+          @if (paymentMethod === 'card') {
+            <div class="card-details">
+              <div class="form-group">
+                <label for="cardName">Nombre en la tarjeta</label>
+                <div class="input-container">
+                  <i class="fi fi-br-user"></i>
+                  <input 
+                    type="text" 
+                    id="cardName" 
+                    formControlName="cardName" 
+                    placeholder="Nombre que aparece en la tarjeta"
+                  >
+                </div>
+                @if (submitted && f['cardName'].errors) {
+                  <div class="error-message">
+                    @if (f['cardName'].errors['required']) {
+                      <span>El nombre en la tarjeta es obligatorio</span>
+                    }
+                  </div>
                 }
               </div>
 
               <div class="form-group">
                 <label for="cardNumber">Número de tarjeta</label>
-                <input type="text" id="cardNumber" formControlName="cardNumber" placeholder="1234 5678 9012 3456">
-                @if (pf['cardNumber'].touched && pf['cardNumber'].errors?.['required']) {
-                  <div class="error-message">El número de tarjeta es obligatorio</div>
-                }
-                @if (pf['cardNumber'].touched && pf['cardNumber'].errors?.['pattern']) {
-                  <div class="error-message">El número de tarjeta debe tener 16 dígitos</div>
+                <div class="input-container">
+                  <i class="fi fi-br-credit-card"></i>
+                  <input 
+                    type="text" 
+                    id="cardNumber" 
+                    formControlName="cardNumber" 
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="19"
+                    (input)="formatCardNumber($event)"
+                  >
+                </div>
+                @if (submitted && f['cardNumber'].errors) {
+                  <div class="error-message">
+                    @if (f['cardNumber'].errors['required']) {
+                      <span>El número de tarjeta es obligatorio</span>
+                    }
+                    @if (f['cardNumber'].errors['pattern']) {
+                      <span>Número de tarjeta inválido</span>
+                    }
+                  </div>
                 }
               </div>
 
               <div class="form-row">
                 <div class="form-group">
                   <label for="expiryDate">Fecha de caducidad</label>
-                  <input type="text" id="expiryDate" formControlName="expiryDate" placeholder="MM/YY">
-                  @if (pf['expiryDate'].touched && pf['expiryDate'].errors?.['required']) {
-                    <div class="error-message">La fecha de caducidad es obligatoria</div>
-                  }
-                  @if (pf['expiryDate'].touched && pf['expiryDate'].errors?.['pattern']) {
-                    <div class="error-message">Formato incorrecto (MM/YY)</div>
+                  <div class="input-container">
+                    <i class="fi fi-br-calendar"></i>
+                    <input 
+                      type="text" 
+                      id="expiryDate" 
+                      formControlName="expiryDate" 
+                      placeholder="MM/AA"
+                      maxlength="5"
+                      (input)="formatExpiryDate($event)"
+                    >
+                  </div>
+                  @if (submitted && f['expiryDate'].errors) {
+                    <div class="error-message">
+                      @if (f['expiryDate'].errors['required']) {
+                        <span>La fecha de caducidad es obligatoria</span>
+                      }
+                      @if (f['expiryDate'].errors['pattern']) {
+                        <span>Formato inválido (MM/AA)</span>
+                      }
+                    </div>
                   }
                 </div>
 
                 <div class="form-group">
                   <label for="cvv">CVV</label>
-                  <input type="text" id="cvv" formControlName="cvv" placeholder="123">
-                  @if (pf['cvv'].touched && pf['cvv'].errors?.['required']) {
-                    <div class="error-message">El CVV es obligatorio</div>
-                  }
-                  @if (pf['cvv'].touched && pf['cvv'].errors?.['pattern']) {
-                    <div class="error-message">El CVV debe tener 3 o 4 dígitos</div>
+                  <div class="input-container">
+                    <i class="fi fi-br-lock"></i>
+                    <input 
+                      type="password" 
+                      id="cvv" 
+                      formControlName="cvv" 
+                      placeholder="123"
+                      maxlength="3"
+                    >
+                  </div>
+                  @if (submitted && f['cvv'].errors) {
+                    <div class="error-message">
+                      @if (f['cvv'].errors['required']) {
+                        <span>El CVV es obligatorio</span>
+                      }
+                      @if (f['cvv'].errors['pattern']) {
+                        <span>CVV inválido</span>
+                      }
+                    </div>
                   }
                 </div>
               </div>
             </div>
           }
-
-          @if (pf['paymentMethod'].value === 'paypal') {
-            <div class="payment-message">
-              <p>Serás redirigido a PayPal para completar el pago de manera segura.</p>
-            </div>
-          }
-
-          @if (pf['paymentMethod'].value === 'bizum') {
-            <div class="payment-message">
-              <p>Recibirás una notificación en tu app de Bizum para confirmar el pago.</p>
-            </div>
-          }
-
-          <div class="form-actions">
-            <button type="button" class="back-button" (click)="previousStep()">
-              <i class="fi fi-br-angle-left"></i> Volver a envío
-            </button>
-            <button type="submit" class="next-button">
-              Confirmar compra <i class="fi fi-br-angle-right"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    }
-
-    <!-- Confirmación de compra -->
-    @if (currentStep === 'confirmation') {
-      <div class="payment-confirmation">
-        <div class="confirmation-success">
-          <div class="success-icon">
-            <i class="fi fi-br-check"></i>
-          </div>
-          <h2>¡Compra realizada con éxito!</h2>
-          <p>Gracias por tu compra. Hemos enviado un email de confirmación a tu correo electrónico.</p>
-          
-          <div class="order-details">
-            <h3>Detalles del pedido</h3>
-            <p><strong>Número de pedido:</strong> #{{ orderNumber }}</p>
-            <p><strong>Fecha:</strong> {{ getFormattedDate() }}</p>
-            <p><strong>Método de pago:</strong> {{ getPaymentMethodText() }}</p>
-            <p><strong>Total:</strong> {{ formatPrice(total) }}€</p>
-          </div>
-          
-          <button class="continue-button" (click)="continueShopping()">
-            Volver a la tienda <i class="fi fi-br-angle-right"></i>
-          </button>
         </div>
-      </div>
-    }
 
-    <!-- Resumen del pedido (siempre visible excepto en confirmación) -->
-    @if (currentStep !== 'confirmation') {
-      <div class="order-summary">
-        <h2>Resumen del pedido</h2>
-        
-        <div class="summary-products">
-          @for (item of cartItems; track item.id) {
-            <div class="summary-product">
-              <div class="product-image">
-                <img [src]="item.url" [alt]="item.name">
-                <span class="product-quantity">{{ item.quantity }}</span>
-              </div>
-              <div class="product-info">
-                <h4>{{ item.name }}</h4>
-                @if (!item.discount) {
-                  <div class="product-price">{{ formatPrice(item.price) }}€</div>
-                } @else {
-                  <div class="product-price">
-                    <span class="original-price">{{ formatPrice(item.price) }}€</span>
-                    <span class="discounted-price">{{ formatPrice(getDiscountedPrice(item)) }}€</span>
+        <!-- Review Order Section -->
+        <div class="payment-section">
+          <div class="section-header">
+            <h2>Revisar pedido</h2>
+            <span class="section-step">Paso 3 de 3</span>
+          </div>
+
+          <div class="order-review">
+            <div class="review-items">
+              <h3>Productos en tu pedido</h3>
+              
+              @for (item of cartItems; track item.id) {
+                <div class="review-item">
+                  <div class="item-image">
+                    <img [src]="item.url" [alt]="item.name">
+                  </div>
+                  <div class="item-details">
+                    <h4>{{ item.name }}</h4>
+                    <p>Cantidad: {{ item.quantity }}</p>
+                  </div>
+                  <div class="item-price">
+                    @if (item.discount) {
+                      <p class="original-price">{{ item.price }}€</p>
+                      <p class="discounted-price">
+                        {{ item.price - (item.price * item.discount / 100) | number:'1.2-2' }}€
+                      </p>
+                    } @else {
+                      <p class="regular-price">{{ item.price }}€</p>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="terms-agreement">
+              <div class="form-group checkbox-group">
+                <label class="checkbox-container">
+                  <input type="checkbox" formControlName="termsAccepted">
+                  <span class="checkmark"></span>
+                  <span>He leído y acepto los términos y condiciones y la política de privacidad</span>
+                </label>
+                @if (submitted && f['termsAccepted'].errors) {
+                  <div class="error-message">
+                    @if (f['termsAccepted'].errors['required']) {
+                      <span>Debes aceptar los términos y condiciones</span>
+                    }
                   </div>
                 }
               </div>
             </div>
-          }
-        </div>
-        
-        <div class="summary-totals">
-          <div class="summary-row">
-            <span>Subtotal</span>
-            <span>{{ formatPrice(subtotal) }}€</span>
           </div>
-          
-          @if (totalDiscount > 0) {
-            <div class="summary-row">
-              <span>Descuento</span>
-              <span>-{{ formatPrice(totalDiscount) }}€</span>
-            </div>
-          }
-          
-          <div class="summary-row">
-            <span>Envío</span>
-            @if (shipping === 0) {
-              <span>Gratis</span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="payment-actions">
+          <button type="button" class="back-button" routerLink="/shopping-cart">
+            <i class="fi fi-br-angle-left"></i> Volver al carrito
+          </button>
+          <button type="submit" class="pay-button" [disabled]="isProcessing">
+            @if (!isProcessing) {
+              <span>Pagar {{ calculateTotal() | number:'1.2-2' }}€</span>
             } @else {
-              <span>{{ formatPrice(shipping) }}€</span>
+              <span>Procesando...</span>
             }
-          </div>
-          
-          <div class="summary-divider"></div>
-          
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>{{ formatPrice(total) }}€</span>
-          </div>
+          </button>
         </div>
+      </form>
+    </div>
+
+    <!-- Order Summary Sidebar -->
+    <div class="payment-summary">
+      <h2 class="summary-title">Resumen del pedido</h2>
+      
+      <div class="summary-row">
+        <span>Subtotal ({{ getTotalItems() }} productos)</span>
+        <span>{{ getSubtotal() | number:'1.2-2' }}€</span>
       </div>
-    }
+      
+      @if (getTotalDiscount() > 0) {
+        <div class="summary-row discount">
+          <span>Descuento</span>
+          <span>-{{ getTotalDiscount() | number:'1.2-2' }}€</span>
+        </div>
+      }
+      
+      <div class="summary-row shipping">
+        <span>Envío</span>
+        @if (getSubtotal() >= 50) {
+          <span>Gratis</span>
+        } @else {
+          <span>3.99€</span>
+        }
+      </div>
+      
+      <div class="summary-divider"></div>
+      
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>{{ calculateTotal() | number:'1.2-2' }}€</span>
+      </div>
+
+      <div class="secure-payment-info">
+        <div class="secure-icon">
+          <i class="fi fi-br-shield-check"></i>
+        </div>
+        <p>Pago 100% seguro. Tus datos están protegidos con encriptación SSL.</p>
+      </div>
+
+      <div class="payment-methods-icons">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968299.png" alt="Visa" height="24">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968375.png" alt="MasterCard" height="24">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968145.png" alt="American Express" height="24">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968207.png" alt="PayPal" height="24">
+      </div>
+    </div>
   </div>
 </div>

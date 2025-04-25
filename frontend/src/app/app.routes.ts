@@ -36,7 +36,8 @@ export const routes: Routes = [
       },
       { path: 'product/:id', component: ProductDetailComponent },
       { path: 'cart', component: ShoppingCartComponent },
-      { path: 'checkout', component: PaymentProcessComponent }
+      { path: 'checkout', component: PaymentProcessComponent },
+      { path: 'payment-process', component: PaymentProcessComponent }
     ],
   },
   { path: 'offers', component: OffersComponent },
