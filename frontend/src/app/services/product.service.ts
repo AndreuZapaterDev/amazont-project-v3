@@ -599,6 +599,10 @@ export class ProductService {
     return this.http.get(`${this.apiPath}/api/productos`);
   }
 
+  getAPIproduct(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/producto/${id}`);
+  }
+
   getProductImages(id: number): Observable<any> {
     return this.http.get(`${this.apiPath}/api/imagen/${id}`);
   }

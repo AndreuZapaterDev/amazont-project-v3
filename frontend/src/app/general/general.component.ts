@@ -28,7 +28,6 @@ export class GeneralComponent {
     this.getProducts().subscribe({
       next: (data: any) => {
         this.productos = data;
-
         this.productos.forEach((element) => {
           this.getProductImages(element.id).subscribe((images: any) => {
             element.images = images;
@@ -109,18 +108,24 @@ export class GeneralComponent {
 
   /*************************** */
   // Índices visibles
-  s1: number = 0;
-  s2: number = 1;
-  s3: number = 2;
-  s4: number = 3;
+  s1: number = 7;
+  s2: number = 8;
+  s3: number = 9;
+  s4: number = 10;
 
   // Obtener productos visibles
   get visibleProducts(): Product[] {
+    // return [
+    //   this.products[this.s1],
+    //   this.products[this.s2],
+    //   this.products[this.s3],
+    //   this.products[this.s4],
+    // ];
     return [
-      this.products[this.s1],
-      this.products[this.s2],
-      this.products[this.s3],
-      this.products[this.s4],
+      this.productos[this.d1],
+      this.productos[this.d2],
+      this.productos[this.d3],
+      this.productos[this.d4],
     ];
   }
 
@@ -152,11 +157,17 @@ export class GeneralComponent {
 
   // Obtener productos visibles
   get visibleDiscount(): Product[] {
+    // return [
+    //   this.products[this.d1],
+    //   this.products[this.d2],
+    //   this.products[this.d3],
+    //   this.products[this.d4],
+    // ];
     return [
-      this.products[this.d1],
-      this.products[this.d2],
-      this.products[this.d3],
-      this.products[this.d4],
+      this.productos[this.d1],
+      this.productos[this.d2],
+      this.productos[this.d3],
+      this.productos[this.d4],
     ];
   }
 

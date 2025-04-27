@@ -16,14 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   productId: number = 0;
-  product: Product = {
-    id: 0,
-    name: '',
-    price: 0,
-    stars: 0,
-    url: '',
-    category: '',
-  };
+  product: any = {};
 
   mainImage: string = '';
   productImages: string[] = [];
@@ -65,37 +58,56 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.routeSub.unsubscribe();
     }
   }
+  getProductImages(id: number) {
+    return this.productService.getProductImages(id);
+  }
 
   // Carga todos los detalles del producto y configura el estado inicial de la vista
   loadProductDetails() {
-    const product = this.productService.getProduct(this.productId);
-    if (product) {
-      this.product = product;
+    this.productService.getAPIproduct(this.productId).subscribe({
+      next: (data: any) => {
+        this.product = data;
 
-      // Configura las reseñas y muestra solo las iniciales
-      this.reviews = this.product.reviews || [];
-      this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
+        // Cargar imágenes del producto
+        this.getProductImages(this.product.id).subscribe((images: any) => {
+          this.product.images = images || [];
 
-      // Configura las imágenes del producto
-      this.mainImage = this.product.url;
-      this.productImages = [
-        this.product.url,
-        '/images/test1.jpg',
-        '/images/test2.jpg',
-      ];
+          if (this.product.images.length > 0) {
+            // Asigna la primera imagen como principal
+            this.mainImage = this.product.images[0].url;
+            this.productImages = this.product.images.map((img: any) => img.url);
+          } else {
+            // Si no hay imágenes, usar imágenes por defecto
+            this.mainImage = '/images/default.jpg';
+            this.productImages = [
+              '/images/default.jpg',
+              '/images/test1.jpg',
+              '/images/test2.jpg',
+            ];
+          }
 
-      // Inicializa variables y carga datos adicionales
-      this.activeImageIndex = 0;
-      this.generateStars();
-      this.calculateDiscountedPrice();
-      this.loadRelatedProducts();
+          console.log('Imágenes del producto:', this.productImages);
+        });
 
-      // Reinicia el estado de la interfaz
-      this.quantity = 1;
-      this.activeTab = 'description';
-      this.showingAllReviews = false;
-      window.scrollTo(0, 0);
-    }
+        console.log('Producto cargado:', this.product);
+
+        this.reviews = this.product.reviews || [];
+        this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
+
+        this.activeImageIndex = 0;
+        this.generateStars();
+        this.calculateDiscountedPrice();
+        this.loadRelatedProducts();
+
+        this.quantity = 1;
+        this.activeTab = 'description';
+        this.showingAllReviews = false;
+        window.scrollTo(0, 0);
+      },
+      error: (err: any) => {
+        console.error('Error al cargar el producto:', err);
+      },
+    });
   }
 
   // Cambia la imagen principal con efecto de transición

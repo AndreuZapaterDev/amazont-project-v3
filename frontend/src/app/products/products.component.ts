@@ -17,6 +17,10 @@ export class ProductsComponent {
 
   constructor(private router: Router) {}
 
+  getProductImage() {
+    return this.product().images[0].url;
+  }
+
   navigateToProduct(product: Product) {
     this.router.navigate(['/home/product', product.id]);
   }
@@ -29,10 +33,10 @@ export class ProductsComponent {
   }
 
   getDiscount() {
-    const discount = this.product().discount || 0;
+    const discount = this.product().descuento || 0;
     this.discountedPrice =
       Math.round(
-        (this.product().price - (this.product().price * discount) / 100) * 100
+        (this.product().precio - (this.product().precio * discount) / 100) * 100
       ) / 100;
   }
 

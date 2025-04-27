@@ -19,7 +19,7 @@
 
   <!-- Columna derecha: Información del producto -->
   <div class="product-info">
-    <h1 class="product-title">{{ product.name }}</h1>
+    <h1 class="product-title">{{ product.nombre }}</h1>
 
     <div class="product-meta">
       <div class="product-rating">
@@ -30,22 +30,20 @@
     </div>
 
     <div class="product-price-container">
-      @if(product.discount) {
-      <div class="discount-tag">-{{ product.discount }}%</div>
+      @if(product.descuento) {
+      <div class="discount-tag">-{{ product.descuento }}%</div>
       <div class="prices">
-        <span class="original-price">{{ product.price }}€</span>
+        <span class="original-price">{{ product.precio }}€</span>
         <span class="discounted-price">{{ discountedPrice }}€</span>
       </div>
       } @else {
-      <div class="regular-price">{{ product.price }}€</div>
+      <div class="regular-price">{{ product.precio }}€</div>
       }
     </div>
 
     <div class="product-description">
       <p>
-        Este producto de alta calidad ofrece un rendimiento excepcional.
-        Fabricado con materiales premium para garantizar durabilidad y
-        confiabilidad.
+        {{ product.descripcion }}
       </p>
     </div>
 
@@ -120,9 +118,7 @@
         <div class="tab-content-inner">
           <div class="description-text">
             <p>
-              Este producto de alta calidad ofrece un rendimiento excepcional.
-              Fabricado con materiales premium, el {{ product.name }} es
-              duradero y confiable.
+              {{ product.descripcion }}
             </p>
             <p>
               Diseñado pensando en la comodidad y funcionalidad, este producto
