@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->float('total');
+            $table->datetime('fecha_pago')->nullable();
+            $table->boolean('acabado')->nullable()->default(false);
         });
     }
 

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
-
   clearCart(): void {
     this._shoppingCart = [];
     this.saveCart();
@@ -594,5 +593,13 @@ export class ProductService {
 
   getShoppingCart(): Observable<any> {
     return this.http.get(`${this.apiPath}/api/usuarios`);
+  }
+
+  getAPIproducts(): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/productos`);
+  }
+
+  getProductImages(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/imagen/${id}`);
   }
 }

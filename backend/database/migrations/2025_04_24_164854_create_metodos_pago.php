@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('nombre');
-            $table->string('tarjeta');
+            $table->string('tarjeta')->unique();
             $table->string('caducidad');
             $table->string('cvv');
         });

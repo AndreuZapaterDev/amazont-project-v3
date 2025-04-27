@@ -3,6 +3,7 @@ import { Category } from '../interfaces/category.interface';
 import { Product } from '../interfaces/product.interface';
 import { ProductsComponent } from '../products/products.component';
 import { FeaturedCategoriesComponent } from '../featured-categories/featured-categories.component';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-general',
@@ -12,6 +13,35 @@ import { FeaturedCategoriesComponent } from '../featured-categories/featured-cat
   styleUrl: './general.component.css',
 })
 export class GeneralComponent {
+  constructor(private productService: ProductService) {}
+  productos: any[] = [];
+
+  getProducts() {
+    return this.productService.getAPIproducts();
+  }
+
+  getProductImages(id: number) {
+    return this.productService.getProductImages(id);
+  }
+
+  ngOnInit() {
+    this.getProducts().subscribe({
+      next: (data: any) => {
+        this.productos = data;
+
+        this.productos.forEach((element) => {
+          this.getProductImages(element.id).subscribe((images: any) => {
+            element.images = images;
+          });
+        });
+        console.log(this.productos);
+      },
+      error: (error: any) => {
+        console.error('Error fetching products:', error);
+      },
+    });
+  }
+
   tendencias: Category[] = [
     { id: 1, name: 'Droguería', category: 'drugs' },
     { id: 2, name: 'Juegos', category: 'games' },

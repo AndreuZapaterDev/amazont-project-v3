@@ -136,98 +136,98 @@
         "inicio": "0"
     },
     {
-        "nombre": "Cat Food",
+        "nombre": "Comida para gatos",
         "precio": "254",
         "descuento": "16",
-        "descripcion": "Nutritious cat food formulated to meet the dietary needs of your feline friend.",
+        "descripcion": "Alimentos de gatos nutritivos formulados para satisfacer las necesidades dietéticas de su amigo felino.",
         "stock": "16",
         "inicio": "1"
     },
     {
-        "nombre": "Chicken Meat",
+        "nombre": "Filete de pollo",
         "precio": "471",
         "descuento": "35",
-        "descripcion": "Fresh and tender chicken meat, suitable for various culinary preparations.",
+        "descripcion": "Carne de pollo fresca y tierna, adecuada para varias preparaciones culinarias.",
         "stock": "110",
         "inicio": "0"
     },
     {
-        "nombre": "Cooking Oil",
+        "nombre": "Aceite de cocción",
         "precio": "140",
         "descuento": "22",
-        "descripcion": "Versatile cooking oil suitable for frying, sautéing, and various culinary applications.",
+        "descripcion": "Aceite de cocina versátil adecuado para freír, saltear y varias aplicaciones culinarias.",
         "stock": "919",
         "inicio": "1"
     },
     {
-        "nombre": "Cucumber",
+        "nombre": "Pepino",
         "precio": "357",
         "descuento": "24",
-        "descripcion": "Crisp and hydrating cucumbers, ideal for salads, snacks, or as a refreshing side.",
+        "descripcion": "Pepinos crujientes e hidratantes, ideales para ensaladas, bocadillos o como un lado refrescante.",
         "stock": "676",
         "inicio": "1"
     },
     {
-        "nombre": "Dog Food",
+        "nombre": "Comida para perros",
         "precio": "252",
         "descuento": "49",
-        "descripcion": "Specially formulated dog food designed to provide essential nutrients for your canine companion.",
+        "descripcion": "Alimentos para perros especialmente formulados diseñados para proporcionar nutrientes esenciales para su compañero canino.",
         "stock": "600",
         "inicio": "0"
     },
     {
-        "nombre": "Eggs",
+        "nombre": "Huevos",
         "precio": "146",
         "descuento": "38",
-        "descripcion": "Fresh eggs, a versatile ingredient for baking, cooking, or breakfast.",
+        "descripcion": "Huevos frescos, un ingrediente versátil para hornear, cocinar o desayunar.",
         "stock": "729",
         "inicio": "0"
     },
     {
-        "nombre": "Fish Steak",
+        "nombre": "Filete de pescado",
         "precio": "408",
         "descuento": "50",
-        "descripcion": "Quality fish steak, suitable for grilling, baking, or pan-searing.",
+        "descripcion": "Bistec de pescado de calidad, adecuado para asar, hornear o tomar una sartén.",
         "stock": "689",
         "inicio": "0"
     },
     {
-        "nombre": "Green Bell Pepper",
+        "nombre": "Pimiento verde",
         "precio": "39",
         "descuento": "21",
-        "descripcion": "Fresh and vibrant green bell pepper, perfect for adding color and flavor to your dishes.",
+        "descripcion": "Pimiento verde fresco y vibrante, perfecto para agregar color y sabor a sus platos.",
         "stock": "907",
         "inicio": "0"
     },
     {
-        "nombre": "Green Chili Pepper",
+        "nombre": "Chile verde",
         "precio": "261",
         "descuento": "19",
-        "descripcion": "Spicy green chili pepper, ideal for adding heat to your favorite recipes.",
+        "descripcion": "Chili de chile verde picante, ideal para agregar calor a sus recetas favoritas.",
         "stock": "502",
         "inicio": "0"
     },
     {
-        "nombre": "Honey Jar",
+        "nombre": "Jarra de miel",
         "precio": "329",
         "descuento": "37",
-        "descripcion": "Pure and natural honey in a convenient jar, perfect for sweetening beverages or drizzling over food.",
+        "descripcion": "Miel pura y natural en un frasco conveniente, perfecto para endulzar bebidas o rociar sobre la comida.",
         "stock": "400",
         "inicio": "0"
     },
     {
-        "nombre": "Ice Cream",
+        "nombre": "Helado",
         "precio": "45",
         "descuento": "34",
-        "descripcion": "Creamy and delicious ice cream, available in various flavors for a delightful treat.",
+        "descripcion": "Helado cremoso y delicioso, disponible en varios sabores para una delicia.",
         "stock": "812",
         "inicio": "1"
     },
     {
-        "nombre": "Juice",
+        "nombre": "Zumo",
         "precio": "307",
         "descuento": "47",
-        "descripcion": "Refreshing fruit juice, packed with vitamins and great for staying hydrated.",
+        "descripcion": "Refrescante jugo de fruta, lleno de vitaminas y excelente para mantenerse hidratado.",
         "stock": "355",
         "inicio": "1"
     },
@@ -240,394 +240,394 @@
         "inicio": "1"
     },
     {
-        "nombre": "Lemon",
+        "nombre": "Limón",
         "precio": "70",
         "descuento": "38",
-        "descripcion": "Zesty and tangy lemons, versatile for cooking, baking, or making refreshing beverages.",
+        "descripcion": "Limones sabrosos y picantes, versátiles para cocinar, hornear o hacer bebidas refrescantes.",
         "stock": "890",
         "inicio": "0"
     },
     {
-        "nombre": "Milk",
+        "nombre": "Leche",
         "precio": "384",
         "descuento": "50",
-        "descripcion": "Fresh and nutritious milk, a staple for various recipes and daily consumption.",
+        "descripcion": "Leche fresca y nutritiva, un elemento básico para varias recetas y consumo diario.",
         "stock": "394",
         "inicio": "1"
     },
     {
-        "nombre": "Mulberry",
+        "nombre": "Mora",
         "precio": "152",
         "descuento": "47",
-        "descripcion": "Sweet and juicy mulberries, perfect for snacking or adding to desserts and cereals.",
+        "descripcion": "Moras dulces y jugosas, perfectas para bocadillos o agregando postres y cereales.",
         "stock": "321",
         "inicio": "1"
     },
     {
-        "nombre": "Nescafe Coffee",
+        "nombre": "Café nescafé",
         "precio": "60",
         "descuento": "27",
-        "descripcion": "Quality coffee from Nescafe, available in various blends for a rich and satisfying cup.",
+        "descripcion": "Café de calidad de Nescafe, disponible en varias mezclas para una taza rica y satisfactoria.",
         "stock": "464",
         "inicio": "0"
     },
     {
-        "nombre": "Potatoes",
+        "nombre": "Patatas",
         "precio": "432",
         "descuento": "48",
-        "descripcion": "Versatile and starchy potatoes, great for roasting, mashing, or as a side dish.",
+        "descripcion": "Patatas versátiles y almidonadas, ideales para asar, puré o como guarnición.",
         "stock": "131",
         "inicio": "1"
     },
     {
-        "nombre": "Protein Powder",
+        "nombre": "Proteína en polvo",
         "precio": "266",
         "descuento": "22",
-        "descripcion": "Nutrient-packed protein powder, ideal for supplementing your diet with essential proteins.",
+        "descripcion": "Proteína en polvo llena de nutrientes, ideal para complementar su dieta con proteínas esenciales.",
         "stock": "41",
         "inicio": "0"
     },
     {
-        "nombre": "Red Onions",
+        "nombre": "Cebolla roja",
         "precio": "278",
         "descuento": "46",
-        "descripcion": "Flavorful and aromatic red onions, perfect for adding depth to your savory dishes.",
+        "descripcion": "Cebollas rojas sabrosas y aromáticas, perfecta para agregar profundidad a sus sabrosos platos.",
         "stock": "308",
         "inicio": "0"
     },
     {
-        "nombre": "Rice",
+        "nombre": "Arroz",
         "precio": "73",
         "descuento": "50",
-        "descripcion": "High-quality rice, a staple for various cuisines and a versatile base for many dishes.",
+        "descripcion": "Arroz de alta calidad, un elemento básico para varias cocinas y una base versátil para muchos platos.",
         "stock": "906",
         "inicio": "1"
     },
     {
-        "nombre": "Soft Drinks",
+        "nombre": "Refrescos",
         "precio": "308",
         "descuento": "33",
-        "descripcion": "Assorted soft drinks in various flavors, perfect for refreshing beverages.",
+        "descripcion": "Refrescos variados en varios sabores, perfectos para refrescantes bebidas.",
         "stock": "745",
         "inicio": "1"
     },
     {
-        "nombre": "Strawberry",
+        "nombre": "Fresa",
         "precio": "125",
         "descuento": "13",
-        "descripcion": "Sweet and succulent strawberries, great for snacking, desserts, or blending into smoothies.",
+        "descripcion": "Las fresas dulces y suculentas, ideales para bocadillos, postres o mezclando batidos.",
         "stock": "2",
         "inicio": "1"
     },
     {
-        "nombre": "Tissue Paper Box",
+        "nombre": "Pañuelos de papel",
         "precio": "235",
         "descuento": "22",
-        "descripcion": "Convenient tissue paper box for everyday use, providing soft and absorbent tissues.",
+        "descripcion": "Conveniente caja de pañuelos para el uso diario, proporcionando tejidos suaves y absorbentes.",
         "stock": "776",
         "inicio": "1"
     },
     {
-        "nombre": "Water",
+        "nombre": "Agua",
         "precio": "214",
         "descuento": "15",
-        "descripcion": "Pure and refreshing bottled water, essential for staying hydrated throughout the day.",
+        "descripcion": "Agua embotellada pura y refrescante, esencial para mantenerse hidratado durante todo el día.",
         "stock": "944",
         "inicio": "1"
     },
     {
-        "nombre": "Decoration Swing",
+        "nombre": "Columpio de decoración",
         "precio": "211",
         "descuento": "49",
-        "descripcion": "The Decoration Swing is a charming addition to your home decor. Crafted with intricate details, it adds a touch of elegance and whimsy to any room.",
+        "descripcion": "El columpio de decoración es una adición encantadora a la decoración de su hogar.Hecho con detalles intrincados, agrega un toque de elegancia y fantasía a cualquier habitación.",
         "stock": "932",
         "inicio": "0"
     },
     {
-        "nombre": "Family Tree Photo Frame",
+        "nombre": "Marco de fotos del árbol genealógico",
         "precio": "180",
         "descuento": "42",
-        "descripcion": "The Family Tree Photo Frame is a sentimental and stylish way to display your cherished family memories. With multiple photo slots, it tells the story of your loved ones.",
+        "descripcion": "El marco de fotos del árbol genealógico es una forma sentimental y elegante de mostrar sus preciados recuerdos familiares.Con múltiples espacios de fotos, cuenta la historia de sus seres queridos.",
         "stock": "863",
         "inicio": "0"
     },
     {
-        "nombre": "House Showpiece Plant",
+        "nombre": "Planta de exhibición de casas",
         "precio": "457",
         "descuento": "14",
-        "descripcion": "The House Showpiece Plant is an artificial plant that brings a touch of nature to your home without the need for maintenance. It adds greenery and style to any space.",
+        "descripcion": "La planta de la pieza de exhibición de la casa es una planta artificial que trae un toque de naturaleza a su hogar sin la necesidad de mantenimiento.Agrega vegetación y estilo a cualquier espacio.",
         "stock": "796",
         "inicio": "0"
     },
     {
-        "nombre": "Plant Pot",
+        "nombre": "Maceta de planta",
         "precio": "77",
         "descuento": "14",
-        "descripcion": "The Plant Pot is a stylish container for your favorite plants. With a sleek design, it complements your indoor or outdoor garden, adding a modern touch to your plant display.",
+        "descripcion": "La maceta es un recipiente elegante para sus plantas favoritas.Con un diseño elegante, complementa su jardín interior o exterior, agregando un toque moderno a la pantalla de su planta.",
         "stock": "158",
         "inicio": "1"
     },
     {
-        "nombre": "Table Lamp",
+        "nombre": "Lámpara de mesa",
         "precio": "484",
         "descuento": "41",
-        "descripcion": "The Table Lamp is a functional and decorative lighting solution for your living space. With a modern design, it provides both ambient and task lighting, enhancing the atmosphere.",
+        "descripcion": "La lámpara de mesa es una solución de iluminación funcional y decorativa para su espacio vital.Con un diseño moderno, proporciona iluminación ambiental y de tareas, mejorando la atmósfera.",
         "stock": "174",
         "inicio": "1"
     },
     {
-        "nombre": "Bamboo Spatula",
+        "nombre": "Espátula de bambú",
         "precio": "482",
         "descuento": "41",
-        "descripcion": "The Bamboo Spatula is a versatile kitchen tool made from eco-friendly bamboo. Ideal for flipping, stirring, and serving various dishes.",
+        "descripcion": "La espátula de bambú es una herramienta de cocina versátil hecha de bambú ecológico.Ideal para voltear, revolver y servir varios platos.",
         "stock": "550",
         "inicio": "1"
     },
     {
-        "nombre": "Black Aluminium Cup",
+        "nombre": "Taza de aluminio negra",
         "precio": "133",
         "descuento": "5",
-        "descripcion": "The Black Aluminium Cup is a stylish and durable cup suitable for both hot and cold beverages. Its sleek black design adds a modern touch to your drinkware collection.",
+        "descripcion": "La taza de aluminio negra es elegante y duradera, adecuada para bebidas tanto calientes como frías. Su diseño negro y estilizado aporta un toque moderno a tu colección de vajilla.",
         "stock": "771",
         "inicio": "1"
     },
     {
-        "nombre": "Black Whisk",
+        "nombre": "Batidor negro",
         "precio": "470",
         "descuento": "6",
-        "descripcion": "The Black Whisk is a kitchen essential for whisking and beating ingredients. Its ergonomic handle and sleek design make it a practical and stylish tool.",
+        "descripcion": "El batidor negro es un esencial de cocina para batir y mezclar ingredientes. Su mango ergonómico y diseño elegante lo convierten en una herramienta práctica y estilizada.",
         "stock": "715",
         "inicio": "0"
     },
     {
-        "nombre": "Boxed Blender",
+        "nombre": "Licuadora en caja",
         "precio": "139",
         "descuento": "11",
-        "descripcion": "The Boxed Blender is a powerful and compact blender perfect for smoothies, shakes, and more. Its convenient design and multiple functions make it a versatile kitchen appliance.",
+        "descripcion": "La licuadora en caja es potente y compacta, perfecta para preparar batidos, smoothies y más. Su diseño conveniente y múltiples funciones la convierten en un electrodoméstico versátil.",
         "stock": "87",
         "inicio": "0"
     },
     {
-        "nombre": "Carbon Steel Wok",
+        "nombre": "Wok de acero al carbono",
         "precio": "137",
         "descuento": "5",
-        "descripcion": "The Carbon Steel Wok is a versatile cooking pan suitable for stir-frying, sautéing, and deep frying. Its sturdy construction ensures even heat distribution for delicious meals.",
+        "descripcion": "El wok de acero al carbono es una sartén versátil adecuada para salteados, salteados rápidos y frituras. Su construcción robusta garantiza una distribución uniforme del calor para comidas deliciosas.",
         "stock": "16",
         "inicio": "0"
     },
     {
-        "nombre": "Chopping Board",
+        "nombre": "Tabla de cortar",
         "precio": "454",
         "descuento": "17",
-        "descripcion": "The Chopping Board is an essential kitchen accessory for food preparation. Made from durable material, it provides a safe and hygienic surface for cutting and chopping.",
+        "descripcion": "La tabla de cortar es un accesorio esencial de cocina para la preparación de alimentos. Fabricada con material duradero, proporciona una superficie segura e higiénica para cortar y picar.",
         "stock": "895",
         "inicio": "1"
     },
     {
-        "nombre": "Citrus Squeezer Yellow",
+        "nombre": "Exprimidor de cítricos amarillo",
         "precio": "29",
         "descuento": "32",
-        "descripcion": "The Citrus Squeezer in Yellow is a handy tool for extracting juice from citrus fruits. Its vibrant color adds a cheerful touch to your kitchen gadgets.",
+        "descripcion": "El exprimidor de cítricos amarillo es una herramienta práctica para extraer jugo de frutas cítricas. Su color vibrante añade un toque alegre a tus utensilios de cocina.",
         "stock": "90",
         "inicio": "1"
     },
     {
-        "nombre": "Egg Slicer",
+        "nombre": "Cortador de huevos",
         "precio": "121",
         "descuento": "27",
-        "descripcion": "The Egg Slicer is a convenient tool for slicing boiled eggs evenly. It's perfect for salads, sandwiches, and other dishes where sliced eggs are desired.",
+        "descripcion": "El cortador de huevos es una herramienta práctica para cortar huevos cocidos de manera uniforme. Perfecto para ensaladas, bocadillos y otros platos donde se desean huevos en rodajas.",
         "stock": "841",
         "inicio": "1"
     },
     {
-        "nombre": "Electric Stove",
+        "nombre": "Cocina eléctrica",
         "precio": "341",
         "descuento": "19",
-        "descripcion": "The Electric Stove provides a portable and efficient cooking solution. Ideal for small kitchens or as an additional cooking surface for various culinary needs.",
+        "descripcion": "La cocina eléctrica proporciona una solución portátil y eficiente para cocinar. Ideal para cocinas pequeñas o como superficie adicional para necesidades culinarias diversas.",
         "stock": "285",
         "inicio": "0"
     },
     {
-        "nombre": "Fine Mesh Strainer",
+        "nombre": "Colador de malla fina",
         "precio": "468",
         "descuento": "29",
-        "descripcion": "The Fine Mesh Strainer is a versatile tool for straining liquids and sifting dry ingredients. Its fine mesh ensures efficient filtering for smooth cooking and baking.",
+        "descripcion": "El colador de malla fina es una herramienta versátil para colar líquidos y tamizar ingredientes secos. Su malla fina garantiza un filtrado eficiente para una cocina y repostería perfectas.",
         "stock": "611",
         "inicio": "1"
     },
     {
-        "nombre": "Fork",
+        "nombre": "Tenedor",
         "precio": "131",
         "descuento": "19",
-        "descripcion": "The Fork is a classic utensil for various dining and serving purposes. Its durable and ergonomic design makes it a reliable choice for everyday use.",
+        "descripcion": "El tenedor es un utensilio clásico para comer y servir diversos platos. Su diseño ergonómico y duradero lo convierte en una opción confiable para el uso diario.",
         "stock": "987",
         "inicio": "0"
     },
     {
-        "nombre": "Glass",
+        "nombre": "Vaso de vidrio",
         "precio": "423",
         "descuento": "45",
-        "descripcion": "The Glass is a versatile and elegant drinking vessel suitable for a variety of beverages. Its clear design allows you to enjoy the colors and textures of your drinks.",
+        "descripcion": "El vaso de vidrio es un recipiente versátil y elegante, adecuado para una variedad de bebidas. Su diseño transparente permite apreciar los colores y texturas de las bebidas.",
         "stock": "609",
         "inicio": "0"
     },
     {
-        "nombre": "Grater Black",
+        "nombre": "Rallador negro",
         "precio": "227",
         "descuento": "6",
-        "descripcion": "The Grater in Black is a handy kitchen tool for grating cheese, vegetables, and more. Its sleek design and sharp blades make food preparation efficient and easy.",
+        "descripcion": "El rallador negro es una herramienta práctica para rallar queso, verduras y más. Su diseño elegante y sus cuchillas afiladas hacen que la preparación de alimentos sea eficiente y fácil.",
         "stock": "863",
         "inicio": "0"
     },
     {
-        "nombre": "Hand Blender",
+        "nombre": "Batidora de mano",
         "precio": "119",
         "descuento": "34",
-        "descripcion": "The Hand Blender is a versatile kitchen appliance for blending, pureeing, and mixing. Its compact design and powerful motor make it a convenient tool for various recipes.",
+        "descripcion": "La batidora de mano es un electrodoméstico versátil para mezclar, triturar y batir. Su diseño compacto y motor potente la convierten en una herramienta cómoda para varias recetas.",
         "stock": "82",
         "inicio": "0"
     },
     {
-        "nombre": "Ice Cube Tray",
+        "nombre": "Bandeja de cubitos de hielo",
         "precio": "309",
         "descuento": "17",
-        "descripcion": "The Ice Cube Tray is a practical accessory for making ice cubes in various shapes. Perfect for keeping your drinks cool and adding a fun element to your beverages.",
+        "descripcion": "La bandeja de cubitos de hielo es un accesorio práctico para hacer cubos de hielo de varias formas. Perfecta para mantener tus bebidas frías y añadir un toque divertido.",
         "stock": "581",
         "inicio": "0"
     },
     {
-        "nombre": "Kitchen Sieve",
+        "nombre": "Tamiz de cocina",
         "precio": "259",
         "descuento": "30",
-        "descripcion": "The Kitchen Sieve is a versatile tool for sifting and straining dry and wet ingredients. Its fine mesh design ensures smooth results in your cooking and baking.",
+        "descripcion": "El tamiz de cocina es una herramienta versátil para tamizar y colar ingredientes secos y húmedos. Su diseño de malla fina garantiza resultados suaves en cocina y repostería.",
         "stock": "219",
         "inicio": "0"
     },
     {
-        "nombre": "Knife",
+        "nombre": "Cuchillo",
         "precio": "289",
         "descuento": "36",
-        "descripcion": "The Knife is an essential kitchen tool for chopping, slicing, and dicing. Its sharp blade and ergonomic handle make it a reliable choice for food preparation.",
+        "descripcion": "El cuchillo es una herramienta esencial de cocina para picar, cortar y trocear. Su hoja afilada y mango ergonómico lo convierten en una opción confiable para preparar alimentos.",
         "stock": "803",
         "inicio": "0"
     },
     {
-        "nombre": "Lunch Box",
+        "nombre": "Lonchera",
         "precio": "116",
         "descuento": "35",
-        "descripcion": "The Lunch Box is a convenient and portable container for packing and carrying your meals. With compartments for different foods, it's perfect for on-the-go dining.",
+        "descripcion": "La lonchera es un contenedor portátil y conveniente para empacar y transportar comidas. Con compartimentos para distintos alimentos, es perfecta para llevar almuerzos donde sea.",
         "stock": "549",
         "inicio": "0"
     },
     {
-        "nombre": "Microwave Oven",
+        "nombre": "Microondas",
         "precio": "497",
         "descuento": "32",
-        "descripcion": "The Microwave Oven is a versatile kitchen appliance for quick and efficient cooking, reheating, and defrosting. Its compact size makes it suitable for various kitchen setups.",
+        "descripcion": "El horno microondas es un electrodoméstico versátil para cocinar, recalentar y descongelar de forma rápida y eficiente. Su tamaño compacto lo hace adecuado para varias cocinas.",
         "stock": "600",
         "inicio": "1"
     },
     {
-        "nombre": "Mug Tree Stand",
+        "nombre": "Soporte para tazas",
         "precio": "496",
         "descuento": "23",
-        "descripcion": "The Mug Tree Stand is a stylish and space-saving solution for organizing your mugs. Keep your favorite mugs easily accessible and neatly displayed in your kitchen.",
+        "descripcion": "El soporte para tazas es una solución elegante y ahorradora de espacio para organizar tus tazas. Mantén tus tazas favoritas fácilmente accesibles y ordenadas en tu cocina.",
         "stock": "960",
         "inicio": "1"
     },
     {
-        "nombre": "Pan",
+        "nombre": "Sartén",
         "precio": "227",
         "descuento": "29",
-        "descripcion": "The Pan is a versatile and essential cookware item for frying, sautéing, and cooking various dishes. Its non-stick coating ensures easy food release and cleanup.",
+        "descripcion": "La sartén es un utensilio de cocina versátil e indispensable para freír, saltear y cocinar diversos platos. Su revestimiento antiadherente facilita la cocción y la limpieza.",
         "stock": "78",
         "inicio": "1"
     },
     {
-        "nombre": "Plate",
+        "nombre": "Plato",
         "precio": "201",
         "descuento": "46",
-        "descripcion": "The Plate is a classic and essential dishware item for serving meals. Its durable and stylish design makes it suitable for everyday use or special occasions.",
+        "descripcion": "El plato es un elemento clásico y esencial para servir comidas. Su diseño duradero y elegante lo hace apto para el uso diario o para ocasiones especiales.",
         "stock": "937",
         "inicio": "1"
     },
     {
-        "nombre": "Red Tongs",
+        "nombre": "Pinzas rojas",
         "precio": "298",
         "descuento": "39",
-        "descripcion": "The Red Tongs are versatile kitchen tongs suitable for various cooking and serving tasks. Their vibrant color adds a pop of excitement to your kitchen utensils.",
+        "descripcion": "Las pinzas rojas son versátiles para diversas tareas de cocina y servicio. Su color vibrante añade un toque de entusiasmo a tus utensilios de cocina.",
         "stock": "267",
         "inicio": "0"
     },
     {
-        "nombre": "Silver Pot With Glass Cap",
+        "nombre": "Olla plateada con tapa de vidrio",
         "precio": "17",
         "descuento": "27",
-        "descripcion": "The Silver Pot with Glass Cap is a stylish and functional cookware item for boiling, simmering, and preparing delicious meals. Its glass cap allows you to monitor cooking progress.",
+        "descripcion": "La olla plateada con tapa de vidrio es un artículo de cocina elegante y funcional, ideal para hervir, cocer a fuego lento y preparar comidas deliciosas. Su tapa de vidrio permite vigilar la cocción.",
         "stock": "195",
         "inicio": "1"
     },
     {
-        "nombre": "Slotted Turner",
+        "nombre": "Espátula ranurada",
         "precio": "322",
         "descuento": "39",
-        "descripcion": "The Slotted Turner is a kitchen utensil designed for flipping and turning food items. Its slotted design allows excess liquid to drain, making it ideal for frying and sautéing.",
+        "descripcion": "La espátula ranurada está diseñada para voltear y mover alimentos. Su diseño con ranuras permite drenar el exceso de líquidos, haciéndola ideal para freír y saltear.",
         "stock": "496",
         "inicio": "0"
     },
     {
-        "nombre": "Spice Rack",
+        "nombre": "Organizador de especias",
         "precio": "303",
         "descuento": "37",
-        "descripcion": "The Spice Rack is a convenient organizer for your spices and seasonings. Keep your kitchen essentials within reach and neatly arranged with this stylish spice rack.",
+        "descripcion": "El organizador de especias es una solución práctica para tener tus especias y condimentos organizados. Mantén tus ingredientes esenciales siempre a mano y bien ordenados.",
         "stock": "384",
         "inicio": "1"
     },
     {
-        "nombre": "Spoon",
+        "nombre": "Cuchara",
         "precio": "498",
         "descuento": "30",
-        "descripcion": "The Spoon is a versatile kitchen utensil for stirring, serving, and tasting. Its ergonomic design and durable construction make it an essential tool for every kitchen.",
+        "descripcion": "La cuchara es un utensilio de cocina versátil para mezclar, servir y degustar. Su diseño ergonómico y construcción duradera la convierten en una herramienta esencial en toda cocina.",
         "stock": "646",
         "inicio": "0"
     },
     {
-        "nombre": "Tray",
+        "nombre": "Bandeja",
         "precio": "376",
         "descuento": "44",
-        "descripcion": "The Tray is a functional and decorative item for serving snacks, appetizers, or drinks. Its stylish design makes it a versatile accessory for entertaining guests.",
+        "descripcion": "La bandeja es un elemento funcional y decorativo para servir bocadillos, aperitivos o bebidas. Su diseño elegante la convierte en un accesorio versátil para recibir invitados.",
         "stock": "483",
         "inicio": "1"
     },
     {
-        "nombre": "Wooden Rolling Pin",
+        "nombre": "Rodillo de madera",
         "precio": "191",
         "descuento": "33",
-        "descripcion": "The Wooden Rolling Pin is a classic kitchen tool for rolling out dough for baking. Its smooth surface and sturdy handles make it easy to achieve uniform thickness.",
+        "descripcion": "El rodillo de madera es una herramienta clásica de cocina para extender masas en repostería. Su superficie lisa y asas robustas facilitan conseguir un grosor uniforme.",
         "stock": "442",
         "inicio": "1"
     },
     {
-        "nombre": "Yellow Peeler",
+        "nombre": "Pelador amarillo",
         "precio": "147",
         "descuento": "34",
-        "descripcion": "The Yellow Peeler is a handy tool for peeling fruits and vegetables with ease. Its bright yellow color adds a cheerful touch to your kitchen gadgets.",
+        "descripcion": "El pelador amarillo es una herramienta práctica para pelar frutas y verduras con facilidad. Su color brillante añade un toque alegre a tus utensilios de cocina.",
         "stock": "355",
         "inicio": "0"
     },
     {
-        "nombre": "Apple MacBook Pro 14 Inch Space Grey",
+        "nombre": "Apple MacBook Pro 14 Pulgadas Gris Espacial",
         "precio": "369",
         "descuento": "46",
-        "descripcion": "The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.",
+        "descripcion": "El MacBook Pro de 14 pulgadas en color gris espacial es un portátil potente y elegante, que cuenta con el chip M1 Pro de Apple para un rendimiento excepcional y una impresionante pantalla Retina.",
         "stock": "636",
         "inicio": "0"
     },
     {
-        "nombre": "Asus Zenbook Pro Dual Screen Laptop",
+        "nombre": "Portátil Asus Zenbook Pro de Doble Pantalla",
         "precio": "167",
         "descuento": "9",
-        "descripcion": "The Asus Zenbook Pro Dual Screen Laptop is a high-performance device with dual screens, providing productivity and versatility for creative professionals.",
+        "descripcion": "El portátil Asus Zenbook Pro de doble pantalla es un dispositivo de alto rendimiento con dos pantallas, ofreciendo productividad y versatilidad para profesionales creativos.",
         "stock": "105",
         "inicio": "1"
     },
@@ -635,7 +635,7 @@
         "nombre": "Huawei Matebook X Pro",
         "precio": "122",
         "descuento": "28",
-        "descripcion": "The Huawei Matebook X Pro is a slim and stylish laptop with a high-resolution touchscreen display, offering a premium experience for users on the go.",
+        "descripcion": "El Huawei Matebook X Pro es un portátil delgado y elegante con pantalla táctil de alta resolución, ofreciendo una experiencia premium para usuarios en movimiento.",
         "stock": "842",
         "inicio": "0"
     },
@@ -643,103 +643,103 @@
         "nombre": "Lenovo Yoga 920",
         "precio": "449",
         "descuento": "25",
-        "descripcion": "The Lenovo Yoga 920 is a 2-in-1 convertible laptop with a flexible hinge, allowing you to use it as a laptop or tablet, offering versatility and portability.",
+        "descripcion": "El Lenovo Yoga 920 es un portátil convertible 2 en 1 con bisagra flexible, permitiendo usarlo como portátil o tableta, ofreciendo versatilidad y portabilidad.",
         "stock": "882",
         "inicio": "1"
     },
     {
-        "nombre": "New DELL XPS 13 9300 Laptop",
+        "nombre": "Nuevo Portátil DELL XPS 13 9300",
         "precio": "236",
         "descuento": "25",
-        "descripcion": "The New DELL XPS 13 9300 Laptop is a compact and powerful device, featuring a virtually borderless InfinityEdge display and high-end performance for various tasks.",
+        "descripcion": "El nuevo portátil DELL XPS 13 9300 es un dispositivo compacto y potente, con pantalla InfinityEdge casi sin bordes y alto rendimiento para diversas tareas.",
         "stock": "723",
         "inicio": "0"
     },
     {
-        "nombre": "Blue & Black Check Shirt",
+        "nombre": "Camisa de cuadros azul y negra",
         "precio": "396",
         "descuento": "24",
-        "descripcion": "The Blue & Black Check Shirt is a stylish and comfortable men's shirt featuring a classic check pattern. Made from high-quality fabric, it's suitable for both casual and semi-formal occasions.",
+        "descripcion": "La camisa de cuadros azul y negra es una prenda elegante y cómoda para hombre, con un clásico patrón de cuadros. Fabricada en tejido de alta calidad, ideal para ocasiones casuales o semi-formales.",
         "stock": "872",
         "inicio": "0"
     },
     {
-        "nombre": "Gigabyte Aorus Men Tshirt",
+        "nombre": "Camiseta Gigabyte Aorus para hombre",
         "precio": "122",
         "descuento": "10",
-        "descripcion": "The Gigabyte Aorus Men Tshirt is a cool and casual shirt for gaming enthusiasts. With the Aorus logo and sleek design, it's perfect for expressing your gaming style.",
+        "descripcion": "La camiseta Gigabyte Aorus para hombre es una prenda casual y moderna para entusiastas de los videojuegos. Con el logo de Aorus y un diseño elegante, es perfecta para mostrar tu estilo gamer.",
         "stock": "851",
         "inicio": "1"
     },
     {
-        "nombre": "Man Plaid Shirt",
+        "nombre": "Camisa de cuadros para hombre",
         "precio": "235",
         "descuento": "47",
-        "descripcion": "The Man Plaid Shirt is a timeless and versatile men's shirt with a classic plaid pattern. Its comfortable fit and casual style make it a wardrobe essential for various occasions.",
+        "descripcion": "La camisa de cuadros para hombre es una prenda atemporal y versátil con un patrón de cuadros clásico. Su ajuste cómodo y estilo casual la hacen esencial en cualquier guardarropa.",
         "stock": "485",
         "inicio": "1"
     },
     {
-        "nombre": "Man Short Sleeve Shirt",
+        "nombre": "Camisa de manga corta para hombre",
         "precio": "267",
         "descuento": "11",
-        "descripcion": "The Man Short Sleeve Shirt is a breezy and stylish option for warm days. With a comfortable fit and short sleeves, it's perfect for a laid-back yet polished look.",
+        "descripcion": "La camisa de manga corta para hombre es una opción fresca y elegante para días cálidos. Con ajuste cómodo y mangas cortas, es ideal para un look relajado pero pulido.",
         "stock": "334",
         "inicio": "1"
     },
     {
-        "nombre": "Men Check Shirt",
+        "nombre": "Camisa de cuadros para hombre",
         "precio": "487",
         "descuento": "9",
-        "descripcion": "The Men Check Shirt is a classic and versatile shirt featuring a stylish check pattern. Suitable for various occasions, it adds a smart and polished touch to your wardrobe.",
+        "descripcion": "La camisa de cuadros para hombre es una prenda clásica y versátil con un diseño de cuadros elegante. Ideal para diversas ocasiones, aporta un toque refinado a tu vestimenta.",
         "stock": "413",
         "inicio": "1"
     },
     {
-        "nombre": "Nike Air Jordan 1 Red And Black",
+        "nombre": "Nike Air Jordan 1 Rojo y Negro",
         "precio": "132",
         "descuento": "19",
-        "descripcion": "The Nike Air Jordan 1 in Red and Black is an iconic basketball sneaker known for its stylish design and high-performance features, making it a favorite among sneaker enthusiasts and athletes.",
+        "descripcion": "Las Nike Air Jordan 1 en rojo y negro son unas zapatillas de baloncesto icónicas conocidas por su diseño elegante y características de alto rendimiento, favoritas entre aficionados y atletas.",
         "stock": "984",
         "inicio": "1"
     },
     {
-        "nombre": "Nike Baseball Cleats",
+        "nombre": "Tacos de béisbol Nike",
         "precio": "12",
         "descuento": "28",
-        "descripcion": "Nike Baseball Cleats are designed for maximum traction and performance on the baseball field. They provide stability and support for players during games and practices.",
+        "descripcion": "Los tacos de béisbol Nike están diseñados para ofrecer máxima tracción y rendimiento en el campo. Brindan estabilidad y soporte durante los partidos y entrenamientos.",
         "stock": "248",
         "inicio": "0"
     },
     {
-        "nombre": "Puma Future Rider Trainers",
+        "nombre": "Zapatillas Puma Future Rider",
         "precio": "244",
         "descuento": "45",
-        "descripcion": "The Puma Future Rider Trainers offer a blend of retro style and modern comfort. Perfect for casual wear, these trainers provide a fashionable and comfortable option for everyday use.",
+        "descripcion": "Las zapatillas Puma Future Rider ofrecen una mezcla de estilo retro y comodidad moderna. Perfectas para el uso diario, combinan moda y confort en un solo calzado.",
         "stock": "414",
         "inicio": "1"
     },
     {
-        "nombre": "Sports Sneakers Off White & Red",
+        "nombre": "Zapatillas deportivas blanco roto y rojo",
         "precio": "193",
         "descuento": "34",
-        "descripcion": "The Sports Sneakers in Off White and Red combine style and functionality, making them a fashionable choice for sports enthusiasts. The red and off-white color combination adds a bold and energetic touch.",
+        "descripcion": "Las zapatillas deportivas en blanco roto y rojo combinan estilo y funcionalidad, siendo una opción de moda para los amantes del deporte. El contraste de colores aporta un toque enérgico y atrevido.",
         "stock": "842",
         "inicio": "0"
     },
     {
-        "nombre": "Sports Sneakers Off White Red",
+        "nombre": "Zapatillas deportivas blanco roto y rojo (variante)",
         "precio": "368",
         "descuento": "33",
-        "descripcion": "Another variant of the Sports Sneakers in Off White Red, featuring a unique design. These sneakers offer style and comfort for casual occasions.",
+        "descripcion": "Otra variante de las zapatillas deportivas en blanco roto y rojo, con un diseño único. Ofrecen estilo y comodidad para ocasiones casuales.",
         "stock": "788",
         "inicio": "0"
     },
     {
-        "nombre": "Brown Leather Belt Watch",
+        "nombre": "Reloj con correa de cuero marrón",
         "precio": "351",
         "descuento": "21",
-        "descripcion": "The Brown Leather Belt Watch is a stylish timepiece with a classic design. Featuring a genuine leather strap and a sleek dial, it adds a touch of sophistication to your look.",
+        "descripcion": "El reloj con correa de cuero marrón es una pieza elegante de diseño clásico. Con correa de cuero genuino y esfera estilizada, añade un toque de sofisticación a tu look.",
         "stock": "616",
         "inicio": "0"
     },
@@ -747,15 +747,15 @@
         "nombre": "Longines Master Collection",
         "precio": "201",
         "descuento": "36",
-        "descripcion": "The Longines Master Collection is an elegant and refined watch known for its precision and craftsmanship. With a timeless design, it's a symbol of luxury and sophistication.",
+        "descripcion": "La colección Master de Longines es una línea de relojes elegantes y refinados, conocidos por su precisión y artesanía. Con un diseño atemporal, simboliza lujo y sofisticación.",
         "stock": "795",
         "inicio": "1"
     },
     {
-        "nombre": "Rolex Cellini Date Black Dial",
+        "nombre": "Rolex Cellini Date Esfera Negra",
         "precio": "217",
         "descuento": "11",
-        "descripcion": "The Rolex Cellini Date with Black Dial is a classic and prestigious watch. With a black dial and date complication, it exudes sophistication and is a symbol of Rolex's heritage.",
+        "descripcion": "El Rolex Cellini Date con esfera negra es un reloj clásico y prestigioso. Con ventana de fecha y diseño refinado, representa la herencia de sofisticación de Rolex.",
         "stock": "14",
         "inicio": "0"
     },
@@ -763,7 +763,7 @@
         "nombre": "Rolex Cellini Moonphase",
         "precio": "126",
         "descuento": "29",
-        "descripcion": "The Rolex Cellini Moonphase is a masterpiece of horology, featuring a moon phase complication and exquisite design. It reflects Rolex's commitment to precision and elegance.",
+        "descripcion": "El Rolex Cellini Moonphase es una obra maestra de la relojería, con complicación de fases lunares y un diseño exquisito. Refleja el compromiso de Rolex con la precisión y la elegancia.",
         "stock": "480",
         "inicio": "0"
     },
@@ -771,15 +771,15 @@
         "nombre": "Rolex Datejust",
         "precio": "414",
         "descuento": "15",
-        "descripcion": "The Rolex Datejust is an iconic and versatile timepiece with a date window. Known for its timeless design and reliability, it's a symbol of Rolex's watchmaking excellence.",
+        "descripcion": "El Rolex Datejust es un reloj icónico y versátil con ventana de fecha. Reconocido por su diseño atemporal y fiabilidad, es símbolo de la excelencia relojera de Rolex.",
         "stock": "821",
         "inicio": "0"
     },
     {
-        "nombre": "Rolex Submariner Watch",
+        "nombre": "Rolex Submariner",
         "precio": "30",
         "descuento": "37",
-        "descripcion": "The Rolex Submariner is a legendary dive watch with a rich history. Known for its durability and water resistance, it's a symbol of adventure and exploration.",
+        "descripcion": "El Rolex Submariner es un legendario reloj de buceo con una rica historia. Conocido por su durabilidad y resistencia al agua, simboliza la aventura y exploración.",
         "stock": "323",
         "inicio": "0"
     },
@@ -787,7 +787,7 @@
         "nombre": "Amazon Echo Plus",
         "precio": "264",
         "descuento": "10",
-        "descripcion": "The Amazon Echo Plus is a smart speaker with built-in Alexa voice control. It features premium sound quality and serves as a hub for controlling smart home devices.",
+        "descripcion": "El Amazon Echo Plus es un altavoz inteligente con control de voz Alexa integrado. Ofrece sonido de alta calidad y funciona como un centro de control para dispositivos inteligentes del hogar.",
         "stock": "193",
         "inicio": "1"
     },
@@ -795,7 +795,7 @@
         "nombre": "Apple Airpods",
         "precio": "216",
         "descuento": "31",
-        "descripcion": "The Apple Airpods offer a seamless wireless audio experience. With easy pairing, high-quality sound, and Siri integration, they are perfect for on-the-go listening.",
+        "descripcion": "Los Apple Airpods ofrecen una experiencia de audio inalámbrica perfecta. Con emparejamiento sencillo, sonido de alta calidad e integración con Siri, son ideales para escuchar en movimiento.",
         "stock": "181",
         "inicio": "0"
     }

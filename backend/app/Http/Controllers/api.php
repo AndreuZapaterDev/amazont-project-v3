@@ -194,7 +194,7 @@ class api extends Controller
 
     public function getImagenesId($id)
     {
-        $imagenes = imagenes::find($id);
+        $imagenes = imagenes::where('producto_id', $id)->get();
         if ($imagenes == null) {
             return response()->json([
                 "message" => "Imágenes no encontradas"
@@ -976,6 +976,9 @@ class api extends Controller
             ], 400);
         }
     }
+
+    //Métodos de pago
+    //Get, post, update y delete
 }
 
 
