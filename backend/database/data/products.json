@@ -2,7 +2,7 @@
     {
         "nombre": "Máscara de pestañas Essence Lash Princess",
         "precio": "392",
-        "descuento": "23",
+        "descuento": "0",
         "descripcion": "La máscara de pestañas Essence Lash Princess es una popular máscara conocida por sus efectos voluminizadores y alargadores. Consigue unas pestañas espectaculares con esta fórmula duradera y sin crueldad animal.",
         "stock": "454",
         "inicio": "1"
@@ -18,7 +18,7 @@
     {
         "nombre": "Bote de polvo",
         "precio": "355",
-        "descuento": "46",
+        "descuento": "0",
         "descripcion": "El Powder Canister es un polvo fijador finamente molido, diseñado para fijar el maquillaje y controlar el brillo. Con una fórmula ligera y translúcida, proporciona un acabado suave y mate.",
         "stock": "338",
         "inicio": "0"
@@ -34,7 +34,7 @@
     {
         "nombre": "Esmalte de uñas rojo",
         "precio": "440",
-        "descuento": "43",
+        "descuento": "0",
         "descripcion": "El esmalte de uñas rojo ofrece un tono rojo intenso y brillante para unas uñas vibrantes y pulidas. Con su fórmula de secado rápido, proporciona un acabado de salón en casa.",
         "stock": "719",
         "inicio": "1"
@@ -42,7 +42,7 @@
     {
         "nombre": "Calvin Klein CK One",
         "precio": "12",
-        "descuento": "14",
+        "descuento": "0",
         "descripcion": "CK One de Calvin Klein es una fragancia unisex de Clásica, conocida por su aroma fresco y limpio.Es una fragancia versátil adecuada para el uso diario.",
         "stock": "980",
         "inicio": "1"
@@ -50,7 +50,7 @@
     {
         "nombre": "Chanel Coco Noir Eau De",
         "precio": "83",
-        "descuento": "46",
+        "descuento": "0",
         "descripcion": "Coco Noir de Chanel es una fragancia elegante y misteriosa, con notas de toronja, rosa y sándalo.Perfecto para ocasiones nocturnas.",
         "stock": "692",
         "inicio": "1"
@@ -74,7 +74,7 @@
     {
         "nombre": "Gucci Bloom Eau de",
         "precio": "451",
-        "descuento": "23",
+        "descuento": "0",
         "descripcion": "Gucci Bloom de Gucci es una fragancia floral y cautivadora, con notas de tuberosos, jazmín y enredadera de rangoon.Es un aroma moderno y romántico.",
         "stock": "343",
         "inicio": "1"
@@ -90,7 +90,7 @@
     {
         "nombre": "Annibale Colombo Sofá",
         "precio": "73",
-        "descuento": "7",
+        "descuento": "0",
         "descripcion": "El sofá Annibale Colombo es una opción de asiento sofisticada y cómoda, con un diseño exquisito y tapicería premium para su sala de estar.",
         "stock": "448",
         "inicio": "1"
@@ -98,7 +98,7 @@
     {
         "nombre": "Mesita de noche cereza africana",
         "precio": "270",
-        "descuento": "20",
+        "descuento": "0",
         "descripcion": "La mesita de noche en la cereza africana es una adición elegante y funcional a su habitación, que proporciona espacio de almacenamiento conveniente y un toque de elegancia.",
         "stock": "391",
         "inicio": "0"
@@ -122,7 +122,7 @@
     {
         "nombre": "Manzana",
         "precio": "389",
-        "descuento": "31",
+        "descuento": "0",
         "descripcion": "Manzanas frescas y nítidas, perfectas para refrigerarse o incorporar en varias recetas.",
         "stock": "393",
         "inicio": "1"
@@ -130,7 +130,7 @@
     {
         "nombre": "Bistec de carne de ternera",
         "precio": "136",
-        "descuento": "7",
+        "descuento": "0",
         "descripcion": "High-quality beef steak, great for grilling or cooking to your preferred level of doneness.",
         "stock": "7",
         "inicio": "0"
@@ -162,7 +162,7 @@
     {
         "nombre": "Pepino",
         "precio": "357",
-        "descuento": "24",
+        "descuento": "0",
         "descripcion": "Pepinos crujientes e hidratantes, ideales para ensaladas, bocadillos o como un lado refrescante.",
         "stock": "676",
         "inicio": "1"
@@ -178,7 +178,7 @@
     {
         "nombre": "Huevos",
         "precio": "146",
-        "descuento": "38",
+        "descuento": "0",
         "descripcion": "Huevos frescos, un ingrediente versátil para hornear, cocinar o desayunar.",
         "stock": "729",
         "inicio": "0"
@@ -202,7 +202,7 @@
     {
         "nombre": "Chile verde",
         "precio": "261",
-        "descuento": "19",
+        "descuento": "0",
         "descripcion": "Chili de chile verde picante, ideal para agregar calor a sus recetas favoritas.",
         "stock": "502",
         "inicio": "0"
@@ -218,7 +218,7 @@
     {
         "nombre": "Helado",
         "precio": "45",
-        "descuento": "34",
+        "descuento": "0",
         "descripcion": "Helado cremoso y delicioso, disponible en varios sabores para una delicia.",
         "stock": "812",
         "inicio": "1"
@@ -242,7 +242,7 @@
     {
         "nombre": "Limón",
         "precio": "70",
-        "descuento": "38",
+        "descuento": "0",
         "descripcion": "Limones sabrosos y picantes, versátiles para cocinar, hornear o hacer bebidas refrescantes.",
         "stock": "890",
         "inicio": "0"
@@ -258,7 +258,7 @@
     {
         "nombre": "Mora",
         "precio": "152",
-        "descuento": "47",
+        "descuento": "0",
         "descripcion": "Moras dulces y jugosas, perfectas para bocadillos o agregando postres y cereales.",
         "stock": "321",
         "inicio": "1"
@@ -266,7 +266,7 @@
     {
         "nombre": "Café nescafé",
         "precio": "60",
-        "descuento": "27",
+        "descuento": "0",
         "descripcion": "Café de calidad de Nescafe, disponible en varias mezclas para una taza rica y satisfactoria.",
         "stock": "464",
         "inicio": "0"
@@ -274,7 +274,7 @@
     {
         "nombre": "Patatas",
         "precio": "432",
-        "descuento": "48",
+        "descuento": "0",
         "descripcion": "Patatas versátiles y almidonadas, ideales para asar, puré o como guarnición.",
         "stock": "131",
         "inicio": "1"
@@ -290,7 +290,7 @@
     {
         "nombre": "Cebolla roja",
         "precio": "278",
-        "descuento": "46",
+        "descuento": "0",
         "descripcion": "Cebollas rojas sabrosas y aromáticas, perfecta para agregar profundidad a sus sabrosos platos.",
         "stock": "308",
         "inicio": "0"
@@ -306,7 +306,7 @@
     {
         "nombre": "Refrescos",
         "precio": "308",
-        "descuento": "33",
+        "descuento": "0",
         "descripcion": "Refrescos variados en varios sabores, perfectos para refrescantes bebidas.",
         "stock": "745",
         "inicio": "1"
@@ -314,7 +314,7 @@
     {
         "nombre": "Fresa",
         "precio": "125",
-        "descuento": "13",
+        "descuento": "0",
         "descripcion": "Las fresas dulces y suculentas, ideales para bocadillos, postres o mezclando batidos.",
         "stock": "2",
         "inicio": "1"
@@ -322,7 +322,7 @@
     {
         "nombre": "Pañuelos de papel",
         "precio": "235",
-        "descuento": "22",
+        "descuento": "0",
         "descripcion": "Conveniente caja de pañuelos para el uso diario, proporcionando tejidos suaves y absorbentes.",
         "stock": "776",
         "inicio": "1"
@@ -346,7 +346,7 @@
     {
         "nombre": "Marco de fotos del árbol genealógico",
         "precio": "180",
-        "descuento": "42",
+        "descuento": "0",
         "descripcion": "El marco de fotos del árbol genealógico es una forma sentimental y elegante de mostrar sus preciados recuerdos familiares.Con múltiples espacios de fotos, cuenta la historia de sus seres queridos.",
         "stock": "863",
         "inicio": "0"
@@ -362,7 +362,7 @@
     {
         "nombre": "Maceta de planta",
         "precio": "77",
-        "descuento": "14",
+        "descuento": "0",
         "descripcion": "La maceta es un recipiente elegante para sus plantas favoritas.Con un diseño elegante, complementa su jardín interior o exterior, agregando un toque moderno a la pantalla de su planta.",
         "stock": "158",
         "inicio": "1"
@@ -378,7 +378,7 @@
     {
         "nombre": "Espátula de bambú",
         "precio": "482",
-        "descuento": "41",
+        "descuento": "0",
         "descripcion": "La espátula de bambú es una herramienta de cocina versátil hecha de bambú ecológico.Ideal para voltear, revolver y servir varios platos.",
         "stock": "550",
         "inicio": "1"
@@ -402,7 +402,7 @@
     {
         "nombre": "Licuadora en caja",
         "precio": "139",
-        "descuento": "11",
+        "descuento": "0",
         "descripcion": "La licuadora en caja es potente y compacta, perfecta para preparar batidos, smoothies y más. Su diseño conveniente y múltiples funciones la convierten en un electrodoméstico versátil.",
         "stock": "87",
         "inicio": "0"
@@ -426,7 +426,7 @@
     {
         "nombre": "Exprimidor de cítricos amarillo",
         "precio": "29",
-        "descuento": "32",
+        "descuento": "0",
         "descripcion": "El exprimidor de cítricos amarillo es una herramienta práctica para extraer jugo de frutas cítricas. Su color vibrante añade un toque alegre a tus utensilios de cocina.",
         "stock": "90",
         "inicio": "1"
@@ -434,7 +434,7 @@
     {
         "nombre": "Cortador de huevos",
         "precio": "121",
-        "descuento": "27",
+        "descuento": "0",
         "descripcion": "El cortador de huevos es una herramienta práctica para cortar huevos cocidos de manera uniforme. Perfecto para ensaladas, bocadillos y otros platos donde se desean huevos en rodajas.",
         "stock": "841",
         "inicio": "1"
@@ -450,7 +450,7 @@
     {
         "nombre": "Colador de malla fina",
         "precio": "468",
-        "descuento": "29",
+        "descuento": "0",
         "descripcion": "El colador de malla fina es una herramienta versátil para colar líquidos y tamizar ingredientes secos. Su malla fina garantiza un filtrado eficiente para una cocina y repostería perfectas.",
         "stock": "611",
         "inicio": "1"
@@ -466,7 +466,7 @@
     {
         "nombre": "Vaso de vidrio",
         "precio": "423",
-        "descuento": "45",
+        "descuento": "0",
         "descripcion": "El vaso de vidrio es un recipiente versátil y elegante, adecuado para una variedad de bebidas. Su diseño transparente permite apreciar los colores y texturas de las bebidas.",
         "stock": "609",
         "inicio": "0"
@@ -482,7 +482,7 @@
     {
         "nombre": "Batidora de mano",
         "precio": "119",
-        "descuento": "34",
+        "descuento": "0",
         "descripcion": "La batidora de mano es un electrodoméstico versátil para mezclar, triturar y batir. Su diseño compacto y motor potente la convierten en una herramienta cómoda para varias recetas.",
         "stock": "82",
         "inicio": "0"
@@ -498,7 +498,7 @@
     {
         "nombre": "Tamiz de cocina",
         "precio": "259",
-        "descuento": "30",
+        "descuento": "0",
         "descripcion": "El tamiz de cocina es una herramienta versátil para tamizar y colar ingredientes secos y húmedos. Su diseño de malla fina garantiza resultados suaves en cocina y repostería.",
         "stock": "219",
         "inicio": "0"
@@ -506,7 +506,7 @@
     {
         "nombre": "Cuchillo",
         "precio": "289",
-        "descuento": "36",
+        "descuento": "0",
         "descripcion": "El cuchillo es una herramienta esencial de cocina para picar, cortar y trocear. Su hoja afilada y mango ergonómico lo convierten en una opción confiable para preparar alimentos.",
         "stock": "803",
         "inicio": "0"
@@ -538,7 +538,7 @@
     {
         "nombre": "Sartén",
         "precio": "227",
-        "descuento": "29",
+        "descuento": "0",
         "descripcion": "La sartén es un utensilio de cocina versátil e indispensable para freír, saltear y cocinar diversos platos. Su revestimiento antiadherente facilita la cocción y la limpieza.",
         "stock": "78",
         "inicio": "1"
@@ -546,7 +546,7 @@
     {
         "nombre": "Plato",
         "precio": "201",
-        "descuento": "46",
+        "descuento": "0",
         "descripcion": "El plato es un elemento clásico y esencial para servir comidas. Su diseño duradero y elegante lo hace apto para el uso diario o para ocasiones especiales.",
         "stock": "937",
         "inicio": "1"
@@ -554,7 +554,7 @@
     {
         "nombre": "Pinzas rojas",
         "precio": "298",
-        "descuento": "39",
+        "descuento": "0",
         "descripcion": "Las pinzas rojas son versátiles para diversas tareas de cocina y servicio. Su color vibrante añade un toque de entusiasmo a tus utensilios de cocina.",
         "stock": "267",
         "inicio": "0"
@@ -570,7 +570,7 @@
     {
         "nombre": "Espátula ranurada",
         "precio": "322",
-        "descuento": "39",
+        "descuento": "0",
         "descripcion": "La espátula ranurada está diseñada para voltear y mover alimentos. Su diseño con ranuras permite drenar el exceso de líquidos, haciéndola ideal para freír y saltear.",
         "stock": "496",
         "inicio": "0"
@@ -578,7 +578,7 @@
     {
         "nombre": "Organizador de especias",
         "precio": "303",
-        "descuento": "37",
+        "descuento": "0",
         "descripcion": "El organizador de especias es una solución práctica para tener tus especias y condimentos organizados. Mantén tus ingredientes esenciales siempre a mano y bien ordenados.",
         "stock": "384",
         "inicio": "1"
@@ -594,7 +594,7 @@
     {
         "nombre": "Bandeja",
         "precio": "376",
-        "descuento": "44",
+        "descuento": "0",
         "descripcion": "La bandeja es un elemento funcional y decorativo para servir bocadillos, aperitivos o bebidas. Su diseño elegante la convierte en un accesorio versátil para recibir invitados.",
         "stock": "483",
         "inicio": "1"
@@ -602,7 +602,7 @@
     {
         "nombre": "Rodillo de madera",
         "precio": "191",
-        "descuento": "33",
+        "descuento": "0",
         "descripcion": "El rodillo de madera es una herramienta clásica de cocina para extender masas en repostería. Su superficie lisa y asas robustas facilitan conseguir un grosor uniforme.",
         "stock": "442",
         "inicio": "1"
@@ -618,7 +618,7 @@
     {
         "nombre": "Apple MacBook Pro 14 Pulgadas Gris Espacial",
         "precio": "369",
-        "descuento": "46",
+        "descuento": "0",
         "descripcion": "El MacBook Pro de 14 pulgadas en color gris espacial es un portátil potente y elegante, que cuenta con el chip M1 Pro de Apple para un rendimiento excepcional y una impresionante pantalla Retina.",
         "stock": "636",
         "inicio": "0"
@@ -634,7 +634,7 @@
     {
         "nombre": "Huawei Matebook X Pro",
         "precio": "122",
-        "descuento": "28",
+        "descuento": "0",
         "descripcion": "El Huawei Matebook X Pro es un portátil delgado y elegante con pantalla táctil de alta resolución, ofreciendo una experiencia premium para usuarios en movimiento.",
         "stock": "842",
         "inicio": "0"
@@ -650,7 +650,7 @@
     {
         "nombre": "Nuevo Portátil DELL XPS 13 9300",
         "precio": "236",
-        "descuento": "25",
+        "descuento": "0",
         "descripcion": "El nuevo portátil DELL XPS 13 9300 es un dispositivo compacto y potente, con pantalla InfinityEdge casi sin bordes y alto rendimiento para diversas tareas.",
         "stock": "723",
         "inicio": "0"
@@ -666,7 +666,7 @@
     {
         "nombre": "Camiseta Gigabyte Aorus para hombre",
         "precio": "122",
-        "descuento": "10",
+        "descuento": "0",
         "descripcion": "La camiseta Gigabyte Aorus para hombre es una prenda casual y moderna para entusiastas de los videojuegos. Con el logo de Aorus y un diseño elegante, es perfecta para mostrar tu estilo gamer.",
         "stock": "851",
         "inicio": "1"
@@ -690,7 +690,7 @@
     {
         "nombre": "Camisa de cuadros para hombre",
         "precio": "487",
-        "descuento": "9",
+        "descuento": "0",
         "descripcion": "La camisa de cuadros para hombre es una prenda clásica y versátil con un diseño de cuadros elegante. Ideal para diversas ocasiones, aporta un toque refinado a tu vestimenta.",
         "stock": "413",
         "inicio": "1"
@@ -698,7 +698,7 @@
     {
         "nombre": "Nike Air Jordan 1 Rojo y Negro",
         "precio": "132",
-        "descuento": "19",
+        "descuento": "0",
         "descripcion": "Las Nike Air Jordan 1 en rojo y negro son unas zapatillas de baloncesto icónicas conocidas por su diseño elegante y características de alto rendimiento, favoritas entre aficionados y atletas.",
         "stock": "984",
         "inicio": "1"
@@ -706,7 +706,7 @@
     {
         "nombre": "Tacos de béisbol Nike",
         "precio": "12",
-        "descuento": "28",
+        "descuento": "0",
         "descripcion": "Los tacos de béisbol Nike están diseñados para ofrecer máxima tracción y rendimiento en el campo. Brindan estabilidad y soporte durante los partidos y entrenamientos.",
         "stock": "248",
         "inicio": "0"
@@ -730,7 +730,7 @@
     {
         "nombre": "Zapatillas deportivas blanco roto y rojo (variante)",
         "precio": "368",
-        "descuento": "33",
+        "descuento": "0",
         "descripcion": "Otra variante de las zapatillas deportivas en blanco roto y rojo, con un diseño único. Ofrecen estilo y comodidad para ocasiones casuales.",
         "stock": "788",
         "inicio": "0"
@@ -746,7 +746,7 @@
     {
         "nombre": "Longines Master Collection",
         "precio": "201",
-        "descuento": "36",
+        "descuento": "0",
         "descripcion": "La colección Master de Longines es una línea de relojes elegantes y refinados, conocidos por su precisión y artesanía. Con un diseño atemporal, simboliza lujo y sofisticación.",
         "stock": "795",
         "inicio": "1"
@@ -762,7 +762,7 @@
     {
         "nombre": "Rolex Cellini Moonphase",
         "precio": "126",
-        "descuento": "29",
+        "descuento": "0",
         "descripcion": "El Rolex Cellini Moonphase es una obra maestra de la relojería, con complicación de fases lunares y un diseño exquisito. Refleja el compromiso de Rolex con la precisión y la elegancia.",
         "stock": "480",
         "inicio": "0"
@@ -778,7 +778,7 @@
     {
         "nombre": "Rolex Submariner",
         "precio": "30",
-        "descuento": "37",
+        "descuento": "0",
         "descripcion": "El Rolex Submariner es un legendario reloj de buceo con una rica historia. Conocido por su durabilidad y resistencia al agua, simboliza la aventura y exploración.",
         "stock": "323",
         "inicio": "0"
@@ -794,7 +794,7 @@
     {
         "nombre": "Apple Airpods",
         "precio": "216",
-        "descuento": "31",
+        "descuento": "0",
         "descripcion": "Los Apple Airpods ofrecen una experiencia de audio inalámbrica perfecta. Con emparejamiento sencillo, sonido de alta calidad e integración con Siri, son ideales para escuchar en movimiento.",
         "stock": "181",
         "inicio": "0"

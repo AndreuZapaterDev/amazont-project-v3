@@ -1,0 +1,37 @@
+[
+    {
+        "nombre": "Electrónica",
+        "inicio": false,
+        "icono": "fi fi-br-computer"
+    },
+    {
+        "nombre": "Hogar y decoración",
+        "inicio": true,
+        "icono": "fi-br-home"
+    },
+    {
+        "nombre": "Cocina y electrodomésticos",
+        "inicio": false,
+        "icono": "fi-br-utensils"
+    },
+    {
+        "nombre": "Belleza y cuida personal",
+        "inicio": true,
+        "icono": "fi-br-medicine"
+    },
+    {
+        "nombre": "Moda",
+        "inicio": false,
+        "icono": "fi-br-tshirt"
+    },
+    {
+        "nombre": "Supermercado y alimentación",
+        "inicio": true,
+        "icono": "fi-br-restaurant"
+    },
+    {
+        "nombre": "Mascotas",
+        "inicio": false,
+        "icono": "fi-br-paw"
+    }
+]
