@@ -1,5 +1,6 @@
 <?php
 namespace Database\Seeders;
+
 use App\Models\User;
 use App\Models\perfil_usuario;
 use Illuminate\Database\Seeder;
@@ -35,6 +36,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategoriaSeeder::class);
 
-
+        $this->call(ProductoCategoriasSeeder::class);
     }
 }
