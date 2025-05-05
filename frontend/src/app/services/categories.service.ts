@@ -12,4 +12,18 @@ export class CategoriesService {
   getCategories(): Observable<any> {
     return this.http.get(`${this.apiPath}/api/categorias`);
   }
+
+  getCategoryById(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/categoria/${id}`);
+  }
+
+  getProductoCategorias(): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/producto_categorias`);
+  }
+
+  getProductosCategoriasId(product_id: number): Observable<any> {
+    return this.http.get(
+      `${this.apiPath}/api/producto_categoria/${product_id}`
+    );
+  }
 }

@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../services/product.service';
+import { CategoriesService } from '../services/categories.service';
 import { Product, Review } from '../interfaces/product.interface';
 import { ProductsComponent } from '../products/products.component';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-detail',
@@ -36,6 +38,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
+    private categoriesService: CategoriesService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -58,9 +61,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.routeSub.unsubscribe();
     }
   }
-  getProductImages(id: number) {
-    return this.productService.getProductImages(id);
-  }
 
   // Carga todos los detalles del producto y configura el estado inicial de la vista
   loadProductDetails() {
@@ -68,31 +68,35 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       next: (data: any) => {
         this.product = data;
 
-        // Cargar imágenes del producto
-        this.getProductImages(this.product.id).subscribe((images: any) => {
-          this.product.images = images || [];
+        // No need to call getProductImages separately as images now come with the API response
+        if (this.product.images && this.product.images.length > 0) {
+          // Asigna la primera imagen como principal
+          this.mainImage = this.product.images[0].url;
+          this.productImages = this.product.images.map((img: any) => img.url);
+        } else {
+          // Si no hay imágenes, usar imágenes por defecto
+          this.mainImage = '/images/default.jpg';
+          this.productImages = [
+            '/images/default.jpg',
+            '/images/test1.jpg',
+            '/images/test2.jpg',
+          ];
+        }
 
-          if (this.product.images.length > 0) {
-            // Asigna la primera imagen como principal
-            this.mainImage = this.product.images[0].url;
-            this.productImages = this.product.images.map((img: any) => img.url);
-          } else {
-            // Si no hay imágenes, usar imágenes por defecto
-            this.mainImage = '/images/default.jpg';
-            this.productImages = [
-              '/images/default.jpg',
-              '/images/test1.jpg',
-              '/images/test2.jpg',
-            ];
-          }
-
-          console.log('Imágenes del producto:', this.productImages);
-        });
-
+        console.log('Imágenes del producto:', this.productImages);
         console.log('Producto cargado:', this.product);
 
-        this.reviews = this.product.reviews || [];
-        this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
+        // Get reviews from API if available, or use empty array
+        this.productService.getProductReviews(this.productId).subscribe({
+          next: (reviews: any) => {
+            this.reviews = reviews || [];
+            this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
+          },
+          error: () => {
+            this.reviews = [];
+            this.visibleReviews = [];
+          },
+        });
 
         this.activeImageIndex = 0;
         this.generateStars();
@@ -131,12 +135,55 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   // Carga productos de la misma categoría para mostrar como recomendaciones (Maximo 4 productos muestra)
   loadRelatedProducts() {
-    const allProducts = this.productService.getProducts();
-    this.relatedProducts = allProducts
-      .filter(
-        (p) => p.category === this.product.category && p.id !== this.product.id
+    // Get product categories for this product
+    this.categoriesService
+      .getProductosCategoriasId(this.productId)
+      .pipe(
+        switchMap((productCategories: any) => {
+          if (!productCategories || productCategories.length === 0) {
+            return of([]);
+          }
+
+          // Get all products
+          return this.productService
+            .getAPIproducts()
+            .pipe(catchError(() => of([])));
+        })
       )
-      .slice(0, 4); // maximo 4 productos
+      .subscribe({
+        next: (allProducts: any) => {
+          if (!allProducts || allProducts.length === 0) {
+            this.relatedProducts = [];
+            return;
+          }
+
+          // Filter by category and exclude current product
+          const filtered = allProducts.filter(
+            (p: any) => p.id !== this.productId
+          );
+
+          // Take up to 4 products
+          this.relatedProducts = filtered.slice(0, 4).map((p: any) => ({
+            id: p.id,
+            name: p.nombre,
+            url:
+              p.imagen_url ||
+              (p.images && p.images.length > 0
+                ? p.images[0].url
+                : 'assets/placeholder.png'),
+            price: p.precio,
+            stars: p.calificacion || 0,
+            category: p.categoria || '',
+            description: p.descripcion || '',
+            stock: p.stock || 0,
+            discount: p.descuento || 0,
+            images: p.images || [],
+          }));
+        },
+        error: () => {
+          this.relatedProducts = [];
+        },
+      });
   }
 
   // Navega a otro producto cuando se hace clic en las recomendaciones
@@ -146,16 +193,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   // Genera la valoración con estrellas
   generateStars() {
-    this.numberStars = '⭐'.repeat(this.product.stars ?? 0);
+    const stars = this.product.calificacion || this.product.stars || 0;
+    this.numberStars = '⭐'.repeat(stars);
   }
 
   // Calcula el precio final después de aplicar el descuento
   calculateDiscountedPrice() {
-    if (this.product.discount) {
-      this.discountedPrice =
-        this.product.price - (this.product.price * this.product.discount) / 100;
+    const price = this.product.precio || this.product.price || 0;
+    const discount = this.product.descuento || this.product.discount || 0;
+
+    if (discount) {
+      this.discountedPrice = price - (price * discount) / 100;
     } else {
-      this.discountedPrice = this.product.price;
+      this.discountedPrice = price;
     }
   }
 

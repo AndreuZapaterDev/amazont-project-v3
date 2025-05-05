@@ -11,19 +11,6 @@ import { CategoriesService } from '../services/categories.service';
   styleUrl: './categories.component.css',
 })
 export class CategoriesComponent implements OnInit {
-  // This will be a backup in case the API fails
-  fallbackCategories: Category[] = [
-    { id: 1, name: 'Electrónica', category: 'electronic' },
-    { id: 2, name: 'Ropa', category: 'clothes' },
-    { id: 3, name: 'Libros', category: 'books' },
-    { id: 4, name: 'Hogar', category: 'home' },
-    { id: 5, name: 'Juguetes', category: 'toys' },
-    { id: 6, name: 'Deportes', category: 'sports' },
-    { id: 7, name: 'Cocina', category: 'kitchen' },
-    { id: 8, name: 'Droguería', category: 'drugs' },
-    { id: 9, name: 'Juegos', category: 'games' },
-  ];
-
   categories: Category[] = [];
   visibleCategories: Category[] = [];
   currentIndex = 0;
@@ -47,8 +34,8 @@ export class CategoriesComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error fetching categories:', error);
-        // Use fallback categories if API fails
-        this.categories = this.fallbackCategories;
+        // Instead of using fallback, just show an empty state
+        this.categories = [];
         this.updateVisibleCategories();
       },
     });

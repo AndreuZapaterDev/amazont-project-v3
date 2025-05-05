@@ -11,16 +11,15 @@ export interface Review {
 export interface Product {
   id: number;
   name: string;
+  url?: string;
   price: number;
-  stars?: number;
-  url: string;
+  stars: number;
   category: string;
-  discount?: number;
   description?: string;
-  features?: string[];
-  reviews?: Review[];
   stock?: number;
-  additionalImages?: string[];
+  discount?: number;
+  reviews?: Review[];
+  images?: any[]; // Add support for images array
 }
 
 export interface CartItem extends Product {

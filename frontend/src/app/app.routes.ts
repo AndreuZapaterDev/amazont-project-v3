@@ -18,7 +18,6 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
-      
       {
         path: '',
         component: GeneralComponent,
@@ -27,7 +26,7 @@ export const routes: Routes = [
         path: 'categories',
         component: CategoriesComponent,
         children: [
-          { path: '', redirectTo: 'clothes', pathMatch: 'full' },
+          { path: '', redirectTo: '1', pathMatch: 'full' }, // Default to first category
           {
             path: ':name',
             component: CategoryComponent,
@@ -37,7 +36,7 @@ export const routes: Routes = [
       { path: 'product/:id', component: ProductDetailComponent },
       { path: 'cart', component: ShoppingCartComponent },
       { path: 'checkout', component: PaymentProcessComponent },
-      { path: 'payment-process', component: PaymentProcessComponent }
+      { path: 'payment-process', component: PaymentProcessComponent },
     ],
   },
   { path: 'offers', component: OffersComponent },

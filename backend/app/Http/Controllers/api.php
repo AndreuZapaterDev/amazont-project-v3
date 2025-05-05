@@ -144,7 +144,7 @@ class api extends Controller
 
     public function getProductoCategoriasId($id)
     {
-        $productoCategorias = productoCategorias::find($id);
+        $productoCategorias = productoCategorias::where('producto_id', $id)->get();
         if ($productoCategorias == null) {
             return response()->json([
                 "message" => "Producto Categorías no encontradas"
@@ -297,7 +297,7 @@ class api extends Controller
         $perfil_usuario->direccion = $request->direccion;
         $perfil_usuario->telefono = $request->telefono;
         $perfil_usuario->genero = $request->genero;
-        if($request->imagen_usuario){
+        if ($request->imagen_usuario) {
             $perfil_usuario->imagen_usuario = $request->imagen_usuario;
         }
 
@@ -765,19 +765,19 @@ class api extends Controller
             ], 404);
         }
 
-        if($request->carrito_id){
+        if ($request->carrito_id) {
             $productos_carrito->carrito_id = $request->carrito_id;
         }
 
-        if($request->producto_id){
+        if ($request->producto_id) {
             $productos_carrito->producto_id = $request->producto_id;
         }
 
-        if($request->cantidad){
+        if ($request->cantidad) {
             $productos_carrito->cantidad = $request->cantidad;
         }
 
-        if($request->precio){
+        if ($request->precio) {
             $productos_carrito->precio = $request->precio;
         }
 
@@ -980,5 +980,3 @@ class api extends Controller
     //Métodos de pago
     //Get, post, update y delete
 }
-
-

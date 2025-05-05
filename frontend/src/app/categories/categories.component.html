@@ -8,19 +8,18 @@
 
       <div class="categories-slider">
         @for(category of visibleCategories; track category.id) {
-          <a class="category-link" 
-             [routerLink]="['/home/categories', category.category]"
-             [class.active]="isCategoryActive(category.category)">
-            
-            <div class="category-icon">
-              <i [class]="getCategoryIcon(category.category)"></i>
-              <div class="icon-bg"></div>
-            </div>
-            <span class="category-name">{{ category.name }}</span>
-            @if(isCategoryActive(category.category)) {
-              <div class="active-indicator"></div>
-            }
-          </a>
+        <a class="category-link" [routerLink]="['/home/categories', category.id]"
+          [class.active]="isCategoryActive(category.category)">
+
+          <div class="category-icon">
+            <i [class]="getCategoryIcon(category.category)"></i>
+            <div class="icon-bg"></div>
+          </div>
+          <span class="category-name">{{ category.name }}</span>
+          @if(isCategoryActive(category.category)) {
+          <div class="active-indicator"></div>
+          }
+        </a>
         }
       </div>
 

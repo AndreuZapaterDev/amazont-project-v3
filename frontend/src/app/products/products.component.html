@@ -1,7 +1,7 @@
-@if(product().descuento){
+@if(product().descuento || product().discount){
 <div class="product-card" (click)="navigateToProduct(product())">
   <!-- Badge de descuento -->
-  <div class="product-badge discount">-{{ product().descuento }}%</div>
+  <div class="product-badge discount">-{{ product().descuento || product().discount }}%</div>
 
   <!-- Opciones rápidas (aparecen al hacer hover) -->
   <div class="quick-actions">
@@ -15,11 +15,7 @@
 
   <!-- Imagen del producto -->
   <div class="product-image-container">
-    <img
-      class="product-image"
-      [src]="getProductImage()"
-      [alt]="product().nombre"
-    />
+    <img class="product-image" [src]="getProductImage()" [alt]="product().nombre || product().name" />
   </div>
 
   <!-- Información del producto -->
@@ -27,7 +23,7 @@
     <div class="product-category">
       {{ getCategoryName(product().category) }}
     </div>
-    <h3 class="product-name">{{ product().nombre }}</h3>
+    <h3 class="product-name">{{ product().nombre || product().name }}</h3>
     <div class="product-rating">
       {{ numberStars }}
       <span class="rating-count">({{ getRatingCount() }})</span>
@@ -35,7 +31,7 @@
 
     <!-- Precios -->
     <div class="product-price-container">
-      <span class="product-price-original">{{ product().precio }}€</span>
+      <span class="product-price-original">{{ getProductPrice() }}€</span>
       <span class="product-price-discounted">{{ discountedPrice }}€</span>
     </div>
 
@@ -65,11 +61,7 @@
 
   <!-- Imagen del producto -->
   <div class="product-image-container">
-    <img
-      class="product-image"
-      [src]="getProductImage()"
-      [alt]="product().nombre"
-    />
+    <img class="product-image" [src]="getProductImage()" [alt]="product().nombre || product().name" />
     <!-- Badge para productos nuevos (menos de 30 días) -->
     @if(isNewProduct()) {
     <div class="product-badge new">Nuevo</div>
@@ -81,7 +73,7 @@
     <div class="product-category">
       {{ getCategoryName(product().category) }}
     </div>
-    <h3 class="product-name">{{ product().nombre }}</h3>
+    <h3 class="product-name">{{ product().nombre || product().name }}</h3>
     <div class="product-rating">
       {{ numberStars }}
       <span class="rating-count">({{ getRatingCount() }})</span>
@@ -89,7 +81,7 @@
 
     <!-- Precio -->
     <div class="product-price-container">
-      <span class="product-price-regular">{{ product().precio }}€</span>
+      <span class="product-price-regular">{{ getProductPrice() }}€</span>
     </div>
 
     <!-- Información de envío -->
