@@ -13,6 +13,7 @@ use App\Models\valoraciones;
 use App\Models\caracteristicas;
 use App\Models\productos_carrito;
 use App\Models\carrito;
+use App\Models\metodos_pago; // Add this import for the payments model
 use Illuminate\Support\Facades\Hash;
 
 //Perfil de usuario
@@ -169,7 +170,7 @@ class api extends Controller
 
     public function getValoracionesId($id)
     {
-        $valoraciones = valoraciones::find($id);
+        $valoraciones = valoraciones::where('producto_id', $id)->get();
         if ($valoraciones == null) {
             return response()->json([
                 "message" => "Valoraciones no encontradas"
@@ -219,7 +220,7 @@ class api extends Controller
 
     public function getCaracteristicasId($id)
     {
-        $caracteristicas = caracteristicas::find($id);
+        $caracteristicas = caracteristicas::where('producto_id', $id)->get();
         if ($caracteristicas == null) {
             return response()->json([
                 "message" => "Características no encontradas"
@@ -979,4 +980,133 @@ class api extends Controller
 
     //Métodos de pago
     //Get, post, update y delete
+    public function getMetodosPago()
+    {
+        $metodos_pago = metodos_pago::all();
+        if ($metodos_pago->isEmpty()) {
+            return response()->json([
+                "message" => "Métodos de pago no encontrados"
+            ], 404);
+        }
+
+        return response()->json($metodos_pago, 200);
+    }
+
+    public function getMetodosPagoId($id)
+    {
+        $metodo_pago = metodos_pago::find($id);
+
+        if ($metodo_pago == null) {
+            return response()->json([
+                "message" => "Método de pago no encontrado"
+            ], 404);
+        }
+
+        return response()->json($metodo_pago, 200);
+    }
+
+    public function postMetodoPago(Request $request)
+    {
+        if ($request->user_id == null || $request->nombre == null || $request->tarjeta == null ||
+            $request->caducidad == null || $request->cvv == null) {
+            return response()->json([
+                "message" => "Error, el método de pago debe tener user_id, nombre, tarjeta, caducidad y cvv"
+            ], 400);
+        }
+
+        // Check if the card number already exists
+        $existingCard = metodos_pago::where('tarjeta', $request->tarjeta)->first();
+        if ($existingCard) {
+            return response()->json([
+                "message" => "Error, ya existe un método de pago con esta tarjeta"
+            ], 400);
+        }
+
+        $metodo_pago = new metodos_pago;
+        $metodo_pago->user_id = $request->user_id;
+        $metodo_pago->nombre = $request->nombre;
+        $metodo_pago->tarjeta = $request->tarjeta;
+        $metodo_pago->caducidad = $request->caducidad;
+        $metodo_pago->cvv = $request->cvv;
+
+        $metodo_pago->save();
+        return response()->json([
+            "message" => "Método de pago creado",
+            "metodo_pago" => $metodo_pago
+        ], 201);
+    }
+
+    public function putMetodoPago(Request $request, $id)
+    {
+        $metodo_pago = metodos_pago::where('id', $id)
+                      ->where(function($query) {
+                          $query->where('eliminado', false)->orWhereNull('eliminado');
+                      })->first();
+
+        if ($metodo_pago == null) {
+            return response()->json([
+                "message" => "Método de pago no encontrado"
+            ], 404);
+        }
+
+        if ($request->user_id != null) {
+            $metodo_pago->user_id = $request->user_id;
+        }
+
+        if ($request->nombre != null) {
+            $metodo_pago->nombre = $request->nombre;
+        }
+
+        if ($request->tarjeta != null) {
+            // Check if the new card number already exists (except for this record)
+            $existingCard = metodos_pago::where('tarjeta', $request->tarjeta)
+                              ->where('id', '!=', $id)
+                              ->where(function($query) {
+                                  $query->where('eliminado', false)->orWhereNull('eliminado');
+                              })
+                              ->first();
+            if ($existingCard) {
+                return response()->json([
+                    "message" => "Error, ya existe un método de pago con esta tarjeta"
+                ], 400);
+            }
+            $metodo_pago->tarjeta = $request->tarjeta;
+        }
+
+        if ($request->caducidad != null) {
+            $metodo_pago->caducidad = $request->caducidad;
+        }
+
+        if ($request->cvv != null) {
+            $metodo_pago->cvv = $request->cvv;
+        }
+
+        $metodo_pago->save();
+        return response()->json([
+            "message" => "Método de pago actualizado",
+            "metodo_pago" => $metodo_pago
+        ], 200);
+    }
+
+    public function deleteMetodoPago($id)
+    {
+        $metodo_pago = metodos_pago::where('id', $id)
+                      ->where(function($query) {
+                          $query->where('eliminado', false)->orWhereNull('eliminado');
+                      })->first();
+
+        if ($metodo_pago == null) {
+            return response()->json([
+                "message" => "Método de pago no encontrado"
+            ], 404);
+        }
+
+        // Logical deletion instead of physical deletion
+        $metodo_pago->eliminado = true;
+        $metodo_pago->save();
+
+        return response()->json([
+            "message" => "Método de pago eliminado"
+        ], 200);
+    }
 }

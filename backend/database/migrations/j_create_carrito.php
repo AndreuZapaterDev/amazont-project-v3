@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('metodos_pago', function (Blueprint $table) {
+        Schema::create('carrito', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('nombre');
-            $table->string('tarjeta')->unique();
-            $table->string('caducidad');
-            $table->string('cvv');
+            $table->float('total');
+            $table->datetime('fecha_pago')->nullable();
+            $table->boolean('acabado')->nullable()->default(false);
+            $table->foreignId('metodo_pago_id')->constrained('metodos_pago');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('metodos_pago');
+        Schema::dropIfExists('carrito');
     }
 };

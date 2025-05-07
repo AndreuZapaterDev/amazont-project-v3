@@ -8,11 +8,12 @@ import { Product, Review } from '../interfaces/product.interface';
 import { ProductsComponent } from '../products/products.component';
 import { Subscription, forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProductsComponent],
+  imports: [CommonModule, FormsModule, ProductsComponent, CurrencyPipe],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css',
 })
@@ -46,7 +47,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // Inicializa el componente y se suscribe a cambios en la URL
   // para cargar el producto correspondiente cuando cambia el parámetro id de la URL
   ngOnInit() {
-    this.routeSub = this.route.paramMap.subscribe((params) => {
+    this.routeSub = this.route.paramMap.subscribe((params: any) => {
       const idParam = params.get('id');
       if (idParam) {
         this.productId = Number(idParam);
@@ -67,42 +68,47 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.productService.getAPIproduct(this.productId).subscribe({
       next: (data: any) => {
         this.product = data;
-
-        // No need to call getProductImages separately as images now come with the API response
-        if (this.product.images && this.product.images.length > 0) {
-          // Asigna la primera imagen como principal
-          this.mainImage = this.product.images[0].url;
-          this.productImages = this.product.images.map((img: any) => img.url);
-        } else {
-          // Si no hay imágenes, usar imágenes por defecto
-          this.mainImage = '/images/default.jpg';
-          this.productImages = [
-            '/images/default.jpg',
-            '/images/test1.jpg',
-            '/images/test2.jpg',
-          ];
-        }
-
-        console.log('Imágenes del producto:', this.productImages);
         console.log('Producto cargado:', this.product);
 
-        // Get reviews from API if available, or use empty array
+        // Cargar imágenes del producto
+        this.productService.getProductImages(this.productId).subscribe({
+          next: (images: any[]) => {
+            console.log('Imágenes del producto:', images);
+            // Extrae las URLs de los objetos
+            this.productImages = (images || []).map((img) => img.url);
+            this.mainImage =
+              this.productImages.length > 0
+                ? this.productImages[0]
+                : 'assets/placeholder.png';
+          },
+          error: () => {
+            this.productImages = [];
+            this.mainImage = 'assets/placeholder.png';
+          },
+        });
+
+        // Cargar reseñas del producto
         this.productService.getProductReviews(this.productId).subscribe({
           next: (reviews: any) => {
+            console.log('Reseñas del producto:', reviews);
             this.reviews = reviews || [];
             this.visibleReviews = this.reviews.slice(0, this.maxInitialReviews);
+            // Call generateStars after reviews are loaded
+            this.generateStars();
           },
           error: () => {
             this.reviews = [];
             this.visibleReviews = [];
+            this.generateStars();
           },
         });
 
         this.activeImageIndex = 0;
-        this.generateStars();
+        // Remove this call as it will be called after reviews are loaded
+        // this.generateStars();
         this.calculateDiscountedPrice();
         this.loadRelatedProducts();
-
+        this.loadCharacteristics();
         this.quantity = 1;
         this.activeTab = 'description';
         this.showingAllReviews = false;
@@ -110,6 +116,21 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         console.error('Error al cargar el producto:', err);
+      },
+    });
+  }
+
+  loadCharacteristics() {
+    this.productService.getProductCharacteristics(this.productId).subscribe({
+      next: (data: any) => {
+        this.product.characteristics = data || [];
+        console.log(
+          'Características del producto:',
+          this.product.characteristics
+        );
+      },
+      error: () => {
+        this.product.characteristics = [];
       },
     });
   }
@@ -135,7 +156,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   // Carga productos de la misma categoría para mostrar como recomendaciones (Maximo 4 productos muestra)
   loadRelatedProducts() {
-    // Get product categories for this product
+    //TODO: Arreglar esta funcion para que seleccione productos de la misma categoria
     this.categoriesService
       .getProductosCategoriasId(this.productId)
       .pipe(
@@ -163,22 +184,42 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           );
 
           // Take up to 4 products
-          this.relatedProducts = filtered.slice(0, 4).map((p: any) => ({
+          const relatedProductsData = filtered.slice(0, 4).map((p: any) => ({
             id: p.id,
             name: p.nombre,
-            url:
-              p.imagen_url ||
-              (p.images && p.images.length > 0
-                ? p.images[0].url
-                : 'assets/placeholder.png'),
+            url: p.imagen_url || 'assets/placeholder.png', // Default image URL
             price: p.precio,
             stars: p.calificacion || 0,
             category: p.categoria || '',
             description: p.descripcion || '',
             stock: p.stock || 0,
             discount: p.descuento || 0,
-            images: p.images || [],
+            images: [], // Initialize with empty images array
           }));
+
+          // Set related products initially with default values
+          this.relatedProducts = relatedProductsData;
+
+          // Fetch images for each related product
+          relatedProductsData.forEach((product: any, index: any) => {
+            this.productService.getProductImages(product.id).subscribe({
+              next: (images: any[]) => {
+                if (images && images.length > 0) {
+                  // Update the product with images data
+                  this.relatedProducts[index].images = images;
+                  // Update the main display URL to the first image
+                  this.relatedProducts[index].url = images[0].url;
+                }
+              },
+              error: (err: any) => {
+                console.error(
+                  `Error loading images for related product ${product.id}:`,
+                  err
+                );
+                // Keep default image URL on error
+              },
+            });
+          });
         },
         error: () => {
           this.relatedProducts = [];
@@ -191,10 +232,38 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/home/product', product.id]);
   }
 
-  // Genera la valoración con estrellas
+  // Genera la valoración con estrellas basada en el promedio de las puntuaciones de las reseñas
   generateStars() {
-    const stars = this.product.calificacion || this.product.stars || 0;
-    this.numberStars = '⭐'.repeat(stars);
+    console.log('Running generateStars with reviews:', this.reviews);
+
+    if (this.reviews && this.reviews.length > 0) {
+      // Calcular el promedio de puntuación de todas las reseñas
+      const totalScore = this.reviews.reduce((sum, review) => {
+        console.log('Adding review score:', review.puntuacion);
+        return sum + (review.puntuacion || 0);
+      }, 0);
+
+      console.log(
+        'Total score:',
+        totalScore,
+        'Number of reviews:',
+        this.reviews.length
+      );
+      const averageRating = Math.floor(totalScore / this.reviews.length);
+      console.log('Average rating (floored):', averageRating);
+
+      // Ensure we have at least 1 star if there are reviews with positive ratings
+      const starsToShow =
+        averageRating > 0 ? averageRating : totalScore > 0 ? 1 : 0;
+      this.numberStars = '⭐'.repeat(starsToShow);
+      console.log('Generated stars:', this.numberStars);
+    } else {
+      // Si no hay reseñas, usar la calificación del producto si existe
+      const stars = this.product.calificacion || this.product.stars || 0;
+      console.log('Using product rating:', stars);
+      this.numberStars = '⭐'.repeat(Math.floor(stars));
+      console.log('Generated stars from product rating:', this.numberStars);
+    }
   }
 
   // Calcula el precio final después de aplicar el descuento
@@ -244,8 +313,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (stats.total > 0) {
       let sum = 0;
       this.reviews.forEach((review) => {
-        sum += review.rating;
-        stats.distribution[review.rating - 1]++;
+        sum += review.puntuacion;
+        stats.distribution[review.puntuacion - 1]++;
       });
       stats.average = Math.round((sum / stats.total) * 10) / 10;
     }

@@ -1,0 +1,26 @@
+[
+    {
+        "email": "admin@admin.com",
+        "password": "admin",
+        "rol": 1,
+        "perfil_usuario_id": 1
+    },
+    {
+        "email": "test@test.com",
+        "password": "test",
+        "rol": 1,
+        "perfil_usuario_id": 2
+    },
+    {
+        "email": "peter@peter.com",
+        "password": "peter",
+        "rol": 1,
+        "perfil_usuario_id": 3
+    },
+    {
+        "email": "parker@parker.com",
+        "password": "peter",
+        "rol": 1,
+        "perfil_usuario_id": 4
+    }
+]

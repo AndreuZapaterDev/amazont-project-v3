@@ -75,6 +75,12 @@ Route::post('/producto_carrito', [api::class, 'postProductosCarrito']);
 Route::put('/producto_carrito/{id}', [api::class, 'putProductosCarrito']);
 Route::delete('/producto_carrito/{id}', [api::class, 'deleteProductosCarrito']);
 
+//Métodos de pago
+Route::get('/metodos_pago', [api::class, 'getMetodosPago']);
+Route::get('/metodo_pago/{id}', [api::class, 'getMetodosPagoId']);
+Route::post('/metodo_pago', [api::class, 'postMetodoPago']);
+Route::put('/metodo_pago/{id}', [api::class, 'putMetodoPago']);
+Route::put('/delete/metodo_pago/{id}', [api::class, 'deleteMetodoPago']);
 
 //Login
 Route::post('/login', [api::class, 'login']);

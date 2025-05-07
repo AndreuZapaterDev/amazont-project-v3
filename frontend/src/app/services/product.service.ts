@@ -73,11 +73,10 @@ export class ProductService {
 
   // Method to get product reviews from API
   getProductReviews(productId: number): Observable<any> {
-    return this.http.get(`${this.apiPath}/api/reviews/${productId}`);
+    return this.http.get(`${this.apiPath}/api/valoracion/${productId}`);
   }
 
-  // Method to post a new review
-  addProductReview(review: any): Observable<any> {
-    return this.http.post(`${this.apiPath}/api/review`, review);
+  getProductCharacteristics(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/caracteristica/${id}`);
   }
 }

@@ -1,0 +1,38 @@
+[
+    {
+        "nombre": "Admin",
+        "apellidos": "System",
+        "fecha_nacimiento": "2000-01-01",
+        "direccion": "Calle Principal 123",
+        "telefono": "123456789",
+        "genero": 1,
+        "imagen_usuario": "default.jpg"
+    },
+    {
+        "nombre": "Test",
+        "apellidos": "User",
+        "fecha_nacimiento": "1995-05-15",
+        "direccion": "Calle Test 456",
+        "telefono": "987654321",
+        "genero": 1,
+        "imagen_usuario": "default.jpg"
+    },
+    {
+        "nombre": "Peter",
+        "apellidos": "Parker",
+        "fecha_nacimiento": "1990-08-10",
+        "direccion": "Calle Queens 789",
+        "telefono": "555123456",
+        "genero": 1,
+        "imagen_usuario": "default.jpg"
+    },
+    {
+        "nombre": "Parker",
+        "apellidos": "Peter",
+        "fecha_nacimiento": "1992-03-25",
+        "direccion": "Calle New York 101",
+        "telefono": "555789123",
+        "genero": 1,
+        "imagen_usuario": "default.jpg"
+    }
+]
