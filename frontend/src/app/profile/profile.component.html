@@ -1,0 +1,327 @@
+<div class="profile-container">
+  <!-- Header del perfil -->
+  <div class="profile-header">
+    <div class="user-info">
+      <div class="avatar">
+        <img [src]="profileImage || '/assets/images/default-avatar.png'" alt="Foto de perfil" />
+        <button class="change-photo-btn" (click)="openFileInput()">
+          <i class="fi fi-br-camera"></i>
+          <input type="file" #fileInput hidden (change)="onImageSelected($event)" accept="image/*">
+        </button>
+      </div>
+      <div class="details">
+        <h1>{{ userProfile.nombre }} {{ userProfile.apellidos }}</h1>
+        <p>{{ userEmail }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navegación y contenido -->
+  <div class="profile-body">
+    <!-- Navegación lateral -->
+    <div class="profile-nav">
+      <button [class.active]="activeTab === 'info'" (click)="setActiveTab('info')">
+        <i class="fi fi-br-user"></i> Información Personal
+      </button>
+      <button [class.active]="activeTab === 'orders'" (click)="setActiveTab('orders')">
+        <i class="fi fi-br-shopping-bag"></i> Pedidos
+      </button>
+      <button [class.active]="activeTab === 'payment'" (click)="setActiveTab('payment')">
+        <i class="fi fi-br-credit-card"></i> Métodos de Pago
+      </button>
+      <button [class.active]="activeTab === 'addresses'" (click)="setActiveTab('addresses')">
+        <i class="fi fi-br-map-marker"></i> Direcciones
+      </button>
+      <button [class.active]="activeTab === 'security'" (click)="setActiveTab('security')">
+        <i class="fi fi-br-shield"></i> Seguridad
+      </button>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fi fi-br-sign-out"></i> Cerrar Sesión
+      </button>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="profile-content">
+      <!-- Información personal -->
+      <div class="tab-content" *ngIf="activeTab === 'info'">
+        <h2>Información Personal</h2>
+        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" formControlName="nombre">
+          </div>
+          
+          <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" formControlName="apellidos">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email">
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" formControlName="telefono">
+          </div>
+          
+          <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <textarea id="direccion" formControlName="direccion" rows="3"></textarea>
+          </div>
+          
+          <button type="submit" [disabled]="profileForm.invalid || isSubmitting">Guardar Cambios</button>
+        </form>
+      </div>
+      
+      <!-- Pedidos -->
+      <div class="tab-content" *ngIf="activeTab === 'orders'">
+        <h2>Mis Pedidos</h2>
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar pedidos..." [(ngModel)]="orderSearchTerm">
+          <select [(ngModel)]="orderStatusFilter">
+            <option value="all">Todos</option>
+            <option value="completed">Completados</option>
+            <option value="processing">En proceso</option>
+            <option value="shipped">Enviados</option>
+          </select>
+        </div>
+        
+        <div class="orders-list" *ngIf="filteredOrders.length > 0">
+          <div class="order-card" *ngFor="let order of filteredOrders">
+            <div class="order-header">
+              <h3>Pedido #{{ order.id }}</h3>
+              <span class="status" [class]="order.status">{{ order.statusText }}</span>
+            </div>
+            <p>Fecha: {{ formatDate(order.date) }}</p>
+            <p>Total: {{ order.total | currency:'EUR':'symbol':'1.2-2' }}</p>
+            <button class="details-btn">Ver detalles</button>
+          </div>
+        </div>
+        
+        <div class="empty-state" *ngIf="filteredOrders.length === 0">
+          <p>No tienes pedidos que coincidan con tu búsqueda</p>
+          <button (click)="clearOrderFilters()">Limpiar filtros</button>
+        </div>
+      </div>
+      
+      <!-- Métodos de pago -->
+      <div class="tab-content" *ngIf="activeTab === 'payment'">
+        <h2>Métodos de Pago</h2>
+        <button class="add-btn" (click)="showAddPaymentForm = !showAddPaymentForm">
+          Añadir método de pago
+        </button>
+        
+        <div class="payment-form" *ngIf="showAddPaymentForm">
+          <form [formGroup]="paymentForm" (ngSubmit)="addPaymentMethod()">
+            <div class="form-group">
+              <label for="cardName">Nombre en la tarjeta</label>
+              <input type="text" id="cardName" formControlName="cardName">
+            </div>
+            <div class="form-group">
+              <label for="cardNumber">Número de tarjeta</label>
+              <input type="text" id="cardNumber" formControlName="cardNumber" (input)="formatCardNumber($event)">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expiryDate">Fecha de caducidad</label>
+                <input type="text" id="expiryDate" formControlName="expiryDate" placeholder="MM/AA">
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="password" id="cvv" formControlName="cvv" maxlength="3">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" (click)="showAddPaymentForm = false">Cancelar</button>
+              <button type="submit" [disabled]="paymentForm.invalid">Guardar</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="payment-list">
+          <div class="payment-card" *ngFor="let method of paymentMethods; let i = index">
+            <div class="card-info">
+              <i [class]="getCardIcon(method.type)"></i>
+              <div>
+                <p>{{ method.name }}</p>
+                <p>**** {{ method.last4 }}</p>
+                <p>{{ method.expiry }}</p>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="default-btn" [class.is-default]="method.isDefault" (click)="setDefaultPaymentMethod(i)">
+                {{ method.isDefault ? 'Predeterminado' : 'Hacer predeterminado' }}
+              </button>
+              <button class="delete-btn" (click)="deletePaymentMethod(i)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Direcciones -->
+      <div class="tab-content" *ngIf="activeTab === 'addresses'">
+        <h2>Mis Direcciones</h2>
+        <button class="add-btn" (click)="showAddAddressForm = !showAddAddressForm">
+          Añadir dirección
+        </button>
+        
+        <div class="address-form" *ngIf="showAddAddressForm">
+          <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
+            <div class="form-group">
+              <label for="addressName">Nombre de la dirección</label>
+              <input type="text" id="addressName" formControlName="addressName">
+            </div>
+            <div class="form-group">
+              <label for="fullName">Nombre completo</label>
+              <input type="text" id="fullName" formControlName="fullName">
+            </div>
+            <div class="form-group">
+              <label for="address">Dirección</label>
+              <input type="text" id="address" formControlName="address">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">Ciudad</label>
+                <input type="text" id="city" formControlName="city">
+              </div>
+              <div class="form-group">
+                <label for="postalCode">Código postal</label>
+                <input type="text" id="postalCode" formControlName="postalCode">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone">Teléfono</label>
+              <input type="tel" id="phone" formControlName="phone">
+            </div>
+            <div class="form-actions">
+              <button type="button" (click)="showAddAddressForm = false">Cancelar</button>
+              <button type="submit" [disabled]="addressForm.invalid">Guardar</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="address-list">
+          <div class="address-card" *ngFor="let address of addresses; let i = index">
+            <div class="address-info">
+              <h3>{{ address.name }}</h3>
+              <p>{{ address.fullName }}</p>
+              <p>{{ address.address }}</p>
+              <p>{{ address.city }}, {{ address.postalCode }}</p>
+              <p>{{ address.phone }}</p>
+            </div>
+            <div class="address-actions">
+              <button [class.is-default]="address.isDefault" (click)="setDefaultAddress(i)">
+                {{ address.isDefault ? 'Predeterminada' : 'Hacer predeterminada' }}
+              </button>
+              <button (click)="editAddress(i)">Editar</button>
+              <button (click)="deleteAddress(i)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Seguridad -->
+      <div class="tab-content" *ngIf="activeTab === 'security'">
+        <h2>Seguridad</h2>
+        
+        <div class="security-section">
+          <h3>Cambiar Contraseña</h3>
+          <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <div class="form-group">
+              <label for="currentPassword">Contraseña actual</label>
+              <div class="password-input-wrapper">
+                <input [type]="showPasswordToggles.current ? 'text' : 'password'" id="currentPassword" formControlName="currentPassword">
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('current')">
+                  <i [class]="showPasswordToggles.current ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">Nueva contraseña</label>
+              <div class="password-input-wrapper">
+                <input [type]="showPasswordToggles.new ? 'text' : 'password'" id="newPassword" formControlName="newPassword">
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('new')">
+                  <i [class]="showPasswordToggles.new ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                </button>
+              </div>
+              <div class="password-strength" *ngIf="passwordForm.get('newPassword')?.value">
+                <div class="strength-bar" [ngClass]="getPasswordStrength().class"></div>
+                <span>{{ getPasswordStrength().text }}</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirmar contraseña</label>
+              <div class="password-input-wrapper">
+                <input [type]="showPasswordToggles.confirm ? 'text' : 'password'" id="confirmPassword" formControlName="confirmPassword">
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('confirm')">
+                  <i [class]="showPasswordToggles.confirm ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                </button>
+              </div>
+              <div class="error-message" *ngIf="passwordForm.hasError('notSame') && passwordForm.get('confirmPassword')?.touched">
+                <span>Las contraseñas no coinciden</span>
+              </div>
+            </div>
+            <button type="submit" [disabled]="passwordForm.invalid">Actualizar Contraseña</button>
+          </form>
+        </div>
+        
+        <div class="security-section">
+          <h3>Opciones de Seguridad</h3>
+          <div class="option">
+            <div>
+              <h4>Verificación en dos pasos</h4>
+              <p>Añade una capa extra de seguridad</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="securityOptions.twoFactorEnabled">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="option">
+            <div>
+              <h4>Alertas de inicio de sesión</h4>
+              <p>Recibir notificaciones cuando se acceda a tu cuenta desde un nuevo dispositivo</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="securityOptions.loginAlerts">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="option">
+            <div>
+              <h4>Mantener sesión iniciada</h4>
+              <p>Permanecer con la sesión iniciada en este dispositivo</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" [(ngModel)]="securityOptions.keepLoggedIn">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <button (click)="saveSecurityOptions()">Guardar Cambios</button>
+        </div>
+        
+        <div class="security-section">
+          <h3>Dispositivos conectados</h3>
+          <div class="devices-list">
+            <div class="device-item" *ngFor="let device of connectedDevices; let i = index">
+              <div class="device-icon">
+                <i [class]="getDeviceIcon(device.type)"></i>
+              </div>
+              <div class="device-details">
+                <h4>{{ device.name }}</h4>
+                <p>{{ device.location }}</p>
+                <p>Último acceso: {{ formatDate(device.lastActive) }}</p>
+                <span class="device-current" *ngIf="device.isCurrent">Dispositivo actual</span>
+              </div>
+              <button class="revoke-btn" *ngIf="!device.isCurrent" (click)="revokeDevice(i)">
+                <i class="fi fi-br-cross"></i> Revocar acceso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
