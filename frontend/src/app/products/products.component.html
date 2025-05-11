@@ -1,7 +1,9 @@
 @if(product().descuento || product().discount){
 <div class="product-card" (click)="navigateToProduct(product())">
   <!-- Badge de descuento -->
-  <div class="product-badge discount">-{{ product().descuento || product().discount }}%</div>
+  <div class="product-badge discount">
+    -{{ product().descuento || product().discount }}%
+  </div>
 
   <!-- Opciones rápidas (aparecen al hacer hover) -->
   <div class="quick-actions">
@@ -15,7 +17,11 @@
 
   <!-- Imagen del producto -->
   <div class="product-image-container">
-    <img class="product-image" [src]="getProductImage()" [alt]="product().nombre || product().name" />
+    <img
+      class="product-image"
+      [src]="getProductImage()"
+      [alt]="product().nombre || product().name"
+    />
   </div>
 
   <!-- Información del producto -->
@@ -26,7 +32,7 @@
     <h3 class="product-name">{{ product().nombre || product().name }}</h3>
     <div class="product-rating">
       {{ numberStars }}
-      <span class="rating-count">({{ getRatingCount() }})</span>
+      <span class="rating-count">({{ ratingCount }})</span>
     </div>
 
     <!-- Precios -->
@@ -61,7 +67,11 @@
 
   <!-- Imagen del producto -->
   <div class="product-image-container">
-    <img class="product-image" [src]="getProductImage()" [alt]="product().nombre || product().name" />
+    <img
+      class="product-image"
+      [src]="getProductImage()"
+      [alt]="product().nombre || product().name"
+    />
     <!-- Badge para productos nuevos (menos de 30 días) -->
     @if(isNewProduct()) {
     <div class="product-badge new">Nuevo</div>
@@ -76,7 +86,7 @@
     <h3 class="product-name">{{ product().nombre || product().name }}</h3>
     <div class="product-rating">
       {{ numberStars }}
-      <span class="rating-count">({{ getRatingCount() }})</span>
+      <span class="rating-count">({{ ratingCount }})</span>
     </div>
 
     <!-- Precio -->

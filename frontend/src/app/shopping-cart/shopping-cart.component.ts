@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ProductsComponent } from '../products/products.component';
 import { CartItem } from '../interfaces/product.interface';
 import { ProductService } from '../services/product.service';
+import { LoginService } from '../services/login.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -14,42 +16,65 @@ import { ProductService } from '../services/product.service';
   styleUrl: './shopping-cart.component.css',
 })
 export class ShoppingCartComponent implements OnInit {
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private loginService: LoginService
+  ) {}
   // Datos de ejemplo (normalmente vendrían de un servicio)
   cartItems: CartItem[] = [];
   recommendedProducts: any[] = [];
 
   ngOnInit() {
-    // Simular carga de datos de carrito (esto vendría de un servicio)
-    // this.cartItems = [
-    //   {
-    //     id: 1,
-    //     name: 'Detergente',
-    //     url: 'https://www.supercash.es/wp-content/uploads/2020/02/detergente-profesional_cabecera.png',
-    //     price: 10.0,
-    //     category: 'Hogar',
-    //     quantity: 1,
-    //     discount: 20,
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Monopoly',
-    //     url: 'https://www.monodejuegos.shop/wp-content/uploads/2020/11/monopoly.png',
-    //     price: 20.0,
-    //     category: 'Juegos',
-    //     quantity: 2,
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Balón',
-    //     url: 'https://i1.t4s.cz/products/in9365/adidas-euro24-com-679082-in9365.png',
-    //     price: 15.0,
-    //     category: 'Deportes',
-    //     quantity: 1,
-    //     discount: 10,
-    //   },
-    // ];
-    this.cartItems = this.productService.getCartItems();
+    // Initialize empty cart items array
+    this.cartItems = [];
+
+    // Get user's active cart from API
+    const user = this.loginService.getLoggedUser();
+    this.productService.getActiveCart(user.id).subscribe({
+      next: (data) => {
+        this.productService.getProducosCarrito(data.carrito.id).subscribe({
+          next: (cartProducts) => {
+            // Process each product in the cart
+            const productRequests = cartProducts.map((cartProduct: any) => {
+              return this.productService.getAPIproduct(cartProduct.producto_id);
+            });
+
+            // Wait for all product requests to complete
+            forkJoin(productRequests).subscribe({
+              next: (products) => {
+                // Map products to cart items
+                this.cartItems = products.map((product: any, index: number) => {
+                  const cartProduct = cartProducts[index];
+                  return {
+                    id: product.id,
+                    name: product.nombre,
+                    price: product.precio,
+                    quantity: cartProduct.cantidad,
+                    category: '', // API doesn't seem to provide this
+                    stars: 0, // API doesn't seem to provide this
+                    discount: product.descuento,
+                    // Add any additional fields you need from the product data
+                    description: product.descripcion,
+                    stock: product.stock,
+                    // If you have an image URL, add it here
+                    url: product.url || '',
+                  };
+                });
+              },
+              error: (error) => {
+                console.error('Error al cargar detalles de productos:', error);
+              },
+            });
+          },
+          error: (error) => {
+            console.error('Error al cargar los productos del carrito:', error);
+          },
+        });
+      },
+      error: (error) => {
+        console.error('Error al cargar el carrito:', error);
+      },
+    });
 
     // Cargar productos recomendados
     // this.loadRecommendedProducts();
@@ -102,13 +127,14 @@ export class ShoppingCartComponent implements OnInit {
     this.productService.removeFromCart(item.id);
   }
 
-getDiscountedPrice(item: CartItem): number {
-  if (item.discount) {
-    const discountedUnitPrice = item.price - (item.price * item.discount / 100);
-    return discountedUnitPrice * item.quantity;
+  getDiscountedPrice(item: CartItem): number {
+    if (item.discount) {
+      const discountedUnitPrice =
+        item.price - (item.price * item.discount) / 100;
+      return discountedUnitPrice * item.quantity;
+    }
+    return item.price * item.quantity;
   }
-  return item.price * item.quantity;
-}
 
   // Cargar productos recomendados (ejemplo)
   loadRecommendedProducts(): void {

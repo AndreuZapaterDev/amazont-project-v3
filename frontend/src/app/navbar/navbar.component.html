@@ -1,3 +1,8 @@
+<!-- Add the alert component to display messages -->
+@if(getPopup()){
+<app-alert [visible]="getPopup()"></app-alert>
+}
+
 <!-- NAVBAR DESKTOP -->
 <div class="hidden md:block">
   <nav class="primary-navbar">
@@ -59,7 +64,7 @@
         <li><a href="">Inicio</a></li>
         <li><a href="home/categories">Categorías</a></li>
         <li><a href="">Ofertas</a></li>
-        <li><a href="/profile">Ajustes</a></li>
+        <li><a (click)="goToProfile()">Ajustes</a></li>
         <li><a href="">Carrito</a></li>
       </ul>
     </div>

@@ -280,6 +280,19 @@ class api extends Controller
         return response()->json($productos_carrito, 200);
     }
 
+    // New method to get products by cart ID
+    public function getProductosCarritoByCarritoId($carrito_id)
+    {
+        $productos_carrito = productos_carrito::where('carrito_id', $carrito_id)->get();
+        if ($productos_carrito->isEmpty()) {
+            return response()->json([
+                "message" => "No hay productos en este carrito"
+            ], 404);
+        }
+
+        return response()->json($productos_carrito, 200);
+    }
+
 
     //Funciones post
     //Perfil de usuario
@@ -475,30 +488,43 @@ class api extends Controller
         $carrito->total = 0;
 
         $carrito->save();
+
         return response()->json([
-            "message" => "Carrito creado"
+            "message" => "Carrito creado",
+            "carrito_id" => $carrito->id
         ], 201);
     }
 
     //Productos Carrito
     public function postProductosCarrito(Request $request)
     {
-        if ($request->carrito_id == null || $request->producto_id == null || $request->cantidad == null || $request->precio == null) {
+        if ($request->carrito_id == null || $request->producto_id == null || $request->cantidad == null) {
             return response()->json([
-                "message" => "Error, el producto carrito debe tener carrito_id, producto_id, cantidad y precio"
+                "message" => "Error, el producto carrito debe tener carrito_id, producto_id y cantidad"
             ], 400);
         }
+
+        // Retrieve the product to get its price
+        $producto = producto::find($request->producto_id);
+        if ($producto == null) {
+            return response()->json([
+                "message" => "Error, el producto no existe"
+            ], 404);
+        }
+
+        // Calculate the correct price (product price * quantity)
+        $precio_calculado = $producto->precio * $request->cantidad;
 
         $productos_carrito = new productos_carrito;
         $productos_carrito->carrito_id = $request->carrito_id;
         $productos_carrito->producto_id = $request->producto_id;
         $productos_carrito->cantidad = $request->cantidad;
-        $productos_carrito->precio = $request->precio;
-
+        $productos_carrito->precio = $precio_calculado; // Use the calculated price instead of user input
 
         $productos_carrito->save();
         return response()->json([
-            "message" => "Producto carrito creado"
+            "message" => "Producto carrito creado",
+            "producto_carrito" => $productos_carrito
         ], 201);
     }
 
@@ -749,6 +775,11 @@ class api extends Controller
             $carrito->total = $request->total;
         }
 
+        // Add the ability to update metodo_pago_id
+        if ($request->metodo_pago_id != null) {
+            $carrito->metodo_pago_id = $request->metodo_pago_id;
+        }
+
         $carrito->save();
         return response()->json([
             "message" => "Carrito actualizado"
@@ -774,17 +805,23 @@ class api extends Controller
             $productos_carrito->producto_id = $request->producto_id;
         }
 
+        // If quantity is changed, recalculate the price
         if ($request->cantidad) {
             $productos_carrito->cantidad = $request->cantidad;
+
+            // Get the current product to calculate the new price
+            $producto = producto::find($productos_carrito->producto_id);
+            if ($producto) {
+                $productos_carrito->precio = $producto->precio * $request->cantidad;
+            }
         }
 
-        if ($request->precio) {
-            $productos_carrito->precio = $request->precio;
-        }
+        // We're ignoring any price input from the request since it's automatically calculated
 
         $productos_carrito->save();
         return response()->json([
-            "message" => "Producto carrito actualizado"
+            "message" => "Producto carrito actualizado",
+            "producto_carrito" => $productos_carrito
         ], 200);
     }
 
@@ -994,7 +1031,11 @@ class api extends Controller
 
     public function getMetodosPagoId($id)
     {
-        $metodo_pago = metodos_pago::find($id);
+        $metodo_pago = metodos_pago::where('user_id', $id)
+            ->where(function($query) {
+            $query->where('eliminado', false)->orWhereNull('eliminado');
+            })
+            ->get();
 
         if ($metodo_pago == null) {
             return response()->json([
@@ -1107,6 +1148,79 @@ class api extends Controller
 
         return response()->json([
             "message" => "Método de pago eliminado"
+        ], 200);
+    }
+
+    /**
+     * Finish a cart by setting acabado = true, updating fecha_pago,
+     * and calculating the total from all cart items
+     */
+    public function acabarCarrito($id)
+    {
+        // Find the cart
+        $carrito = carrito::find($id);
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "Carrito no encontrado"
+            ], 404);
+        }
+
+        // Set acabado to true
+        $carrito->acabado = true;
+
+        // Update fecha_pago to current timestamp
+        $carrito->fecha_pago = now();
+
+        // Calculate the total by summing all the products in the cart
+        $productos_carrito = productos_carrito::where('carrito_id', $id)->get();
+        $total = 0;
+
+        foreach ($productos_carrito as $producto) {
+            $total += $producto->precio;
+        }
+
+        $carrito->total = $total;
+
+        // Save the changes
+        $carrito->save();
+
+        return response()->json([
+            "message" => "Carrito finalizado correctamente",
+            "carrito" => $carrito
+        ], 200);
+    }
+
+    // New method to get the count of ratings per product
+    public function getPuntuacionPorProducto($producto_id)
+    {
+        $count = valoraciones::where('producto_id', $producto_id)->count();
+
+        return response()->json([
+            "producto_id" => $producto_id,
+            "total_valoraciones" => $count
+        ], 200);
+    }
+
+    /**
+     * Get active cart for a user
+     * Returns the cart with acabado = false for the given user
+     */
+    public function getCarritoActivo($user_id)
+    {
+        $carrito = carrito::where('user_id', $user_id)
+                          ->where('acabado', false)
+                          ->first();
+
+        if ($carrito == null) {
+            return response()->json([
+                "message" => "No hay carritos activos",
+                "activo" => false
+            ], 404);
+        }
+
+        return response()->json([
+            "carrito" => $carrito,
+            "activo" => true
         ], 200);
     }
 }

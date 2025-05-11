@@ -9,6 +9,7 @@ import { ProductsComponent } from '../products/products.component';
 import { Subscription, forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { CurrencyPipe } from '@angular/common';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -41,7 +42,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private categoriesService: CategoriesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) {}
 
   // Inicializa el componente y se suscribe a cambios en la URL
@@ -340,8 +342,45 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
+    const user = this.loginService.getLoggedUser();
+    this.productService.getActiveCart(user.id).subscribe({
+      next: (cart: any) => {
+        this.productService
+          .addToCarrito(cart.carrito.id, this.productId, this.quantity)
+          .subscribe({
+            next: (response: any) => {
+              console.log('Producto agregado al carrito:', response);
+            },
+            error: (err: any) => {
+              console.error('Error al agregar el producto al carrito:', err);
+            },
+          });
+      },
+      error: (err: any) => {
+        this.productService.postCarrito(user.id).subscribe({
+          next: (cart: any) => {
+            this.productService
+              .addToCarrito(cart.carrito_id, this.productId, this.quantity)
+              .subscribe({
+                next: (response: any) => {
+                  console.log('Producto agregado al carrito:', response);
+                },
+                error: (err: any) => {
+                  console.error(
+                    'Error al agregar el producto al carrito:',
+                    err
+                  );
+                },
+              });
+          },
+          error: (err: any) => {
+            console.error('Error al crear el carrito:', err);
+          },
+        });
+      },
+    });
     // Aquí puedes implementar la lógica para agregar el producto al carrito
-    this.productService.addToCart(this.product, this.quantity);
-    console.log(this.productService.getCartItems());
+    // this.productService.addToCart(this.product, this.quantity);
+    // console.log(this.productService.getCartItems());
   }
 }

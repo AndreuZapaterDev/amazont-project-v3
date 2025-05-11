@@ -55,8 +55,30 @@ export class ProductService {
   }
 
   // API methods
-  getShoppingCart(): Observable<any> {
-    return this.http.get(`${this.apiPath}/api/usuarios`);
+  getActiveCart(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/carrito_activo/${id}`);
+  }
+
+  postCarrito(user_id: number): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/carrito`, { user_id });
+  }
+
+  addToCarrito(
+    carrito_id: number,
+    producto_id: number,
+    cantidad: number
+  ): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/producto_carrito`, {
+      carrito_id,
+      producto_id,
+      cantidad,
+    });
+  }
+
+  getProducosCarrito(id: number): Observable<any> {
+    return this.http.get(
+      `${this.apiPath}/api/productos_carrito_by_carrito/${id}`
+    );
   }
 
   getAPIproducts(): Observable<any> {
@@ -74,6 +96,12 @@ export class ProductService {
   // Method to get product reviews from API
   getProductReviews(productId: number): Observable<any> {
     return this.http.get(`${this.apiPath}/api/valoracion/${productId}`);
+  }
+
+  getNumberOfReviews(productId: number): Observable<any> {
+    return this.http.get(
+      `${this.apiPath}/api/puntuacion_por_producto/${productId}`
+    );
   }
 
   getProductCharacteristics(id: number): Observable<any> {

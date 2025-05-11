@@ -17,7 +17,8 @@ return new class extends Migration
             $table->float('total');
             $table->datetime('fecha_pago')->nullable();
             $table->boolean('acabado')->nullable()->default(false);
-            $table->foreignId('metodo_pago_id')->constrained('metodos_pago');
+            $table->unsignedBigInteger('metodo_pago_id')->nullable()->default(null);
+            $table->foreign('metodo_pago_id')->references('id')->on('metodos_pago');
         });
     }
 

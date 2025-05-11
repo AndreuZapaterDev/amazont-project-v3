@@ -43,6 +43,7 @@ Route::delete('/producto_categoria/{id}', [api::class, 'deleteProductoCategorias
 //Valoraciones
 Route::get('/valoraciones', [api::class, 'getValoraciones']);
 Route::get('/valoracion/{id}', [api::class, 'getValoracionesId']);
+Route::get('/puntuacion_por_producto/{producto_id}', [api::class, 'getPuntuacionPorProducto']); // New route for rating count
 Route::post('/valoracion', [api::class, 'postValoraciones']);
 Route::put('/valoracion/{id}', [api::class, 'putValoraciones']);
 Route::delete('/valoracion/{id}', [api::class, 'deleteValoraciones']);
@@ -64,13 +65,16 @@ Route::delete('/caracteristica/{id}', [api::class, 'deleteCaracteristicas']);
 //Carrito
 Route::get('/carritos', [api::class, 'getCarrito']);
 Route::get('/carrito/{id}', [api::class, 'getCarritoId']);
+Route::get('/carrito_activo/{user_id}', [api::class, 'getCarritoActivo']); // New route to get active cart by user ID
 Route::post('/carrito', [api::class, 'postCarrito']);
 Route::put('/carrito/{id}', [api::class, 'putCarrito']);
 Route::delete('/carrito/{id}', [api::class, 'deleteCarrito']);
+Route::put('/acabar_carrito/{id}', [api::class, 'acabarCarrito']); // New route for finishing the cart
 
 //Productos Carrito
 Route::get('/productos_carritos', [api::class, 'getProductosCarrito']);
 Route::get('/producto_carrito/{id}', [api::class, 'getProductosCarritoId']);
+Route::get('/productos_carrito_by_carrito/{carrito_id}', [api::class, 'getProductosCarritoByCarritoId']); // New route
 Route::post('/producto_carrito', [api::class, 'postProductosCarrito']);
 Route::put('/producto_carrito/{id}', [api::class, 'putProductosCarrito']);
 Route::delete('/producto_carrito/{id}', [api::class, 'deleteProductosCarrito']);
@@ -80,7 +84,7 @@ Route::get('/metodos_pago', [api::class, 'getMetodosPago']);
 Route::get('/metodo_pago/{id}', [api::class, 'getMetodosPagoId']);
 Route::post('/metodo_pago', [api::class, 'postMetodoPago']);
 Route::put('/metodo_pago/{id}', [api::class, 'putMetodoPago']);
-Route::put('/delete/metodo_pago/{id}', [api::class, 'deleteMetodoPago']);
+Route::delete('/delete/metodo_pago/{id}', [api::class, 'deleteMetodoPago']);
 
 //Login
 Route::post('/login', [api::class, 'login']);

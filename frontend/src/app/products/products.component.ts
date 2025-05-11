@@ -1,6 +1,7 @@
 import { Component, input, OnInit } from '@angular/core';
 import { Product } from '../interfaces/product.interface';
 import { Router } from '@angular/router';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-products',
@@ -14,8 +15,9 @@ export class ProductsComponent implements OnInit {
 
   numberStars: string = '';
   discountedPrice: number = 0;
+  ratingCount: number = 0; // New property to store the rating count
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private productService: ProductService) {}
 
   getProductImage(): string {
     // Handle different product image formats
@@ -90,8 +92,30 @@ export class ProductsComponent implements OnInit {
     return categories[categoryCode] || categoryCode;
   }
 
-  getRatingCount(): number {
-    return Math.floor(Math.random() * 100) + 5;
+  getRatingCount() {
+    const productId = this.product()?.id;
+    console.log('Fetching reviews for product ID:', productId);
+
+    if (!productId) {
+      console.error('Product ID is undefined or null');
+      this.ratingCount = 0;
+      return;
+    }
+
+    this.productService.getNumberOfReviews(productId).subscribe({
+      next: (res: any) => {
+        console.log('Review response:', res);
+        this.ratingCount = res?.total_valoraciones || 0;
+        console.log('Rating count set to:', this.ratingCount);
+      },
+      error: (err: any) => {
+        console.error('Error fetching reviews:', err);
+        this.ratingCount = 0;
+      },
+      complete: () => {
+        console.log('Review request completed');
+      },
+    });
   }
 
   isNewProduct(): boolean {
@@ -104,7 +128,9 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('Product component initialized with product:', this.product());
     this.getStars();
     this.getDiscount();
+    this.getRatingCount();
   }
 }

@@ -6,10 +6,16 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private http: HttpClient) {}
-  apiPath = 'http://127.0.0.1:8000';
-
   loggedUser: any;
+
+  constructor(private http: HttpClient) {
+    // Initialize loggedUser from localStorage if it exists
+    const storedUser = localStorage.getItem('loggedUser');
+    if (storedUser) {
+      this.loggedUser = JSON.parse(storedUser);
+    }
+  }
+  apiPath = 'http://127.0.0.1:8000';
 
   postPerfilUsuario(perfilUsuario: any): Observable<any> {
     return this.http.post(`${this.apiPath}/api/perfil_usuario`, perfilUsuario);
@@ -33,13 +39,24 @@ export class LoginService {
 
   setLoggedUser(user: any) {
     this.loggedUser = user;
+    // Save user to localStorage
+    localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
   getLoggedUser() {
+    // If loggedUser is null, try to get it from localStorage
+    if (!this.loggedUser) {
+      const storedUser = localStorage.getItem('loggedUser');
+      if (storedUser) {
+        this.loggedUser = JSON.parse(storedUser);
+      }
+    }
     return this.loggedUser;
   }
 
   logout() {
     this.loggedUser = null;
+    // Remove user from localStorage
+    localStorage.removeItem('loggedUser');
   }
 }
