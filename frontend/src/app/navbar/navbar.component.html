@@ -61,11 +61,13 @@
   <nav class="secondary-navbar hidden sm:block">
     <div class="secundary-container">
       <ul>
-        <li><a href="">Inicio</a></li>
-        <li><a href="home/categories">Categorías</a></li>
-        <li><a href="">Ofertas</a></li>
+        <li><a routerLink="/home">Inicio</a></li>
+        <li><a routerLink="/home/categories">Categorías</a></li>
+        @if(isVendor()) {
+          <li><a routerLink="/home/seller">Vendedor</a></li>
+        }
         <li><a (click)="goToProfile()">Ajustes</a></li>
-        <li><a href="">Carrito</a></li>
+        <li><a routerLink="/home/cart">Carrito</a></li>
       </ul>
     </div>
   </nav>

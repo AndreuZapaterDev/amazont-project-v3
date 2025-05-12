@@ -67,10 +67,15 @@ export class NavbarComponent {
     if (this.loginService.getLoggedUser()) {
       console.log(this.loginService.getLoggedUser());
       this.popup = false;
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/home/profile']);
     } else {
       this.popup = true;
       console.log('No hay usuario logueado');
     }
+  }
+
+  isVendor(): boolean {
+    const loggedUser = this.loginService.getLoggedUser();
+    return loggedUser && loggedUser.rol === 2;  // Vendor has role 2, not 1
   }
 }
