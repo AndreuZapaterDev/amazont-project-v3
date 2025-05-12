@@ -31,9 +31,9 @@ export class ShoppingCartComponent implements OnInit {
     // Get user's active cart from API
     const user = this.loginService.getLoggedUser();
     this.productService.getActiveCart(user.id).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.productService.getProducosCarrito(data.carrito.id).subscribe({
-          next: (cartProducts) => {
+          next: (cartProducts: any) => {
             // Process each product in the cart
             const productRequests = cartProducts.map((cartProduct: any) => {
               return this.productService.getAPIproduct(cartProduct.producto_id);
@@ -41,11 +41,14 @@ export class ShoppingCartComponent implements OnInit {
 
             // Wait for all product requests to complete
             forkJoin(productRequests).subscribe({
-              next: (products) => {
-                // Map products to cart items
-                this.cartItems = products.map((product: any, index: number) => {
+              next: (products: any) => {
+                // Create temporary array to hold items while we fetch images
+                const tempCartItems: CartItem[] = [];
+
+                // For each product, we'll create a cart item and then fetch its images
+                products.forEach((product: any, index: number) => {
                   const cartProduct = cartProducts[index];
-                  return {
+                  const cartItem: CartItem = {
                     id: product.id,
                     name: product.nombre,
                     price: product.precio,
@@ -53,13 +56,32 @@ export class ShoppingCartComponent implements OnInit {
                     category: '', // API doesn't seem to provide this
                     stars: 0, // API doesn't seem to provide this
                     discount: product.descuento,
-                    // Add any additional fields you need from the product data
                     description: product.descripcion,
                     stock: product.stock,
-                    // If you have an image URL, add it here
-                    url: product.url || '',
+                    url: '', // Will be populated with the first image URL
                   };
+
+                  tempCartItems.push(cartItem);
+
+                  // Fetch images for this product
+                  this.productService.getProductImages(product.id).subscribe({
+                    next: (images: any[]) => {
+                      if (images && images.length > 0) {
+                        // Use the first image URL
+                        cartItem.url = images[0].url;
+                      }
+                    },
+                    error: (error) => {
+                      console.error(
+                        `Error al cargar imágenes para producto ${product.id}:`,
+                        error
+                      );
+                    },
+                  });
                 });
+
+                // Update cart items with the temp array that will be populated with image URLs
+                this.cartItems = tempCartItems;
               },
               error: (error) => {
                 console.error('Error al cargar detalles de productos:', error);

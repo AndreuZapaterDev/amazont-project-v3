@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { CommonModule } from '@angular/common';
 import { DarkModeComponent } from '../dark-mode/dark-mode.component';
@@ -17,13 +17,33 @@ export class NavbarComponent {
   popup: boolean = false;
   constructor(
     private productService: ProductService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
   // Método para obtener el número total de items en el carrito
   get cartItemCount(): number {
-    const cartItems = this.productService.getCartItems();
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    let cartItems = 0;
+    const user = this.loginService.getLoggedUser();
+    this.productService.getActiveCart(user.id).subscribe({
+      next: (data: any) => {
+        this.productService.getProducosCarrito(data.carrito.id).subscribe({
+          next: (cartProducts: any) => {
+            cartItems = cartProducts.length;
+            // console.log('Número de items en el carrito:', cartItems);
+          },
+          error: (error) => {
+            console.error('Error fetching cart products:', error);
+          },
+        });
+      },
+      error: (error) => {
+        console.error('Error fetching cart items:', error);
+      },
+    });
+    return cartItems;
+    // const cartItems = this.productService.getCartItems();
+    // return cartItems.reduce((total, item) => total + item.quantity, 0);
   }
 
   isMobileMenuOpen = false;
@@ -46,6 +66,8 @@ export class NavbarComponent {
   goToProfile() {
     if (this.loginService.getLoggedUser()) {
       console.log(this.loginService.getLoggedUser());
+      this.popup = false;
+      this.router.navigate(['/profile']);
     } else {
       this.popup = true;
       console.log('No hay usuario logueado');

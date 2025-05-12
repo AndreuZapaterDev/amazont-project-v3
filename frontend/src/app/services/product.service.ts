@@ -75,6 +75,10 @@ export class ProductService {
     });
   }
 
+  finishCarrito(id: number): Observable<any> {
+    return this.http.put(`${this.apiPath}/api/acabar_carrito/${id}`, {});
+  }
+
   getProducosCarrito(id: number): Observable<any> {
     return this.http.get(
       `${this.apiPath}/api/productos_carrito_by_carrito/${id}`
