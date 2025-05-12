@@ -89,3 +89,11 @@ Route::delete('/delete/metodo_pago/{id}', [api::class, 'deleteMetodoPago']);
 //Login
 Route::post('/login', [api::class, 'login']);
 
+//Productos Usuario
+Route::get('/productos_usuario', [api::class, 'getProductosUsuario']);
+Route::get('/productos_usuario/user/{id}', [api::class, 'getProductosUsuarioByUserId']);
+Route::get('/producto_usuario/{id}', [api::class, 'getProductoUsuarioById']);
+Route::post('/producto_usuario', [api::class, 'postProductoUsuario']);
+Route::delete('/producto_usuario/{id}', [api::class, 'deleteProductoUsuario']);
+Route::delete('/producto_usuario/remove/{producto_id}/{usuario_id}', [api::class, 'deleteProductoUsuarioByProductAndUser']);
+

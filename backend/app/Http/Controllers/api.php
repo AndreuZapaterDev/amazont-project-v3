@@ -13,7 +13,8 @@ use App\Models\valoraciones;
 use App\Models\caracteristicas;
 use App\Models\productos_carrito;
 use App\Models\carrito;
-use App\Models\metodos_pago; // Add this import for the payments model
+use App\Models\metodos_pago;
+use App\Models\productos_usuario; // Add the model import
 use Illuminate\Support\Facades\Hash;
 
 //Perfil de usuario
@@ -390,7 +391,8 @@ class api extends Controller
 
         $producto->save();
         return response()->json([
-            "message" => "Producto creado"
+            "message" => "Producto creado",
+            "producto_id" => $producto->id
         ], 201);
     }
 
@@ -1223,4 +1225,105 @@ class api extends Controller
             "activo" => true
         ], 200);
     }
+
+    //Productos Usuario
+    public function getProductosUsuario()
+    {
+        $productos_usuario = productos_usuario::all();
+        if ($productos_usuario->isEmpty()) {
+            return response()->json([
+                "message" => "No se encontraron productos"
+            ], 404);
+        }
+
+        return response()->json($productos_usuario, 200);
+    }
+
+    public function getProductosUsuarioByUserId($id)
+    {
+        $productos_usuario = productos_usuario::where('usuario_id', $id)->get();
+        if ($productos_usuario->isEmpty()) {
+            return response()->json([
+                "message" => "No se encontraron productos para este usuario"
+            ], 404);
+        }
+
+        return response()->json($productos_usuario, 200);
+    }
+
+    public function getProductoUsuarioById($id)
+    {
+        $producto_usuario = productos_usuario::find($id);
+        if ($producto_usuario == null) {
+            return response()->json([
+                "message" => "Producto no encontrado"
+            ], 404);
+        }
+
+        return response()->json($producto_usuario, 200);
+    }
+
+    public function postProductoUsuario(Request $request)
+    {
+        if ($request->producto_id == null || $request->usuario_id == null) {
+            return response()->json([
+                "message" => "Error, el producto debe tener producto_id y usuario_id"
+            ], 400);
+        }
+
+        // Check if the product is already in favorites
+        $existingFavorite = productos_usuario::where('producto_id', $request->producto_id)
+            ->where('usuario_id', $request->usuario_id)
+            ->first();
+
+        if ($existingFavorite) {
+            return response()->json([
+                "message" => "Este producto ya existe"
+            ], 400);
+        }
+
+        $producto_usuario = new productos_usuario;
+        $producto_usuario->producto_id = $request->producto_id;
+        $producto_usuario->usuario_id = $request->usuario_id;
+
+        $producto_usuario->save();
+        return response()->json([
+            "message" => "Producto añadido",
+            "producto_usuario" => $producto_usuario
+        ], 201);
+    }
+
+    public function deleteProductoUsuario($id)
+    {
+        $producto_usuario = productos_usuario::find($id);
+        if ($producto_usuario == null) {
+            return response()->json([
+                "message" => "Producto no encontrado"
+            ], 404);
+        }
+
+        $producto_usuario->delete();
+        return response()->json([
+            "message" => "Producto eliminado"
+        ], 200);
+    }
+
+    public function deleteProductoUsuarioByProductAndUser($producto_id, $usuario_id)
+    {
+        $producto_usuario = productos_usuario::where('producto_id', $producto_id)
+            ->where('usuario_id', $usuario_id)
+            ->first();
+
+        if ($producto_usuario == null) {
+            return response()->json([
+                "message" => "Producto no encontrado"
+            ], 404);
+        }
+
+        $producto_usuario->delete();
+        return response()->json([
+            "message" => "Producto eliminado"
+        ], 200);
+    }
+
 }

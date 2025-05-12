@@ -23,25 +23,26 @@ export class NavbarComponent {
 
   // Método para obtener el número total de items en el carrito
   get cartItemCount(): number {
-    let cartItems = 0;
-    const user = this.loginService.getLoggedUser();
-    this.productService.getActiveCart(user.id).subscribe({
-      next: (data: any) => {
-        this.productService.getProducosCarrito(data.carrito.id).subscribe({
-          next: (cartProducts: any) => {
-            cartItems = cartProducts.length;
-            // console.log('Número de items en el carrito:', cartItems);
-          },
-          error: (error) => {
-            console.error('Error fetching cart products:', error);
-          },
-        });
-      },
-      error: (error) => {
-        console.error('Error fetching cart items:', error);
-      },
-    });
-    return cartItems;
+    // let cartItems = 0;
+    // const user = this.loginService.getLoggedUser();
+    // this.productService.getActiveCart(user.id).subscribe({
+    //   next: (data: any) => {
+    //     this.productService.getProducosCarrito(data.carrito.id).subscribe({
+    //       next: (cartProducts: any) => {
+    //         cartItems = cartProducts.length;
+    //         // console.log('Número de items en el carrito:', cartItems);
+    //       },
+    //       error: (error) => {
+    //         console.error('Error fetching cart products:', error);
+    //       },
+    //     });
+    //   },
+    //   error: (error) => {
+    //     // console.error('Error fetching cart items:', error);
+    //   },
+    // });
+    // return cartItems;
+    return 0;
     // const cartItems = this.productService.getCartItems();
     // return cartItems.reduce((total, item) => total + item.quantity, 0);
   }
@@ -76,6 +77,6 @@ export class NavbarComponent {
 
   isVendor(): boolean {
     const loggedUser = this.loginService.getLoggedUser();
-    return loggedUser && loggedUser.rol === 2;  // Vendor has role 2, not 1
+    return loggedUser && loggedUser.rol === 2; // Vendor has role 2, not 1
   }
 }

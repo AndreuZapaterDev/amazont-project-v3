@@ -111,4 +111,22 @@ export class ProductService {
   getProductCharacteristics(id: number): Observable<any> {
     return this.http.get(`${this.apiPath}/api/caracteristica/${id}`);
   }
+
+  postProduct(data: any): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/producto`, data);
+  }
+
+  postProductImage(data: any): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/imagen`, data);
+  }
+
+  postProductCategories(data: any): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/producto_categoria`, data);
+  }
+
+  postProductUser(data: any): Observable<any> {
+    return this.http.post(`${this.apiPath}/api/producto_usuario`, data);
+  }
+
+  //Falta el put del producto, el delete y el get de los productos asociados a un usuario
 }

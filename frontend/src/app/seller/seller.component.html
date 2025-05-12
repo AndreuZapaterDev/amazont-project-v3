@@ -1,9 +1,14 @@
+<!-- TODO: Usar @if en vez de ngif -->
 <div class="seller-dashboard">
   <!-- Header de la página -->
   <div class="page-header">
     <h1>Panel de Vendedor</h1>
     <div class="actions">
-      <button class="add-product-btn" (click)="showAddProductForm = true" *ngIf="!showAddProductForm">
+      <button
+        class="add-product-btn"
+        (click)="showAddProductForm = true"
+        *ngIf="!showAddProductForm"
+      >
         <i class="fi fi-br-plus"></i> Añadir Producto
       </button>
     </div>
@@ -11,56 +16,85 @@
 
   <!-- Formulario para añadir/editar productos -->
   <div class="product-form-container" *ngIf="showAddProductForm">
-    <h2>{{ editingProduct ? 'Editar Producto' : 'Añadir Nuevo Producto' }}</h2>
+    <h2>{{ editingProduct ? "Editar Producto" : "Añadir Nuevo Producto" }}</h2>
     <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
       <div class="form-group">
         <label for="name">Título del producto</label>
-        <input type="text" id="name" formControlName="nombre" placeholder="Nombre del producto">
-        @if (productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched) {
-          <div class="error-message">El título del producto es obligatorio</div>
+        <input
+          type="text"
+          id="name"
+          formControlName="nombre"
+          placeholder="Nombre del producto"
+        />
+        @if (productForm.get('nombre')?.invalid &&
+        productForm.get('nombre')?.touched) {
+        <div class="error-message">El título del producto es obligatorio</div>
         }
       </div>
 
       <div class="form-group">
         <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Descripción del producto"></textarea>
-        @if (productForm.get('descripcion')?.invalid && productForm.get('descripcion')?.touched) {
-          <div class="error-message">La descripción es obligatoria</div>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          rows="4"
+          placeholder="Descripción del producto"
+        ></textarea>
+        @if (productForm.get('descripcion')?.invalid &&
+        productForm.get('descripcion')?.touched) {
+        <div class="error-message">La descripción es obligatoria</div>
         }
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label for="precio">Precio (€)</label>
-          <input type="number" id="precio" formControlName="precio" min="0" step="0.01">
-          @if (productForm.get('precio')?.invalid && productForm.get('precio')?.touched) {
-            <div class="error-message">El precio es obligatorio y debe ser mayor que 0</div>
+          <input
+            type="number"
+            id="precio"
+            formControlName="precio"
+            min="0"
+            step="0.01"
+          />
+          @if (productForm.get('precio')?.invalid &&
+          productForm.get('precio')?.touched) {
+          <div class="error-message">
+            El precio es obligatorio y debe ser mayor que 0
+          </div>
           }
         </div>
 
         <div class="form-group">
           <label for="descuento">Descuento (%)</label>
-          <input type="number" id="descuento" formControlName="descuento" min="0" max="100">
+          <input
+            type="number"
+            id="descuento"
+            formControlName="descuento"
+            min="0"
+            max="100"
+          />
         </div>
-        
+
         <div class="form-group">
           <label for="stock">Stock</label>
-          <input type="number" id="stock" formControlName="stock" min="0">
-          @if (productForm.get('stock')?.invalid && productForm.get('stock')?.touched) {
-            <div class="error-message">El stock es obligatorio</div>
+          <input type="number" id="stock" formControlName="stock" min="0" />
+          @if (productForm.get('stock')?.invalid &&
+          productForm.get('stock')?.touched) {
+          <div class="error-message">El stock es obligatorio</div>
           }
         </div>
-        
+
         <div class="form-group">
           <label for="categoria">Categoría</label>
           <select id="categoria" formControlName="categoria_id">
             <option value="" disabled>Seleccionar categoría</option>
             @for (category of categories; track category.id) {
-              <option [value]="category.id">{{ category.nombre }}</option>
+            <option [value]="category.id">{{ category.nombre }}</option>
             }
           </select>
-          @if (productForm.get('categoria_id')?.invalid && productForm.get('categoria_id')?.touched) {
-            <div class="error-message">La categoría es obligatoria</div>
+          @if (productForm.get('categoria_id')?.invalid &&
+          productForm.get('categoria_id')?.touched) {
+          <div class="error-message">La categoría es obligatoria</div>
           }
         </div>
       </div>
@@ -70,28 +104,51 @@
         <div class="image-upload-container">
           <div class="upload-preview" *ngIf="imagePreviewUrls.length > 0">
             @for (url of imagePreviewUrls; track $index) {
-              <div class="preview-item">
-                <img [src]="url" alt="Vista previa">
-                <button type="button" class="remove-image-btn" (click)="removeImage($index)">
-                  <i class="fi fi-br-trash"></i>
-                </button>
-              </div>
+            <div class="preview-item">
+              <img [src]="url" alt="Vista previa" />
+              <button
+                type="button"
+                class="remove-image-btn"
+                (click)="removeImage($index)"
+              >
+                <i class="fi fi-br-trash"></i>
+              </button>
+            </div>
             }
           </div>
           <button type="button" class="upload-btn" (click)="fileInput.click()">
             <i class="fi fi-br-upload"></i> Subir imagen
           </button>
-          <input type="file" #fileInput (change)="onImageSelected($event)" accept="image/*" multiple hidden>
+          <input
+            type="file"
+            #fileInput
+            (change)="onImageSelected($event)"
+            accept="image/*"
+            multiple
+            hidden
+          />
           @if (imageError) {
-            <div class="error-message">{{ imageError }}</div>
+          <div class="error-message">{{ imageError }}</div>
           }
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancelar</button>
-        <button type="submit" class="save-btn" [disabled]="productForm.invalid || isSubmitting">
-          {{ isSubmitting ? 'Guardando...' : (editingProduct ? 'Actualizar Producto' : 'Añadir Producto') }}
+        <button type="button" class="cancel-btn" (click)="cancelEdit()">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="save-btn"
+          [disabled]="productForm.invalid || isSubmitting"
+        >
+          {{
+            isSubmitting
+              ? "Guardando..."
+              : editingProduct
+              ? "Actualizar Producto"
+              : "Añadir Producto"
+          }}
         </button>
       </div>
     </form>
@@ -100,10 +157,18 @@
   <!-- Pestañas para navegar entre productos y estadísticas -->
   <div class="tabs-container" *ngIf="!showAddProductForm">
     <div class="tab-header">
-      <button class="tab-btn" [class.active]="activeTab === 'products'" (click)="activeTab = 'products'">
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'products'"
+        (click)="activeTab = 'products'"
+      >
         Mis Productos
       </button>
-      <button class="tab-btn" [class.active]="activeTab === 'sales'" (click)="activeTab = 'sales'">
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'sales'"
+        (click)="activeTab = 'sales'"
+      >
         Ventas y Estadísticas
       </button>
     </div>
@@ -111,7 +176,11 @@
     <!-- Listado de productos -->
     <div class="tab-content" *ngIf="activeTab === 'products'">
       <div class="search-filter">
-        <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchTerm">
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          [(ngModel)]="searchTerm"
+        />
         <select [(ngModel)]="stockFilter">
           <option value="all">Todos</option>
           <option value="inStock">En stock</option>
@@ -122,48 +191,61 @@
 
       <div class="products-grid">
         @for (product of filteredProducts; track product.id) {
-          <div class="product-card">
-            <div class="product-img">
-              <img [src]="getProductMainImage(product)" [alt]="product.nombre">
-              @if (product.descuento > 0) {
-                <span class="discount-badge">-{{ product.descuento }}%</span>
-              }
+        <div class="product-card">
+          <div class="product-img">
+            <img [src]="getProductMainImage(product)" [alt]="product.nombre" />
+            @if (product.descuento > 0) {
+            <span class="discount-badge">-{{ product.descuento }}%</span>
+            }
+          </div>
+          <div class="product-info">
+            <h3>{{ product.nombre }}</h3>
+            <div class="product-meta">
+              <p class="price">{{ product.precio }}€</p>
+              <p
+                class="stock"
+                [class.low-stock]="product.stock < 10"
+                [class.out-of-stock]="product.stock === 0"
+              >
+                Stock: {{ product.stock }}
+              </p>
             </div>
-            <div class="product-info">
-              <h3>{{ product.nombre }}</h3>
-              <div class="product-meta">
-                <p class="price">{{ product.precio }}€</p>
-                <p class="stock" [class.low-stock]="product.stock < 10" [class.out-of-stock]="product.stock === 0">
-                  Stock: {{ product.stock }}
-                </p>
-              </div>
-              <div class="product-actions">
-                <button (click)="editProduct(product)">
-                  <i class="fi fi-br-edit"></i> Editar
-                </button>
-                <button class="delete-btn" (click)="deleteProduct(product.id)">
-                  <i class="fi fi-br-trash"></i> Eliminar
-                </button>
-              </div>
+            <div class="product-actions">
+              <button (click)="editProduct(product)">
+                <i class="fi fi-br-edit"></i> Editar
+              </button>
+              <button class="delete-btn" (click)="deleteProduct(product.id)">
+                <i class="fi fi-br-trash"></i> Eliminar
+              </button>
             </div>
           </div>
+        </div>
         }
       </div>
 
       @if (filteredProducts.length === 0) {
-        <div class="empty-state">
-          <i class="fi fi-br-info"></i>
-          <p>No se encontraron productos. Añade tu primer producto o ajusta los filtros de búsqueda.</p>
-        </div>
+      <div class="empty-state">
+        <i class="fi fi-br-info"></i>
+        <p>
+          No se encontraron productos. Añade tu primer producto o ajusta los
+          filtros de búsqueda.
+        </p>
+      </div>
       }
 
       <!-- Paginación -->
       <div class="pagination" *ngIf="totalPages > 1">
-        <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        <button
+          [disabled]="currentPage === 1"
+          (click)="changePage(currentPage - 1)"
+        >
           <i class="fi fi-br-angle-left"></i>
         </button>
         <span>Página {{ currentPage }} de {{ totalPages }}</span>
-        <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        <button
+          [disabled]="currentPage === totalPages"
+          (click)="changePage(currentPage + 1)"
+        >
           <i class="fi fi-br-angle-right"></i>
         </button>
       </div>
@@ -174,7 +256,7 @@
       <div class="sales-summary">
         <div class="summary-card">
           <h3>Ventas totales</h3>
-          <p class="amount">{{ totalSales | currency:'EUR' }}</p>
+          <p class="amount">{{ totalSales | currency : "EUR" }}</p>
           <p class="period">Este mes</p>
         </div>
         <div class="summary-card">
@@ -203,23 +285,23 @@
           </thead>
           <tbody>
             @for (stat of productStats; track stat.id) {
-              <tr>
-                <td>
-                  <div class="product-cell">
-                    <img [src]="stat.image" [alt]="stat.name">
-                    <span>{{ stat.name }}</span>
-                  </div>
-                </td>
-                <td>{{ stat.revenue | currency:'EUR' }}</td>
-                <td>{{ stat.unitsSold }}</td>
-                <td>{{ stat.conversionRate }}%</td>
-                <td>
-                  <div class="rating">
-                    <span class="stars">{{ '⭐'.repeat(stat.rating) }}</span>
-                    <span class="count">({{ stat.reviewCount }})</span>
-                  </div>
-                </td>
-              </tr>
+            <tr>
+              <td>
+                <div class="product-cell">
+                  <img [src]="stat.image" [alt]="stat.name" />
+                  <span>{{ stat.name }}</span>
+                </div>
+              </td>
+              <td>{{ stat.revenue | currency : "EUR" }}</td>
+              <td>{{ stat.unitsSold }}</td>
+              <td>{{ stat.conversionRate }}%</td>
+              <td>
+                <div class="rating">
+                  <span class="stars">{{ "⭐".repeat(stat.rating) }}</span>
+                  <span class="count">({{ stat.reviewCount }})</span>
+                </div>
+              </td>
+            </tr>
             }
           </tbody>
         </table>
