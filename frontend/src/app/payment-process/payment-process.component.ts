@@ -337,12 +337,11 @@ export class PaymentProcessComponent implements OnInit {
         this.profileService.addMetodoPago(paymentData).subscribe({
           error: (error) => {
             console.error('Error al guardar la tarjeta:', error);
-            // Continuamos con el proceso de pago aunque falle el guardado de la tarjeta
           },
         });
       }
 
-      // Call finishCarrito to finalize the payment
+      // Finalizar pago
       if (this.cartId) {
         this.productService.finishCarrito(this.cartId).subscribe({
           next: () => {
@@ -355,11 +354,9 @@ export class PaymentProcessComponent implements OnInit {
           error: (error) => {
             console.error('Error finalizing cart:', error);
             this.isProcessing = false;
-            // Handle error, show message to user
           },
         });
       } else {
-        // Fallback in case the cartId is not available
         setTimeout(() => {
           this.orderNumber = this.generateOrderNumber();
           this.totalPaid = this.calculateTotal();

@@ -1,36 +1,38 @@
 <div class="categories-container">
-  <div class="categories-nav">
+  <div class="categories-nav" role="navigation" aria-label="Categorías de productos">
     <div class="categories-wrapper">
       <button class="nav-arrow prev-arrow" (click)="previousCategory()" aria-label="Categorías anteriores">
-        <i class="fi fi-br-angle-left"></i>
+        <i class="fi fi-br-angle-left" aria-hidden="true"></i>
         <span class="arrow-ripple"></span>
       </button>
 
-      <div class="categories-slider">
+      <div class="categories-slider" aria-label="Lista de categorías">
         @for(category of visibleCategories; track category.id) {
         <a class="category-link" [routerLink]="['/home/categories', category.id]"
-          [class.active]="isCategoryActive(category.category)">
+          [class.active]="isCategoryActive(category.category)"
+          [attr.aria-current]="isCategoryActive(category.category) ? 'page' : null"
+          [attr.aria-label]="'Ver productos de ' + category.name">
 
           <div class="category-icon">
-            <i [class]="getCategoryIcon(category.category)"></i>
+            <i [class]="getCategoryIcon(category.category)" aria-hidden="true"></i>
             <div class="icon-bg"></div>
           </div>
           <span class="category-name">{{ category.name }}</span>
           @if(isCategoryActive(category.category)) {
-          <div class="active-indicator"></div>
+          <div class="active-indicator" aria-hidden="true"></div>
           }
         </a>
         }
       </div>
 
       <button class="nav-arrow next-arrow" (click)="nextCategory()" aria-label="Categorías siguientes">
-        <i class="fi fi-br-angle-right"></i>
+        <i class="fi fi-br-angle-right" aria-hidden="true"></i>
         <span class="arrow-ripple"></span>
       </button>
     </div>
   </div>
 
-  <div class="category-content">
+  <div class="category-content" aria-live="polite">
     <router-outlet></router-outlet>
   </div>
 </div>

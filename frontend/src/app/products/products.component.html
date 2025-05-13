@@ -1,17 +1,17 @@
 @if(product().descuento || product().discount){
-<div class="product-card" (click)="navigateToProduct(product())">
+<div class="product-card" (click)="navigateToProduct(product())" role="article" aria-labelledby="product-name-with-discount" tabindex="0">
   <!-- Badge de descuento -->
-  <div class="product-badge discount">
+  <div class="product-badge discount" aria-label="Descuento de {{product().descuento || product().discount}} por ciento">
     -{{ product().descuento || product().discount }}%
   </div>
 
   <!-- Opciones rápidas (aparecen al hacer hover) -->
   <div class="quick-actions">
-    <button class="quick-action-btn" title="Añadir a favoritos">
-      <i class="fi fi-br-heart"></i>
+    <button class="quick-action-btn" aria-label="Añadir a favoritos">
+      <i class="fi fi-br-heart" aria-hidden="true"></i>
     </button>
-    <button class="quick-action-btn" title="Vista rápida">
-      <i class="fi fi-br-eye"></i>
+    <button class="quick-action-btn" aria-label="Vista rápida del producto">
+      <i class="fi fi-br-eye" aria-hidden="true"></i>
     </button>
   </div>
 
@@ -21,47 +21,48 @@
       class="product-image"
       [src]="getProductImage()"
       [alt]="product().nombre || product().name"
+      aria-describedby="product-info-with-discount"
     />
   </div>
 
   <!-- Información del producto -->
-  <div class="product-info">
-    <div class="product-category">
+  <div class="product-info" id="product-info-with-discount">
+    <div class="product-category" aria-label="Categoría">
       {{ getCategoryName(product().category) }}
     </div>
-    <h3 class="product-name">{{ product().nombre || product().name }}</h3>
-    <div class="product-rating">
+    <h3 class="product-name" id="product-name-with-discount">{{ product().nombre || product().name }}</h3>
+    <div class="product-rating" aria-label="Valoración: {{numberStars}} estrellas de 5">
       {{ numberStars }}
-      <span class="rating-count">({{ ratingCount }})</span>
+      <span class="rating-count" aria-label="{{ratingCount}} valoraciones">({{ ratingCount }})</span>
     </div>
 
     <!-- Precios -->
-    <div class="product-price-container">
-      <span class="product-price-original">{{ getProductPrice() }}€</span>
-      <span class="product-price-discounted">{{ discountedPrice }}€</span>
+    <div class="product-price-container" aria-live="polite">
+      <span class="product-price-original" aria-label="Precio original: {{getProductPrice()}} euros">{{ getProductPrice() }}€</span>
+      <span class="product-price-discounted" aria-label="Precio con descuento: {{discountedPrice}} euros">{{ discountedPrice }}€</span>
     </div>
 
     <!-- Información de envío -->
     <div class="product-shipping">
-      <span><i class="fi fi-br-truck-side"></i> Envío rápido</span>
-      <span class="free-shipping">Gratis</span>
+      <span><i class="fi fi-br-truck-side" aria-hidden="true"></i> Envío rápido</span>
+      <span class="free-shipping" aria-label="Envío gratuito">Gratis</span>
     </div>
 
     <!-- Botón de acción (aparece en hover) -->
-    <button class="add-to-cart-button">
-      <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+    <button class="add-to-cart-button" aria-label="Añadir {{product().nombre || product().name}} al carrito">
+      <i class="fi fi-br-shopping-cart" aria-hidden="true"></i> Añadir al carrito
     </button>
   </div>
 </div>
 }@else {
-<div class="product-card" (click)="navigateToProduct(product())">
+<div class="product-card" (click)="navigateToProduct(product())" role="article" aria-labelledby="product-name-regular" tabindex="0">
   <!-- Opciones rápidas (aparecen al hacer hover) -->
   <div class="quick-actions">
-    <button class="quick-action-btn" title="Añadir a favoritos">
-      <i class="fi fi-br-heart"></i>
+    <button class="quick-action-btn" aria-label="Añadir a favoritos">
+      <i class="fi fi-br-heart" aria-hidden="true"></i>
     </button>
-    <button class="quick-action-btn" title="Vista rápida">
-      <i class="fi fi-br-eye"></i>
+    <button class="quick-action-btn" aria-label="Vista rápida del producto">
+      <i class="fi fi-br-eye" aria-hidden="true"></i>
     </button>
   </div>
 
@@ -71,38 +72,39 @@
       class="product-image"
       [src]="getProductImage()"
       [alt]="product().nombre || product().name"
+      aria-describedby="product-info-regular"
     />
     <!-- Badge para productos nuevos (menos de 30 días) -->
     @if(isNewProduct()) {
-    <div class="product-badge new">Nuevo</div>
+    <div class="product-badge new" aria-label="Producto nuevo">Nuevo</div>
     }
   </div>
 
   <!-- Información del producto -->
-  <div class="product-info">
-    <div class="product-category">
+  <div class="product-info" id="product-info-regular">
+    <div class="product-category" aria-label="Categoría">
       {{ getCategoryName(product().category) }}
     </div>
-    <h3 class="product-name">{{ product().nombre || product().name }}</h3>
-    <div class="product-rating">
+    <h3 class="product-name" id="product-name-regular">{{ product().nombre || product().name }}</h3>
+    <div class="product-rating" aria-label="Valoración: {{numberStars}} estrellas de 5">
       {{ numberStars }}
-      <span class="rating-count">({{ ratingCount }})</span>
+      <span class="rating-count" aria-label="{{ratingCount}} valoraciones">({{ ratingCount }})</span>
     </div>
 
     <!-- Precio -->
-    <div class="product-price-container">
-      <span class="product-price-regular">{{ getProductPrice() }}€</span>
+    <div class="product-price-container" aria-live="polite">
+      <span class="product-price-regular" aria-label="Precio: {{getProductPrice()}} euros">{{ getProductPrice() }}€</span>
     </div>
 
     <!-- Información de envío -->
     <div class="product-shipping">
-      <span><i class="fi fi-br-truck-side"></i> Envío rápido</span>
-      <span class="free-shipping">Gratis</span>
+      <span><i class="fi fi-br-truck-side" aria-hidden="true"></i> Envío rápido</span>
+      <span class="free-shipping" aria-label="Envío gratuito">Gratis</span>
     </div>
 
     <!-- Botón de acción (aparece en hover) -->
-    <button class="add-to-cart-button">
-      <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+    <button class="add-to-cart-button" aria-label="Añadir {{product().nombre || product().name}} al carrito">
+      <i class="fi fi-br-shopping-cart" aria-hidden="true"></i> Añadir al carrito
     </button>
   </div>
 </div>

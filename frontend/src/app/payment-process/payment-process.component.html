@@ -1,22 +1,22 @@
-<div class="payment-container">
+<div class="payment-container" role="main">
   
   <!-- Success Message Overlay -->
   @if (paymentSuccess) {
-    <div class="success-overlay">
+    <div class="success-overlay" role="dialog" aria-modal="true" aria-labelledby="success-heading">
       <div class="success-modal">
-        <div class="success-icon">
+        <div class="success-icon" aria-hidden="true">
           <i class="fi fi-br-check-circle"></i>
         </div>
-        <h2>¡Pago realizado correctamente!</h2>
+        <h2 id="success-heading">¡Pago realizado correctamente!</h2>
         <p>Tu pedido #{{ orderNumber }} ha sido procesado con éxito.</p>
         <p class="success-total">Total pagado: {{ totalPaid | number:'1.2-2' }}€</p>
         <p class="success-message">Te hemos enviado los detalles de tu compra por correo electrónico.</p>
         <div class="success-actions">
-          <button class="continue-shopping-btn" routerLink="/home">
-            <i class="fi fi-br-shopping-bag"></i> Seguir comprando
+          <button class="continue-shopping-btn" routerLink="/home" aria-label="Continuar comprando">
+            <i class="fi fi-br-shopping-bag" aria-hidden="true"></i> Seguir comprando
           </button>
-          <button class="view-order-btn" routerLink="/profile/orders">
-            <i class="fi fi-br-package"></i> Ver mis pedidos
+          <button class="view-order-btn" routerLink="/profile/orders" aria-label="Ver historial de pedidos">
+            <i class="fi fi-br-package" aria-hidden="true"></i> Ver mis pedidos
           </button>
         </div>
       </div>
@@ -25,33 +25,36 @@
 
   <!-- Header -->
   <div class="payment-header" [class.blur-background]="paymentSuccess">
-    <h1 class="payment-title">Finalizar compra</h1>
-    <p class="payment-subtitle">Completa tu información de pago y envío</p>
+    <h1 class="payment-title" id="payment-heading">Finalizar compra</h1>
+    <p class="payment-subtitle" id="payment-subheading">Completa tu información de pago y envío</p>
   </div>
 
   <div class="payment-content" [class.blur-background]="paymentSuccess">
     <div class="payment-main">
-      <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
+      <form [formGroup]="paymentForm" (ngSubmit)="processPayment()" aria-labelledby="payment-heading" aria-describedby="payment-subheading">
         <div class="payment-section">
           <div class="section-header">
-            <h2>Dirección de envío</h2>
-            <span class="section-step">Paso 1 de 3</span>
+            <h2 id="shipping-section">Dirección de envío</h2>
+            <span class="section-step" aria-hidden="true">Paso 1 de 3</span>
           </div>
 
-          <div class="address-form">
+          <div class="address-form" role="group" aria-labelledby="shipping-section">
             <div class="form-group">
-              <label for="fullName">Nombre completo</label>
+              <label for="fullName" id="fullName-label">Nombre completo</label>
               <div class="input-container">
-                <i class="fi fi-br-user"></i>
+                <i class="fi fi-br-user" aria-hidden="true"></i>
                 <input 
                   type="text" 
                   id="fullName" 
                   formControlName="fullName" 
                   placeholder="Nombre y apellidos"
+                  aria-labelledby="fullName-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="submitted && f['fullName'].errors ? 'true' : 'false'"
                 >
               </div>
               @if (submitted && f['fullName'].errors) {
-                <div class="error-message">
+                <div class="error-message" role="alert" aria-live="assertive">
                   @if (f['fullName'].errors['required']) {
                     <span>El nombre es obligatorio</span>
                   }
@@ -60,18 +63,21 @@
             </div>
 
             <div class="form-group">
-              <label for="address">Dirección</label>
+              <label for="address" id="address-label">Dirección</label>
               <div class="input-container">
-                <i class="fi fi-br-map-marker"></i>
+                <i class="fi fi-br-map-marker" aria-hidden="true"></i>
                 <input 
                   type="text" 
                   id="address" 
                   formControlName="address" 
                   placeholder="Calle, número, piso..."
+                  aria-labelledby="address-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="submitted && f['address'].errors ? 'true' : 'false'"
                 >
               </div>
               @if (submitted && f['address'].errors) {
-                <div class="error-message">
+                <div class="error-message" role="alert" aria-live="assertive">
                   @if (f['address'].errors['required']) {
                     <span>La dirección es obligatoria</span>
                   }
@@ -81,18 +87,21 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label for="city">Ciudad</label>
+                <label for="city" id="city-label">Ciudad</label>
                 <div class="input-container">
-                  <i class="fi fi-br-building"></i>
+                  <i class="fi fi-br-building" aria-hidden="true"></i>
                   <input 
                     type="text" 
                     id="city" 
                     formControlName="city" 
                     placeholder="Ciudad"
+                    aria-labelledby="city-label"
+                    aria-required="true"
+                    [attr.aria-invalid]="submitted && f['city'].errors ? 'true' : 'false'"
                   >
                 </div>
                 @if (submitted && f['city'].errors) {
-                  <div class="error-message">
+                  <div class="error-message" role="alert" aria-live="assertive">
                     @if (f['city'].errors['required']) {
                       <span>La ciudad es obligatoria</span>
                     }
@@ -101,18 +110,21 @@
               </div>
 
               <div class="form-group">
-                <label for="zipCode">Código postal</label>
+                <label for="zipCode" id="zipCode-label">Código postal</label>
                 <div class="input-container">
-                  <i class="fi fi-br-envelope"></i>
+                  <i class="fi fi-br-envelope" aria-hidden="true"></i>
                   <input 
                     type="text" 
                     id="zipCode" 
                     formControlName="zipCode" 
                     placeholder="Código postal"
+                    aria-labelledby="zipCode-label"
+                    aria-required="true"
+                    [attr.aria-invalid]="submitted && f['zipCode'].errors ? 'true' : 'false'"
                   >
                 </div>
                 @if (submitted && f['zipCode'].errors) {
-                  <div class="error-message">
+                  <div class="error-message" role="alert" aria-live="assertive">
                     @if (f['zipCode'].errors['required']) {
                       <span>El código postal es obligatorio</span>
                     }
@@ -125,18 +137,21 @@
             </div>
 
             <div class="form-group">
-              <label for="phone">Teléfono de contacto</label>
+              <label for="phone" id="phone-label">Teléfono de contacto</label>
               <div class="input-container">
-                <i class="fi fi-br-phone-call"></i>
+                <i class="fi fi-br-phone-call" aria-hidden="true"></i>
                 <input 
                   type="tel" 
                   id="phone" 
                   formControlName="phone" 
                   placeholder="Teléfono para el envío"
+                  aria-labelledby="phone-label"
+                  aria-required="true" 
+                  [attr.aria-invalid]="submitted && f['phone'].errors ? 'true' : 'false'"
                 >
               </div>
               @if (submitted && f['phone'].errors) {
-                <div class="error-message">
+                <div class="error-message" role="alert" aria-live="assertive">
                   @if (f['phone'].errors['required']) {
                     <span>El teléfono es obligatorio</span>
                   }
@@ -152,33 +167,49 @@
         <!-- Payment Method Section -->
         <div class="payment-section">
           <div class="section-header">
-            <h2>Método de pago</h2>
-            <span class="section-step">Paso 2 de 3</span>
+            <h2 id="payment-method-section">Método de pago</h2>
+            <span class="section-step" aria-hidden="true">Paso 2 de 3</span>
           </div>
 
-          <div class="payment-methods">
-            <div class="payment-method" [class.selected]="paymentMethod === 'card'" (click)="selectPaymentMethod('card')">
-              <div class="method-icon">
+          <div class="payment-methods" role="radiogroup" aria-labelledby="payment-method-section">
+            <div 
+              class="payment-method" 
+              [class.selected]="paymentMethod === 'card'" 
+              (click)="selectPaymentMethod('card')"
+              role="radio"
+              [attr.aria-checked]="paymentMethod === 'card'"
+              tabindex="0"
+              aria-label="Pagar con tarjeta de crédito o débito"
+            >
+              <div class="method-icon" aria-hidden="true">
                 <i class="fi fi-br-credit-card"></i>
               </div>
               <div class="method-details">
-                <h3>Tarjeta de crédito/débito</h3>
-                <p>Pago seguro con tarjeta</p>
+                <h3 id="card-method">Tarjeta de crédito/débito</h3>
+                <p id="card-description">Pago seguro con tarjeta</p>
               </div>
-              <div class="method-selector">
+              <div class="method-selector" aria-hidden="true">
                 <div class="radio-button"></div>
               </div>
             </div>
 
-            <div class="payment-method" [class.selected]="paymentMethod === 'paypal'" (click)="selectPaymentMethod('paypal')">
-              <div class="method-icon paypal">
+            <div 
+              class="payment-method" 
+              [class.selected]="paymentMethod === 'paypal'" 
+              (click)="selectPaymentMethod('paypal')"
+              role="radio"
+              [attr.aria-checked]="paymentMethod === 'paypal'"
+              tabindex="0"
+              aria-label="Pagar con PayPal"
+            >
+              <div class="method-icon paypal" aria-hidden="true">
                 <i class="fi fi-brands-paypal"></i>
               </div>
               <div class="method-details">
-                <h3>PayPal</h3>
-                <p>Pago rápido y seguro</p>
+                <h3 id="paypal-method">PayPal</h3>
+                <p id="paypal-description">Pago rápido y seguro</p>
               </div>
-              <div class="method-selector">
+              <div class="method-selector" aria-hidden="true">
                 <div class="radio-button"></div>
               </div>
             </div>
@@ -186,14 +217,22 @@
 
         <!-- Card Details Form -->
         @if (paymentMethod === 'card') {
-          <div class="card-details">
+          <div class="card-details" role="group" aria-labelledby="card-details-title">
             <!-- Tarjetas guardadas -->
             <div class="saved-cards" *ngIf="savedPaymentMethods && savedPaymentMethods.length > 0">
-              <h3 class="saved-cards-title">Tus tarjetas guardadas</h3>
-              <div class="saved-cards-list">
+              <h3 class="saved-cards-title" id="saved-cards-title">Tus tarjetas guardadas</h3>
+              <div class="saved-cards-list" role="radiogroup" aria-labelledby="saved-cards-title">
                 @for (card of savedPaymentMethods; track card.id) {
-                  <div class="saved-card-item" [class.selected]="selectedCardId === card.id" (click)="selectSavedCard(card)">
-                    <div class="card-icon">
+                  <div 
+                    class="saved-card-item" 
+                    [class.selected]="selectedCardId === card.id" 
+                    (click)="selectSavedCard(card)"
+                    role="radio"
+                    [attr.aria-checked]="selectedCardId === card.id"
+                    tabindex="0"
+                    [attr.aria-label]="'Seleccionar tarjeta terminada en ' + card.last4 + ' a nombre de ' + card.name"
+                  >
+                    <div class="card-icon" aria-hidden="true">
                       <i [class]="getCardIcon(card.type)"></i>
                     </div>
                     <div class="card-info">
@@ -201,37 +240,46 @@
                       <p class="card-number">**** {{ card.last4 }}</p>
                       <p class="card-expiry">Caduca: {{ card.expiry }}</p>
                     </div>
-                    <div class="card-select">
+                    <div class="card-select" aria-hidden="true">
                       <div class="radio-button"></div>
                     </div>
                   </div>
                 }
               </div>
               
-              <div class="divider">
+              <div class="divider" aria-hidden="true">
                 <span>o</span>
               </div>
               
-              <button type="button" class="add-new-card-btn" (click)="useNewCard()">
-                <i class="fi fi-br-plus"></i> Usar nueva tarjeta
+              <button 
+                type="button" 
+                class="add-new-card-btn" 
+                (click)="useNewCard()"
+                aria-label="Usar una nueva tarjeta de crédito o débito"
+              >
+                <i class="fi fi-br-plus" aria-hidden="true"></i> Usar nueva tarjeta
               </button>
             </div>
 
             <!-- Formulario de nueva tarjeta -->
               @if (!selectedCardId || !savedPaymentMethods || savedPaymentMethods.length === 0) {
-                <div class="form-group">
-                  <label for="cardName">Nombre en la tarjeta</label>
+                <div class="form-group" role="group" aria-labelledby="card-details-title">
+                  <h3 id="card-details-title" class="visually-hidden">Detalles de nueva tarjeta</h3>
+                  <label for="cardName" id="cardName-label">Nombre en la tarjeta</label>
                   <div class="input-container">
-                    <i class="fi fi-br-user"></i>
+                    <i class="fi fi-br-user" aria-hidden="true"></i>
                     <input 
                       type="text" 
                       id="cardName" 
                       formControlName="cardName" 
                       placeholder="Nombre que aparece en la tarjeta"
+                      aria-labelledby="cardName-label"
+                      aria-required="true"
+                      [attr.aria-invalid]="submitted && f['cardName'].errors ? 'true' : 'false'"
                     >
                   </div>
                   @if (submitted && f['cardName'].errors) {
-                    <div class="error-message">
+                    <div class="error-message" role="alert" aria-live="assertive">
                       @if (f['cardName'].errors['required']) {
                         <span>El nombre en la tarjeta es obligatorio</span>
                       }
@@ -240,9 +288,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="cardNumber">Número de tarjeta</label>
+                  <label for="cardNumber" id="cardNumber-label">Número de tarjeta</label>
                   <div class="input-container">
-                    <i class="fi fi-br-credit-card"></i>
+                    <i class="fi fi-br-credit-card" aria-hidden="true"></i>
                     <input 
                       type="text" 
                       id="cardNumber" 
@@ -250,10 +298,14 @@
                       placeholder="1234 5678 9012 3456"
                       maxlength="19"
                       (input)="formatCardNumber($event)"
+                      aria-labelledby="cardNumber-label"
+                      aria-required="true"
+                      [attr.aria-invalid]="submitted && f['cardNumber'].errors ? 'true' : 'false'"
+                      autocomplete="cc-number"
                     >
                   </div>
                   @if (submitted && f['cardNumber'].errors) {
-                    <div class="error-message">
+                    <div class="error-message" role="alert" aria-live="assertive">
                       @if (f['cardNumber'].errors['required']) {
                         <span>El número de tarjeta es obligatorio</span>
                       }
@@ -266,9 +318,9 @@
 
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="expiryDate">Fecha de caducidad</label>
+                    <label for="expiryDate" id="expiryDate-label">Fecha de caducidad</label>
                     <div class="input-container">
-                      <i class="fi fi-br-calendar"></i>
+                      <i class="fi fi-br-calendar" aria-hidden="true"></i>
                       <input 
                         type="text" 
                         id="expiryDate" 
@@ -276,6 +328,10 @@
                         placeholder="MM/AA"
                         maxlength="5"
                         (input)="formatExpiryDate($event)"
+                        aria-labelledby="expiryDate-label"
+                        aria-required="true"
+                        [attr.aria-invalid]="submitted && f['expiryDate'].errors ? 'true' : 'false'"
+                        autocomplete="cc-exp"
                       >
                     </div>
                     @if (submitted && f['expiryDate'].errors) {
@@ -291,19 +347,25 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="cvv">CVV</label>
+                    <label for="cvv" id="cvv-label">CVV</label>
                     <div class="input-container">
-                      <i class="fi fi-br-lock"></i>
+                      <i class="fi fi-br-lock" aria-hidden="true"></i>
                       <input 
                         type="password" 
                         id="cvv" 
                         formControlName="cvv" 
                         placeholder="123"
                         maxlength="3"
+                        aria-labelledby="cvv-label"
+                        aria-required="true"
+                        [attr.aria-invalid]="submitted && f['cvv'].errors ? 'true' : 'false'"
+                        aria-describedby="cvv-hint"
+                        autocomplete="cc-csc"
                       >
+                      <span id="cvv-hint" class="visually-hidden">El código de seguridad de tres dígitos se encuentra en el reverso de la tarjeta</span>
                     </div>
                     @if (submitted && f['cvv'].errors) {
-                      <div class="error-message">
+                      <div class="error-message" role="alert" aria-live="assertive">
                         @if (f['cvv'].errors['required']) {
                           <span>El CVV es obligatorio</span>
                         }
@@ -316,9 +378,14 @@
                 </div>
                 
                 <div class="form-group checkbox-group">
-                  <label class="checkbox-container">
-                    <input type="checkbox" formControlName="saveCard">
-                    <span class="checkmark"></span>
+                  <label class="checkbox-container" for="saveCard">
+                    <input 
+                      type="checkbox" 
+                      id="saveCard" 
+                      formControlName="saveCard"
+                      aria-label="Guardar esta tarjeta para futuras compras"
+                    >
+                    <span class="checkmark" aria-hidden="true"></span>
                     <span>Guardar esta tarjeta para futuras compras</span>
                   </label>
                 </div>
@@ -330,16 +397,14 @@
         <!-- Review Order Section -->
         <div class="payment-section">
           <div class="section-header">
-            <h2>Revisar pedido</h2>
-            <span class="section-step">Paso 3 de 3</span>
-          </div>
-
-          <div class="order-review">
+            <h2 id="review-order-section">Revisar pedido</h2>
+            <span class="section-step" aria-hidden="true">Paso 3 de 3</span>
+          </div>          <div class="order-review" role="region" aria-labelledby="review-order-section">
             <div class="review-items">
-              <h3>Productos en tu pedido</h3>
+              <h3 id="order-items-heading">Productos en tu pedido</h3>
               
               @for (item of cartItems; track item.id) {
-                <div class="review-item">
+                <div class="review-item" role="listitem" [attr.aria-label]="'Producto: ' + item.name">
                   <div class="item-image">
                     <img [src]="item.url" [alt]="item.name">
                   </div>
@@ -352,8 +417,9 @@
                       <div class="price-container">
                         <div class="price-details">
                           <span class="price-label">Precio unitario:</span>
-                          <span class="original-price">{{ item.price }}€</span>
+                          <span class="original-price" aria-hidden="true">{{ item.price }}€</span>
                           <span class="unit-price">{{ (item.price - (item.price * item.discount / 100)) | number:'1.2-2' }}€/ud</span>
+                          <span class="visually-hidden">Precio con descuento: {{ (item.price - (item.price * item.discount / 100)) | number:'1.2-2' }} euros por unidad. Precio original: {{ item.price }} euros.</span>
                         </div>
                         <div class="price-details">
                           <span class="price-label">Total:</span>
@@ -379,13 +445,19 @@
 
             <div class="terms-agreement">
               <div class="form-group checkbox-group">
-                <label class="checkbox-container">
-                  <input type="checkbox" formControlName="termsAccepted">
-                  <span class="checkmark"></span>
+                <label class="checkbox-container" for="termsAccepted">
+                  <input 
+                    type="checkbox" 
+                    id="termsAccepted" 
+                    formControlName="termsAccepted" 
+                    aria-required="true"
+                    [attr.aria-invalid]="submitted && f['termsAccepted'].errors ? 'true' : 'false'"
+                  >
+                  <span class="checkmark" aria-hidden="true"></span>
                   <span>He leído y acepto los términos y condiciones y la política de privacidad</span>
                 </label>
                 @if (submitted && f['termsAccepted'].errors) {
-                  <div class="error-message">
+                  <div class="error-message" role="alert" aria-live="assertive">
                     @if (f['termsAccepted'].errors['required']) {
                       <span>Debes aceptar los términos y condiciones</span>
                     }
@@ -397,11 +469,22 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="payment-actions">
-          <button type="button" class="back-button" routerLink="/home/cart">
-            <i class="fi fi-br-angle-left"></i> Volver al carrito
+        <div class="payment-actions" role="group" aria-label="Acciones de pago">
+          <button 
+            type="button" 
+            class="back-button" 
+            routerLink="/home/cart"
+            aria-label="Volver al carrito de compras"
+          >
+            <i class="fi fi-br-angle-left" aria-hidden="true"></i> Volver al carrito
           </button>
-          <button type="submit" class="pay-button" [disabled]="isProcessing">
+          <button 
+            type="submit" 
+            class="pay-button" 
+            [disabled]="isProcessing"
+            [attr.aria-busy]="isProcessing ? 'true' : 'false'"
+            aria-label="Finalizar compra y realizar pago"
+          >
             @if (!isProcessing) {
               <span>Pagar {{ calculateTotal() | number:'1.2-2' }}€</span>
             } @else {
@@ -413,42 +496,42 @@
     </div>
 
     <!-- Order Summary Sidebar -->
-    <div class="payment-summary">
-      <h2 class="summary-title">Resumen del pedido</h2>
+    <div class="payment-summary" role="complementary" aria-labelledby="summary-title">
+      <h2 class="summary-title" id="summary-title">Resumen del pedido</h2>
       
       <div class="summary-row">
-        <span>Subtotal ({{ getTotalItems() }} productos)</span>
-        <span>{{ getSubtotal() | number:'1.2-2' }}€</span>
+        <span id="subtotal-label">Subtotal ({{ getTotalItems() }} productos)</span>
+        <span aria-labelledby="subtotal-label">{{ getSubtotal() | number:'1.2-2' }}€</span>
       </div>
       
       @if (getTotalDiscount() > 0) {
         <div class="summary-row discount">
-          <span>Descuento</span>
-          <span>-{{ getTotalDiscount() | number:'1.2-2' }}€</span>
+          <span id="discount-label">Descuento</span>
+          <span aria-labelledby="discount-label">-{{ getTotalDiscount() | number:'1.2-2' }}€</span>
         </div>
       }
       
       <div class="summary-row shipping">
-        <span>Envío</span>
+        <span id="shipping-label">Envío</span>
         @if (getSubtotal() >= 50) {
-          <span>Gratis</span>
+          <span aria-labelledby="shipping-label">Gratis</span>
         } @else {
-          <span>3.99€</span>
+          <span aria-labelledby="shipping-label">3.99€</span>
         }
       </div>
       
-      <div class="summary-divider"></div>
+      <div class="summary-divider" aria-hidden="true"></div>
       
       <div class="summary-row total">
-        <span>Total</span>
-        <span>{{ calculateTotal() | number:'1.2-2' }}€</span>
+        <span id="total-label">Total</span>
+        <span aria-labelledby="total-label">{{ calculateTotal() | number:'1.2-2' }}€</span>
       </div>
 
-      <div class="secure-payment-info">
-        <div class="secure-icon">
+      <div class="secure-payment-info" aria-labelledby="secure-payment-info-label">
+        <div class="secure-icon" aria-hidden="true">
           <i class="fi fi-br-shield-check"></i>
         </div>
-        <p>Pago 100% seguro. Tus datos están protegidos con encriptación SSL.</p>
+        <p id="secure-payment-info-label">Pago 100% seguro. Tus datos están protegidos con encriptación SSL.</p>
       </div>
     </div>
   </div>

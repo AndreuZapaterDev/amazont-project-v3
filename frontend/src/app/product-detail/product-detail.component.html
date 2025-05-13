@@ -1,17 +1,20 @@
-<div class="product-detail-container">
+<div class="product-detail-container" role="main">
   <!-- Columna izquierda: Imagen del producto -->
-  <div class="product-images">
+  <div class="product-images" aria-labelledby="product-title">
     <div class="main-image">
-      <img [src]="mainImage" [alt]="product.name" />
+      <img [src]="mainImage" [alt]="product.name" aria-describedby="product-description" />
     </div>
-    <div class="image-thumbnails">
+    <div class="image-thumbnails" role="list" aria-label="Imágenes adicionales del producto">
       @for(img of productImages; track $index) {
       <div
         class="thumbnail"
         [class.active]="$index === activeImageIndex"
         (click)="changeMainImage(img, $index)"
+        role="listitem"
+        [attr.aria-label]="'Ver imagen ' + ($index + 1) + ' del producto'"
+        tabindex="0"
       >
-        <img [src]="img" [alt]="'Vista ' + $index" />
+        <img [src]="img" [alt]="'Vista ' + ($index + 1) + ' del producto'" />
       </div>
       }
     </div>
@@ -19,55 +22,60 @@
 
   <!-- Columna derecha: Información del producto -->
   <div class="product-info">
-    <h1 class="product-title">{{ product.nombre }}</h1>
+    <h1 class="product-title" id="product-title">{{ product.nombre }}</h1>
 
     <div class="product-meta">
-      <div class="product-rating">
-        <div class="stars">{{ numberStars }}</div>
+      <div class="product-rating" aria-label="Valoración del producto">
+        <div class="stars" aria-label="Valoración: {{numberStars}} estrellas">{{ numberStars }}</div>
         <span class="review-count">{{ reviews.length }} valoraciones</span>
       </div>
-      <span class="product-id">REF: #{{ product.id }}</span>
+      <span class="product-id" aria-label="Referencia del producto">REF: #{{ product.id }}</span>
     </div>
 
-    <div class="product-price-container">
+    <div class="product-price-container" aria-live="polite">
       @if(product.descuento) {
-      <div class="discount-tag">-{{ product.descuento }}%</div>
+      <div class="discount-tag" aria-label="Descuento de {{product.descuento}} por ciento">-{{ product.descuento }}%</div>
       <div class="prices">
-        <span class="original-price">{{ product.precio }}€</span>
-        <span class="discounted-price"
+        <span class="original-price" aria-label="Precio original">{{ product.precio }}€</span>
+        <span class="discounted-price" aria-label="Precio con descuento"
           >{{ discountedPrice | number : "1.2-2" }}€</span
         >
       </div>
       } @else {
-      <div class="regular-price">{{ product.precio }}€</div>
+      <div class="regular-price" aria-label="Precio">{{ product.precio }}€</div>
       }
     </div>
 
     <div class="product-description">
-      <p>
+      <p id="product-description">
         {{ product.descripcion }}
       </p>
     </div>
 
-    <div class="product-features">
-      <div class="feature">
-        <i class="fi fi-br-check-circle"></i>
+    <div class="product-features" role="list" aria-label="Características destacadas">
+      <div class="feature" role="listitem">
+        <i class="fi fi-br-check-circle" aria-hidden="true"></i>
         <span>Envío gratis</span>
       </div>
-      <div class="feature">
-        <i class="fi fi-br-check-circle"></i>
+      <div class="feature" role="listitem">
+        <i class="fi fi-br-check-circle" aria-hidden="true"></i>
         <span>Garantía de 2 años</span>
       </div>
-      <div class="feature availability">
-        <i class="fi fi-br-check-circle"></i>
+      <div class="feature availability" role="listitem">
+        <i class="fi fi-br-check-circle" aria-hidden="true"></i>
         <span>En stock - Entrega en 24h</span>
       </div>
     </div>
 
     <div class="product-actions">
-      <div class="quantity-selector">
-        <button (click)="decreaseQuantity()" class="qty-btn">
-          <i class="fi fi-br-minus"></i>
+      <div class="quantity-selector" role="group" aria-label="Selector de cantidad">
+        <button 
+          (click)="decreaseQuantity()" 
+          class="qty-btn"
+          aria-label="Disminuir cantidad"
+          [attr.aria-disabled]="quantity <= 1 ? 'true' : 'false'"
+        >
+          <i class="fi fi-br-minus" aria-hidden="true"></i>
         </button>
         <input
           type="number"
@@ -76,25 +84,42 @@
           min="1"
           max="10"
           readonly
+          aria-label="Cantidad de producto"
+          aria-valuemin="1"
+          aria-valuemax="10"
+          [attr.aria-valuenow]="quantity"
         />
-        <button (click)="increaseQuantity()" class="qty-btn">
-          <i class="fi fi-br-plus"></i>
+        <button 
+          (click)="increaseQuantity()" 
+          class="qty-btn"
+          aria-label="Aumentar cantidad"
+          [attr.aria-disabled]="quantity >= 10 ? 'true' : 'false'"
+        >
+          <i class="fi fi-br-plus" aria-hidden="true"></i>
         </button>
       </div>
 
-      <button class="add-to-cart-btn" (click)="addToCart()">
-        <i class="fi fi-br-shopping-cart"></i> Añadir al carrito
+      <button 
+        class="add-to-cart-btn" 
+        (click)="addToCart()"
+        aria-label="Añadir {{quantity}} unidades al carrito"
+      >
+        <i class="fi fi-br-shopping-cart" aria-hidden="true"></i> Añadir al carrito
       </button>
     </div>
   </div>
 
   <!-- Tabs de información adicional -->
   <div class="product-tabs">
-    <div class="tab-headers">
+    <div class="tab-headers" role="tablist" aria-label="Información detallada del producto">
       <button
         class="tab-btn"
         [class.active]="activeTab === 'description'"
         (click)="setActiveTab('description')"
+        role="tab"
+        id="tab-description"
+        [attr.aria-selected]="activeTab === 'description'"
+        aria-controls="panel-description"
       >
         Descripción
       </button>
@@ -102,6 +127,10 @@
         class="tab-btn"
         [class.active]="activeTab === 'reviews'"
         (click)="setActiveTab('reviews')"
+        role="tab"
+        id="tab-reviews"
+        [attr.aria-selected]="activeTab === 'reviews'"
+        aria-controls="panel-reviews"
       >
         Opiniones
       </button>
@@ -109,14 +138,25 @@
         class="tab-btn"
         [class.active]="activeTab === 'shipping'"
         (click)="setActiveTab('shipping')"
+        role="tab"
+        id="tab-shipping"
+        [attr.aria-selected]="activeTab === 'shipping'"
+        aria-controls="panel-shipping"
       >
         Envío y devoluciones
       </button>
     </div>
 
     <div class="tab-content">
-      <div class="tab-panel" [class.active]="activeTab === 'description'">
-        <h3>Descripción del producto</h3>
+      <div 
+        class="tab-panel" 
+        [class.active]="activeTab === 'description'"
+        role="tabpanel"
+        id="panel-description"
+        aria-labelledby="tab-description"
+        [attr.hidden]="activeTab !== 'description'"
+      >
+        <h3 id="description-heading">Descripción del producto</h3>
         <div class="tab-content-inner">
           <div class="description-text">
             <p>
@@ -128,36 +168,35 @@
             </p>
           </div>
           <div class="description-features">
-            <h4>Características principales</h4>
-            <ul>
+            <h4 id="features-heading">Características principales</h4>
+            <ul aria-labelledby="features-heading">
               @for(feature of product.characteristics; track feature){
-              <li><i class="fi fi-br-star"></i> {{ feature.texto }}</li>
-
+              <li><i class="fi fi-br-star" aria-hidden="true"></i> {{ feature.texto }}</li>
               }
-              <!-- <li><i class="fi fi-br-star"></i> Diseño ergonómico y moderno</li>
-              <li><i class="fi fi-br-star"></i> Alta calidad y durabilidad</li>
-              <li>
-                <i class="fi fi-br-star"></i> Materiales ecológicos y
-                sostenibles
-              </li>
-              <li><i class="fi fi-br-star"></i> Garantía completa de 2 años</li> -->
             </ul>
           </div>
         </div>
       </div>
 
-      <div class="tab-panel" [class.active]="activeTab === 'reviews'">
-        <h3>Opiniones de clientes</h3>
-        <div class="reviews-summary">
-          <div class="rating-overall">
-            <div class="big-rating">{{ reviewStats.average }}</div>
-            <div class="stars-big">{{ numberStars }}</div>
+      <div 
+        class="tab-panel" 
+        [class.active]="activeTab === 'reviews'"
+        role="tabpanel"
+        id="panel-reviews"
+        aria-labelledby="tab-reviews"
+        [attr.hidden]="activeTab !== 'reviews'"
+      >
+        <h3 id="reviews-heading">Opiniones de clientes</h3>
+        <div class="reviews-summary" aria-labelledby="reviews-heading">
+          <div class="rating-overall" aria-label="Valoración global del producto">
+            <div class="big-rating" aria-label="Puntuación media">{{ reviewStats.average }}</div>
+            <div class="stars-big" aria-label="{{numberStars}} estrellas">{{ numberStars }}</div>
             <span>Basado en {{ reviewStats.total }} opiniones</span>
           </div>
-          <div class="rating-bars">
+          <div class="rating-bars" aria-label="Distribución de valoraciones">
             <div class="rating-bar">
-              <span>5 estrellas</span>
-              <div class="bar-container">
+              <span id="five-star-label">5 estrellas</span>
+              <div class="bar-container" aria-labelledby="five-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[4] / reviewStats.total) * 100 : 0">
                 <div
                   class="bar"
                   [style.width.%]="
@@ -167,11 +206,11 @@
                   "
                 ></div>
               </div>
-              <span>{{ reviewStats.distribution[4] }}</span>
+              <span aria-label="{{reviewStats.distribution[4]}} opiniones">{{ reviewStats.distribution[4] }}</span>
             </div>
             <div class="rating-bar">
-              <span>4 estrellas</span>
-              <div class="bar-container">
+              <span id="four-star-label">4 estrellas</span>
+              <div class="bar-container" aria-labelledby="four-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[3] / reviewStats.total) * 100 : 0">
                 <div
                   class="bar"
                   [style.width.%]="
@@ -181,11 +220,11 @@
                   "
                 ></div>
               </div>
-              <span>{{ reviewStats.distribution[3] }}</span>
+              <span aria-label="{{reviewStats.distribution[3]}} opiniones">{{ reviewStats.distribution[3] }}</span>
             </div>
             <div class="rating-bar">
-              <span>3 estrellas</span>
-              <div class="bar-container">
+              <span id="three-star-label">3 estrellas</span>
+              <div class="bar-container" aria-labelledby="three-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[2] / reviewStats.total) * 100 : 0">
                 <div
                   class="bar"
                   [style.width.%]="
@@ -195,11 +234,11 @@
                   "
                 ></div>
               </div>
-              <span>{{ reviewStats.distribution[2] }}</span>
+              <span aria-label="{{reviewStats.distribution[2]}} opiniones">{{ reviewStats.distribution[2] }}</span>
             </div>
             <div class="rating-bar">
-              <span>2 estrellas</span>
-              <div class="bar-container">
+              <span id="two-star-label">2 estrellas</span>
+              <div class="bar-container" aria-labelledby="two-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[1] / reviewStats.total) * 100 : 0">
                 <div
                   class="bar"
                   [style.width.%]="
@@ -209,11 +248,11 @@
                   "
                 ></div>
               </div>
-              <span>{{ reviewStats.distribution[1] }}</span>
+              <span aria-label="{{reviewStats.distribution[1]}} opiniones">{{ reviewStats.distribution[1] }}</span>
             </div>
             <div class="rating-bar">
-              <span>1 estrella</span>
-              <div class="bar-container">
+              <span id="one-star-label">1 estrella</span>
+              <div class="bar-container" aria-labelledby="one-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[0] / reviewStats.total) * 100 : 0">
                 <div
                   class="bar"
                   [style.width.%]="
@@ -223,40 +262,50 @@
                   "
                 ></div>
               </div>
-              <span>{{ reviewStats.distribution[0] }}</span>
+              <span aria-label="{{reviewStats.distribution[0]}} opiniones">{{ reviewStats.distribution[0] }}</span>
             </div>
           </div>
         </div>
 
-        <div class="reviews-list">
+        <div class="reviews-list" role="region" aria-label="Listado de opiniones">
           @if(reviews.length > 0) { @for(review of visibleReviews; track
           review.id) {
-          <div class="review">
+          <div class="review" role="article" aria-labelledby="reviewer-{{review.id}}">
             <div class="reviewer-avatar">
               <img
                 [src]="review.avatar || '/images/avatar-default.jpg'"
-                alt="Avatar usuario"
+                alt="Foto de perfil de {{review.author}}"
               />
             </div>
             <div class="review-content">
               <div class="reviewer-header">
-                <span class="reviewer-name">{{ review.author }}</span>
-                <div class="review-stars">
+                <span class="reviewer-name" id="reviewer-{{review.id}}">{{ review.author }}</span>
+                <div 
+                  class="review-stars" 
+                  aria-label="Valoración: {{review.puntuacion}} estrellas"
+                >
                   {{ getStarsForRating(review.puntuacion) }}
                 </div>
-                <span class="review-date">{{ review.fecha }}</span>
+                <span class="review-date" aria-label="Fecha de la opinión">{{ review.fecha }}</span>
               </div>
               <p class="review-text">{{ review.review }}</p>
               <div class="review-helpful">
-                <span>¿Te ha resultado útil esta opinión?</span>
-                <button class="helpful-btn">
-                  <i class="fi fi-br-thumbs-up"></i> Sí ({{ review.util }})
+                <span id="helpful-question-{{review.id}}">¿Te ha resultado útil esta opinión?</span>
+                <button 
+                  class="helpful-btn"
+                  aria-labelledby="helpful-question-{{review.id}}"
+                >
+                  <i class="fi fi-br-thumbs-up" aria-hidden="true"></i> Sí ({{ review.util }})
                 </button>
               </div>
             </div>
           </div>
           } @if(reviews.length > maxInitialReviews) {
-          <button class="load-more-reviews" (click)="showMoreReviews()">
+          <button 
+            class="load-more-reviews" 
+            (click)="showMoreReviews()"
+            aria-label="{{ showingAllReviews ? 'Ver menos opiniones' : 'Ver más opiniones' }}"
+          >
             {{
               showingAllReviews ? "Ver menos opiniones" : "Ver más opiniones"
             }}
@@ -270,19 +319,26 @@
         </div>
       </div>
 
-      <div class="tab-panel" [class.active]="activeTab === 'shipping'">
-        <h3>Envío y Devoluciones</h3>
-        <div class="shipping-info">
+      <div 
+        class="tab-panel" 
+        [class.active]="activeTab === 'shipping'"
+        role="tabpanel"
+        id="panel-shipping"
+        aria-labelledby="tab-shipping"
+        [attr.hidden]="activeTab !== 'shipping'"
+      >
+        <h3 id="shipping-heading">Envío y Devoluciones</h3>
+        <div class="shipping-info" aria-labelledby="shipping-heading">
           <div class="info-section">
-            <i class="fi fi-br-truck-side"></i>
+            <i class="fi fi-br-truck-side" aria-hidden="true"></i>
             <div class="info-content">
-              <h4>Política de envío</h4>
+              <h4 id="shipping-policy">Política de envío</h4>
               <p>
                 Entrega en 24-48 horas para pedidos realizados antes de las
                 14:00h. Envío gratuito para compras superiores a 50€.
               </p>
               <p>Opciones de envío disponibles:</p>
-              <ul>
+              <ul aria-labelledby="shipping-policy">
                 <li>Envío estándar: 2-3 días (Gratuito)</li>
                 <li>Envío express: 24h (+3.99€)</li>
                 <li>Recogida en punto de recogida (Gratuito)</li>
@@ -291,15 +347,15 @@
           </div>
 
           <div class="info-section">
-            <i class="fi fi-br-undo"></i>
+            <i class="fi fi-br-undo" aria-hidden="true"></i>
             <div class="info-content">
-              <h4>Devoluciones</h4>
+              <h4 id="returns-policy">Devoluciones</h4>
               <p>
                 Dispones de 30 días para devolver tu producto si no estás
                 satisfecho. Las devoluciones son gratuitas.
               </p>
               <p>Pasos para realizar una devolución:</p>
-              <ol>
+              <ol aria-labelledby="returns-policy">
                 <li>Inicia sesión en tu cuenta</li>
                 <li>Selecciona el pedido y solicita la devolución</li>
                 <li>Imprime la etiqueta de devolución</li>
@@ -309,9 +365,9 @@
           </div>
 
           <div class="info-section">
-            <i class="fi fi-br-shield-check"></i>
+            <i class="fi fi-br-shield-check" aria-hidden="true"></i>
             <div class="info-content">
-              <h4>Garantía</h4>
+              <h4 id="warranty-policy">Garantía</h4>
               <p>
                 Todos nuestros productos cuentan con 2 años de garantía contra
                 defectos de fabricación.
@@ -328,16 +384,21 @@
   </div>
 
   <!-- Productos relacionados -->
-  <div class="related-products">
-    <h3>También te puede interesar</h3>
-    <div class="related-items">
+  <div class="related-products" aria-labelledby="related-heading">
+    <h3 id="related-heading">También te puede interesar</h3>
+    <div class="related-items" role="list" aria-label="Productos relacionados">
       @if(relatedProducts.length > 0) { @for(product of relatedProducts; track
       product.id) {
-      <div (click)="navigateToProduct(product)">
+      <div 
+        (click)="navigateToProduct(product)" 
+        role="listitem"
+        tabindex="0"
+        aria-label="Ver detalles de {{product.name}}"
+      >
         <app-products [product]="product"></app-products>
       </div>
       } } @else {
-      <p>No hay productos relacionados disponibles</p>
+      <p class="no-reviews">No hay productos relacionados disponibles</p>
       }
     </div>
   </div>

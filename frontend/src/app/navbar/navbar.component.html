@@ -1,23 +1,23 @@
-<!-- Add the alert component to display messages -->
 @if(getPopup()){
 <app-alert [visible]="getPopup()"></app-alert>
 }
 
 <!-- NAVBAR DESKTOP -->
 <div class="hidden md:block">
-  <nav class="primary-navbar">
+  <nav class="primary-navbar" aria-label="Menú principal">
     <div class="primary-container">
-      <a href="">
-        <img class="logo" src="/images/White_logo.png" alt="Logo" />
+      <a href="" aria-label="Ir a la página de inicio">
+        <img class="logo" src="/images/White_logo.png" alt="Logo de Amazont" />
       </a>
       <div class="search-container">
-        <form class="search-box" action="">
+        <form class="search-box" action="" role="search" aria-label="Buscar productos">
           <input
             type="text"
             placeholder="Encuentra lo que necesitas al mejor precio"
+            aria-label="Campo de búsqueda"
           />
-          <button type="submit"><i class="fi fi-br-search"></i></button>
-          <div class="slider">
+          <button type="submit" aria-label="Buscar"><i class="fi fi-br-search" aria-hidden="true"></i></button>
+          <div class="slider" aria-hidden="true">
             <div><i class="fi fi-br-hamburger-soda"></i></div>
             <div><i class="fi fi-br-volleyball"></i></div>
             <div><i class="fi fi-br-pills"></i></div>
@@ -29,16 +29,16 @@
         <app-dark-mode></app-dark-mode>
       </div>
 
-      <div class="languages-container">
-        <button><img src="/images/circle_spain.png" alt="" /></button>
-        <button><img src="/images/circle_uk.png" alt="" /></button>
+      <div class="languages-container" role="region" aria-label="Selector de idioma">
+        <button aria-label="Cambiar a español"><img src="/images/circle_spain.png" alt="Bandera española" /></button>
+        <button aria-label="Cambiar a inglés"><img src="/images/circle_uk.png" alt="Bandera inglesa" /></button>
       </div>
 
       <div class="cart-container">
-        <a [routerLink]="['/home/cart']" class="cart-link">
-          <button>
-            <i class="fi fi-br-shopping-cart"></i>
-            <div class="number-container">
+        <a [routerLink]="['/home/cart']" class="cart-link" aria-label="Ver carrito">
+          <button aria-label="Ir al carrito de compra">
+            <i class="fi fi-br-shopping-cart" aria-hidden="true"></i>
+            <div class="number-container" aria-live="polite">
               <h3>{{ cartItemCount }}</h3>
             </div>
           </button>
@@ -46,8 +46,8 @@
       </div>
 
       <div>
-        <a routerLink="/sign-up">
-          <button class="learn-more">
+        <a routerLink="/sign-up" aria-label="Registrarse">
+          <button class="learn-more" aria-label="Crear nueva cuenta">
             <span class="circle" aria-hidden="true">
               <span class="icon arrow"></span>
             </span>
@@ -58,16 +58,16 @@
     </div>
   </nav>
 
-  <nav class="secondary-navbar hidden sm:block">
+  <nav class="secondary-navbar hidden sm:block" aria-label="Menú secundario">
     <div class="secundary-container">
-      <ul>
-        <li><a routerLink="/home">Inicio</a></li>
-        <li><a routerLink="/home/categories">Categorías</a></li>
+      <ul role="menubar">
+        <li role="none"><a routerLink="/home" role="menuitem">Inicio</a></li>
+        <li role="none"><a routerLink="/home/categories" role="menuitem">Categorías</a></li>
         @if(isVendor()) {
-          <li><a routerLink="/home/seller">Vendedor</a></li>
+          <li role="none"><a routerLink="/home/seller" role="menuitem">Vendedor</a></li>
         }
-        <li><a (click)="goToProfile()">Ajustes</a></li>
-        <li><a routerLink="/home/cart">Carrito</a></li>
+        <li role="none"><a (click)="goToProfile()" role="menuitem">Ajustes</a></li>
+        <li role="none"><a routerLink="/home/cart" role="menuitem">Carrito</a></li>
       </ul>
     </div>
   </nav>
@@ -79,20 +79,22 @@
   <!-- Barra principal -->
   <nav
     class="bg-gradient-to-r from-primary-color to-background-navbar2 text-white shadow-md"
+    aria-label="Menú principal móvil"
   >
     <!-- Cabecera -->
     <div class="flex items-center justify-between px-4 py-3">
-      <!-- Botón de menú -->
-      <button
+      <!-- Botón de menú -->      <button
         class="text-white focus:outline-none"
         (click)="toggleMobileMenu()"
         aria-label="Abrir menú"
+        [attr.aria-expanded]="isMobileMenuOpen"
+        aria-controls="mobile-menu"
       >
-        <i class="fi fi-br-menu-burger text-2xl"></i>
+        <i class="fi fi-br-menu-burger text-2xl" aria-hidden="true"></i>
       </button>
 
       <!-- Logo -->
-      <a routerLink="/home" class="flex items-center">
+      <a routerLink="/home" class="flex items-center" aria-label="Ir a la página de inicio">
         <img
           src="/images/White_logo.png"
           alt="Amazont Logo"
@@ -108,10 +110,11 @@
         </div>
 
         <!-- Carrito -->
-        <a routerLink="/home/cart" class="relative flex items-center">
-          <i class="fi fi-br-shopping-cart text-2xl"></i>
+        <a routerLink="/home/cart" class="relative flex items-center" aria-label="Ver carrito">
+          <i class="fi fi-br-shopping-cart text-2xl" aria-hidden="true"></i>
           <span
             class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary-color text-xs font-bold text-white"
+            aria-live="polite"
             >{{ cartItemCount }}</span
           >
         </a>
@@ -120,15 +123,16 @@
 
     <!-- Barra de búsqueda -->
     <div class="px-4 pb-3">
-      <form class="relative">
+      <form class="relative" role="search" aria-label="Buscar productos">
         <input
           type="text"
           placeholder="Buscar productos..."
           class="w-full rounded-lg border-2 border-transparent bg-white py-2 pl-10 pr-4 text-gray-700 focus:border-secondary-color focus:outline-none"
-          aria-label="Buscar"
+          aria-label="Campo de búsqueda"
         />
         <span
           class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
+          aria-hidden="true"
         >
           <i class="fi fi-br-search text-lg"></i>
         </span>
@@ -138,21 +142,28 @@
 
   <!-- Menú desplegable -->
   <div
+    id="mobile-menu"
     class="fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out"
     [ngClass]="{
       'translate-x-0': isMobileMenuOpen,
       '-translate-x-full': !isMobileMenuOpen
     }"
+    role="dialog"
+    aria-label="Menú móvil"
+    aria-modal="true"
+    [attr.aria-hidden]="!isMobileMenuOpen"
   >
     <!-- Fondo con overlay -->
     <div
       class="absolute inset-0 bg-black bg-opacity-50"
       (click)="toggleMobileMenu()"
+      aria-hidden="true"
     ></div>
 
     <!-- Panel lateral del menú -->
     <div
       class="absolute inset-y-0 left-0 max-w-xs w-4/5 transform bg-card-background-color shadow-xl transition-all"
+      role="navigation"
     >
       <!-- Encabezado del menú -->
       <div
@@ -169,7 +180,7 @@
             (click)="toggleMobileMenu()"
             aria-label="Cerrar menú"
           >
-            <i class="fi fi-br-cross text-xl"></i>
+            <i class="fi fi-br-cross text-xl" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -179,67 +190,74 @@
         <a
           routerLink="/login"
           class="flex-1 rounded-md border border-secondary-color py-2 px-3 text-center text-sm font-medium text-secondary-color"
+          aria-label="Iniciar sesión en tu cuenta"
         >
           Iniciar sesión
         </a>
         <a
           routerLink="/sign-up"
           class="flex-1 rounded-md bg-secondary-color py-2 px-3 text-center text-sm font-medium text-white"
+          aria-label="Crear una nueva cuenta"
         >
           Registrarse
         </a>
       </div>
 
       <!-- Enlaces de navegación -->
-      <nav class="px-2 pt-2 pb-4">
-        <ul class="space-y-1">
-          <li>
+      <nav class="px-2 pt-2 pb-4" aria-label="Menú de navegación">
+        <ul class="space-y-1" role="menu">
+          <li role="none">
             <a
               routerLink="/home"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+              role="menuitem"
             >
-              <i class="fi fi-br-home mr-3 text-lg"></i>
+              <i class="fi fi-br-home mr-3 text-lg" aria-hidden="true"></i>
               <span>Inicio</span>
             </a>
           </li>
-          <li>
+          <li role="none">
             <a
               routerLink="/home/categories"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+              role="menuitem"
             >
-              <i class="fi fi-br-apps mr-3 text-lg"></i>
+              <i class="fi fi-br-apps mr-3 text-lg" aria-hidden="true"></i>
               <span>Categorías</span>
             </a>
           </li>
-          <li>
+          <li role="none">
             <a
               routerLink="/home/offers"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+              role="menuitem"
             >
-              <i class="fi fi-br-tags mr-3 text-lg"></i>
+              <i class="fi fi-br-tags mr-3 text-lg" aria-hidden="true"></i>
               <span>Ofertas</span>
             </a>
           </li>
-          <li>
+          <li role="none">
             <a
               routerLink="/home/cart"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+              role="menuitem"
             >
-              <i class="fi fi-br-shopping-cart mr-3 text-lg"></i>
+              <i class="fi fi-br-shopping-cart mr-3 text-lg" aria-hidden="true"></i>
               <span>Carrito</span>
             </a>
           </li>
-          <li>
+          <li role="none">
             <a
               routerLink="/profile"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
+              role="menuitem"
             >
-              <i class="fi fi-br-envelope mr-3 text-lg"></i>
+              <i class="fi fi-br-envelope mr-3 text-lg" aria-hidden="true"></i>
               <span>Ajustes</span>
             </a>
           </li>
@@ -247,14 +265,15 @@
       </nav>
 
       <!-- Divisor -->
-      <div class="mx-4 my-2 h-px bg-gray-200"></div>
+      <div class="mx-4 my-2 h-px bg-gray-200" aria-hidden="true"></div>
 
       <!-- Idiomas -->
-      <div class="px-4 py-2">
-        <p class="mb-2 text-sm font-medium text-gray-500">Idioma</p>
-        <div class="flex space-x-3">
+      <div class="px-4 py-2" role="region" aria-label="Selector de idioma">
+        <p class="mb-2 text-sm font-medium text-gray-500" id="language-label">Idioma</p>
+        <div class="flex space-x-3" aria-labelledby="language-label">
           <button
             class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+            aria-label="Cambiar a español"
           >
             <img
               src="/images/circle_spain.png"
@@ -265,6 +284,7 @@
           </button>
           <button
             class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+            aria-label="Cambiar a inglés"
           >
             <img
               src="/images/circle_uk.png"

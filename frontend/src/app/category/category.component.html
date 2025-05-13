@@ -1,16 +1,16 @@
-<div class="category-page">
+<div class="category-page" role="main">
   <!-- Encabezado de la categoría con fondo gradiente -->
   <div class="category-header">
     <div class="category-header-content">
-      <div class="category-icon">
+      <div class="category-icon" aria-hidden="true">
         <i [class]="getCategoryIcon(categoryName)"></i>
       </div>
       <div class="header-text">
         <h1 class="category-title">{{ categoryName | titlecase }}</h1>
-        <p class="category-results">{{ displayedProducts.length }} productos encontrados</p>
+        <p class="category-results" aria-live="polite">{{ displayedProducts.length }} productos encontrados</p>
       </div>
     </div>
-    <div class="category-background">
+    <div class="category-background" aria-hidden="true">
       <div class="bg-shape shape-1"></div>
       <div class="bg-shape shape-2"></div>
       <div class="bg-shape shape-3"></div>
@@ -18,9 +18,9 @@
   </div>
   
   <!-- Sección de filtros con diseño mejorado -->
-  <div class="filter-section">
+  <div class="filter-section" role="search">
     <div class="search-bar">
-      <i class="fi fi-br-search search-icon"></i>
+      <i class="fi fi-br-search search-icon" aria-hidden="true"></i>
       <input
         type="text"
         name="search"
@@ -28,10 +28,13 @@
         [value]="searchTerm"
         placeholder="Buscar productos..."
         (input)="onSearch($event)"
+        aria-label="Buscar productos"
+        aria-describedby="search-description"
       />
+      
       @if (searchTerm) {
-        <button class="clear-search" (click)="clearSearch()">
-          <i class="fi fi-br-cross"></i>
+        <button class="clear-search" (click)="clearSearch()" aria-label="Borrar búsqueda">
+          <i class="fi fi-br-cross" aria-hidden="true"></i>
         </button>
       }
     </div>
@@ -39,22 +42,22 @@
     <div class="filter-actions">
       <div class="sort-container">
         <label for="filters">
-          <i class="fi fi-br-sort"></i> Ordenar por:
+          <i class="fi fi-br-sort" aria-hidden="true"></i> Ordenar por:
         </label>
         <div class="select-wrapper">
-          <select name="filters" id="filters" (change)="onSort($event)">
+          <select name="filters" id="filters" (change)="onSort($event)" aria-label="Ordenar productos por">
             <option value="default">Relevancia</option>
             <option value="price+">Precio más alto</option>
             <option value="price-">Precio más bajo</option>
             <option value="name">Nombre (A-Z)</option>
           </select>
-          <i class="fi fi-br-angle-down"></i>
+          <i class="fi fi-br-angle-down" aria-hidden="true"></i>
         </div>
       </div>
       
       @if (searchTerm || sortOption !== 'default') {
-        <button class="reset-all-button" (click)="resetFilters()">
-          <i class="fi fi-br-refresh"></i> Resetear filtros
+        <button class="reset-all-button" (click)="resetFilters()" aria-label="Resetear todos los filtros">
+          <i class="fi fi-br-refresh" aria-hidden="true"></i> Resetear filtros
         </button>
       }
     </div>
@@ -64,34 +67,34 @@
   <div class="products-content">
     <!-- Mensaje cuando no hay resultados -->
     @if(displayedProducts.length === 0) {
-      <div class="no-results">
-        <div class="no-results-icon">
+      <div class="no-results" role="status" aria-live="polite">
+        <div class="no-results-icon" aria-hidden="true">
           <i class="fi fi-br-search"></i>
         </div>
         <h3>No se encontraron productos</h3>
         <p>No hay productos que coincidan con tu búsqueda en esta categoría.</p>
-        <button class="reset-button" (click)="resetFilters()">
-          <i class="fi fi-br-rotate-right"></i> Mostrar todos los productos
+        <button class="reset-button" (click)="resetFilters()" aria-label="Mostrar todos los productos de la categoría">
+          <i class="fi fi-br-rotate-right" aria-hidden="true"></i> Mostrar todos los productos
         </button>
       </div>
     } @else {
       <!-- Grid de productos con animación de entrada -->
-      <div class="products-grid">
+      <div class="products-grid" role="list" aria-label="Lista de productos">
         @for(product of displayedProducts; track product.id) {
-          <div class="product-card-wrapper">
+          <div class="product-card-wrapper" role="listitem">
             <app-products [product]="product"></app-products>
           </div>
         }
       </div>
       
       <!-- Paginación (opcional para futura implementación) -->
-      <div class="pagination">
-        <button class="page-btn" [disabled]="true">
-          <i class="fi fi-br-angle-left"></i>
+      <div class="pagination" role="navigation" aria-label="Paginación">
+        <button class="page-btn" [disabled]="true" aria-label="Página anterior">
+          <i class="fi fi-br-angle-left" aria-hidden="true"></i>
         </button>
-        <button class="page-btn active">1</button>
-        <button class="page-btn" [disabled]="true">
-          <i class="fi fi-br-angle-right"></i>
+        <button class="page-btn active" aria-label="Página 1 (actual)" aria-current="true">1</button>
+        <button class="page-btn" [disabled]="true" aria-label="Página siguiente">
+          <i class="fi fi-br-angle-right" aria-hidden="true"></i>
         </button>
       </div>
     }

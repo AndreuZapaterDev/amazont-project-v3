@@ -1,44 +1,44 @@
-<footer class="footer">
+<footer class="footer" role="contentinfo" aria-label="Información del sitio y enlaces">
     <div class="footer-content">
       <!-- Información de la compañía -->
       <div class="footer-company">
-        <h3>Amazont</h3>
+        <h3 id="company-title">Amazont</h3>
         <img src="/images/Black_logo.png" alt="Amazont Logo" class="footer-logo">
-        <p>Tu destino online para encontrar los mejores productos.</p>
+        <p aria-describedby="company-title">Tu destino online para encontrar los mejores productos.</p>
       </div>
   
       <!-- Enlaces útiles -->
       <div class="footer-links-column">
-        <h4>Enlaces útiles</h4>
-        <ul>
-          <li><a routerLink="/home">Inicio</a></li>
-          <li><a routerLink="/products">Productos</a></li>
-          <li><a routerLink="/offers">Ofertas</a></li>
-          <li><a routerLink="/help">Ayuda</a></li>
+        <h4 id="useful-links-title">Enlaces útiles</h4>
+        <ul aria-labelledby="useful-links-title" role="list">
+          <li role="listitem"><a routerLink="/home" aria-label="Ir a la página de inicio">Inicio</a></li>
+          <li role="listitem"><a routerLink="/products" aria-label="Ver todos los productos">Productos</a></li>
+          <li role="listitem"><a routerLink="/offers" aria-label="Ver ofertas actuales">Ofertas</a></li>
+          <li role="listitem"><a routerLink="/help" aria-label="Ir a la sección de ayuda">Ayuda</a></li>
         </ul>
       </div>
   
       <!-- Contacto -->
       <div class="footer-links-column">
-        <h4>Contacto</h4>
-        <ul>
-          <li>Email: info&#64;amazont.com</li>
-          <li>Teléfono: +34 912 345 678</li>
-          <li><a routerLink="/contact">Contacto</a></li>
+        <h4 id="contact-title">Contacto</h4>
+        <ul aria-labelledby="contact-title" role="list">
+          <li role="listitem" aria-label="Email de contacto">Email: <a href="mailto:info@amazont.com" aria-label="Enviar email a info@amazont.com">info&#64;amazont.com</a></li>
+          <li role="listitem" aria-label="Teléfono de contacto">Teléfono: <a href="tel:+34912345678" aria-label="Llamar al +34 912 345 678">+34 912 345 678</a></li>
+          <li role="listitem"><a routerLink="/contact" aria-label="Ir a la página de contacto">Contacto</a></li>
         </ul>
       </div>
     </div>
   
     <!-- Línea divisoria -->
-    <div class="footer-divider"></div>
+    <div class="footer-divider" aria-hidden="true"></div>
   
     <!-- Footer bottom -->
     <div class="footer-bottom">
-      <p class="copyright">© 2025 Amazont. Todos los derechos reservados.</p>
-      <div class="legal-links">
-        <a routerLink="/terms">Términos</a>
-        <a routerLink="/privacy">Privacidad</a>
-        <a routerLink="/cookies">Cookies</a>
+      <p class="copyright" aria-label="Información de copyright">© 2025 Amazont. Todos los derechos reservados.</p>
+      <div class="legal-links" role="navigation" aria-label="Enlaces legales">
+        <a routerLink="/terms" aria-label="Ver términos y condiciones">Términos</a>
+        <a routerLink="/privacy" aria-label="Ver política de privacidad">Privacidad</a>
+        <a routerLink="/cookies" aria-label="Ver política de cookies">Cookies</a>
       </div>
     </div>
 </footer>

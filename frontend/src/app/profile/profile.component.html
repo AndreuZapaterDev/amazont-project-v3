@@ -1,17 +1,31 @@
-<div class="profile-container">
+<div class="profile-container" role="main">
   <!-- Header del perfil -->
   <div class="profile-header">
     <div class="user-info">
       <div class="avatar">
-        <img [src]="profileImage || '/assets/images/default-avatar.png'" alt="Foto de perfil" />
-        <button class="change-photo-btn" (click)="openFileInput()">
-          <i class="fi fi-br-camera"></i>
-          <input type="file" #fileInput hidden (change)="onImageSelected($event)" accept="image/*">
+        <img 
+          [src]="profileImage || '/assets/images/default-avatar.png'" 
+          alt="Foto de perfil de {{userProfile.nombre}} {{userProfile.apellidos}}" 
+        />
+        <button 
+          class="change-photo-btn" 
+          (click)="openFileInput()"
+          aria-label="Cambiar foto de perfil"
+        >
+          <i class="fi fi-br-camera" aria-hidden="true"></i>
+          <input 
+            type="file" 
+            #fileInput 
+            hidden 
+            (change)="onImageSelected($event)" 
+            accept="image/*"
+            aria-label="Seleccionar nueva imagen de perfil"
+          >
         </button>
       </div>
       <div class="details">
-        <h1>{{ userProfile.nombre }} {{ userProfile.apellidos }}</h1>
-        <p>{{ userEmail }}</p>
+        <h1 id="profile-name">{{ userProfile.nombre }} {{ userProfile.apellidos }}</h1>
+        <p id="profile-email">{{ userEmail }}</p>
       </div>
     </div>
   </div>
@@ -19,68 +33,157 @@
   <!-- Navegación y contenido -->
   <div class="profile-body">
     <!-- Navegación lateral -->
-    <div class="profile-nav">
-      <button [class.active]="activeTab === 'info'" (click)="setActiveTab('info')">
-        <i class="fi fi-br-user"></i> Información Personal
+    <div class="profile-nav" role="tablist" aria-label="Secciones del perfil">
+      <button 
+        [class.active]="activeTab === 'info'" 
+        (click)="setActiveTab('info')"
+        role="tab"
+        id="info-tab"
+        [attr.aria-selected]="activeTab === 'info'"
+        aria-controls="info-panel"
+      >
+        <i class="fi fi-br-user" aria-hidden="true"></i> Información Personal
       </button>
-      <button [class.active]="activeTab === 'orders'" (click)="setActiveTab('orders')">
-        <i class="fi fi-br-shopping-bag"></i> Pedidos
+      <button 
+        [class.active]="activeTab === 'orders'" 
+        (click)="setActiveTab('orders')"
+        role="tab"
+        id="orders-tab"
+        [attr.aria-selected]="activeTab === 'orders'"
+        aria-controls="orders-panel"
+      >
+        <i class="fi fi-br-shopping-bag" aria-hidden="true"></i> Pedidos
       </button>
-      <button [class.active]="activeTab === 'payment'" (click)="setActiveTab('payment')">
-        <i class="fi fi-br-credit-card"></i> Métodos de Pago
+      <button 
+        [class.active]="activeTab === 'payment'" 
+        (click)="setActiveTab('payment')"
+        role="tab"
+        id="payment-tab"
+        [attr.aria-selected]="activeTab === 'payment'"
+        aria-controls="payment-panel"
+      >
+        <i class="fi fi-br-credit-card" aria-hidden="true"></i> Métodos de Pago
       </button>
-      <button [class.active]="activeTab === 'addresses'" (click)="setActiveTab('addresses')">
-        <i class="fi fi-br-map-marker"></i> Direcciones
+      <button 
+        [class.active]="activeTab === 'addresses'" 
+        (click)="setActiveTab('addresses')"
+        role="tab"
+        id="addresses-tab"
+        [attr.aria-selected]="activeTab === 'addresses'"
+        aria-controls="addresses-panel"
+      >
+        <i class="fi fi-br-map-marker" aria-hidden="true"></i> Direcciones
       </button>
-      <button [class.active]="activeTab === 'security'" (click)="setActiveTab('security')">
-        <i class="fi fi-br-shield"></i> Seguridad
+      <button 
+        [class.active]="activeTab === 'security'" 
+        (click)="setActiveTab('security')"
+        role="tab"
+        id="security-tab"
+        [attr.aria-selected]="activeTab === 'security'"
+        aria-controls="security-panel"
+      >
+        <i class="fi fi-br-shield" aria-hidden="true"></i> Seguridad
       </button>
-      <button class="logout-btn" (click)="logout()">
-        <i class="fi fi-br-sign-out"></i> Cerrar Sesión
+      <button 
+        class="logout-btn" 
+        (click)="logout()"
+        aria-label="Cerrar sesión y salir de la cuenta"
+      >
+        <i class="fi fi-br-sign-out" aria-hidden="true"></i> Cerrar Sesión
       </button>
     </div>
     
     <!-- Contenido principal -->
     <div class="profile-content">
       <!-- Información personal -->
-      <div class="tab-content" *ngIf="activeTab === 'info'">
-        <h2>Información Personal</h2>
-        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <div class="tab-content" *ngIf="activeTab === 'info'" role="tabpanel" id="info-panel" aria-labelledby="info-tab">
+        <h2 id="personal-info-heading">Información Personal</h2>
+        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" aria-labelledby="personal-info-heading">
           <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" formControlName="nombre">
+            <label for="nombre" id="nombre-label">Nombre</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              formControlName="nombre"
+              aria-labelledby="nombre-label"
+              aria-required="true"
+              [attr.aria-invalid]="profileForm.get('nombre')?.invalid && profileForm.get('nombre')?.touched ? 'true' : 'false'"
+            >
           </div>
           
           <div class="form-group">
-            <label for="apellidos">Apellidos</label>
-            <input type="text" id="apellidos" formControlName="apellidos">
+            <label for="apellidos" id="apellidos-label">Apellidos</label>
+            <input 
+              type="text" 
+              id="apellidos" 
+              formControlName="apellidos"
+              aria-labelledby="apellidos-label"
+              aria-required="true"
+              [attr.aria-invalid]="profileForm.get('apellidos')?.invalid && profileForm.get('apellidos')?.touched ? 'true' : 'false'"
+            >
           </div>
           
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" formControlName="email">
+            <label for="email" id="email-label">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email"
+              aria-labelledby="email-label"
+              aria-required="true"
+              [attr.aria-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched ? 'true' : 'false'"
+            >
           </div>
           
           <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" formControlName="telefono">
+            <label for="telefono" id="telefono-label">Teléfono</label>
+            <input 
+              type="tel" 
+              id="telefono" 
+              formControlName="telefono"
+              aria-labelledby="telefono-label"
+              aria-required="true"
+              [attr.aria-invalid]="profileForm.get('telefono')?.invalid && profileForm.get('telefono')?.touched ? 'true' : 'false'"
+            >
           </div>
           
           <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <textarea id="direccion" formControlName="direccion" rows="3"></textarea>
+            <label for="direccion" id="direccion-label">Dirección</label>
+            <textarea 
+              id="direccion" 
+              formControlName="direccion" 
+              rows="3"
+              aria-labelledby="direccion-label"
+              aria-required="true"
+              [attr.aria-invalid]="profileForm.get('direccion')?.invalid && profileForm.get('direccion')?.touched ? 'true' : 'false'"
+            ></textarea>
           </div>
           
-          <button type="submit" [disabled]="profileForm.invalid || isSubmitting">Guardar Cambios</button>
+          <button 
+            type="submit" 
+            [disabled]="profileForm.invalid || isSubmitting"
+            aria-label="Guardar cambios de información personal"
+            [attr.aria-disabled]="profileForm.invalid || isSubmitting"
+          >
+            Guardar Cambios
+          </button>
         </form>
       </div>
       
       <!-- Pedidos -->
-      <div class="tab-content" *ngIf="activeTab === 'orders'">
-        <h2>Mis Pedidos</h2>
-        <div class="search-bar">
-          <input type="text" placeholder="Buscar pedidos..." [(ngModel)]="orderSearchTerm">
-          <select [(ngModel)]="orderStatusFilter">
+      <div class="tab-content" *ngIf="activeTab === 'orders'" role="tabpanel" id="orders-panel" aria-labelledby="orders-tab">
+        <h2 id="orders-heading">Mis Pedidos</h2>
+        <div class="search-bar" role="search" aria-labelledby="orders-heading">
+          <input 
+            type="text" 
+            placeholder="Buscar pedidos..." 
+            [(ngModel)]="orderSearchTerm"
+            aria-label="Buscar pedidos por término"
+          >
+          <select 
+            [(ngModel)]="orderStatusFilter"
+            aria-label="Filtrar pedidos por estado"
+          >
             <option value="all">Todos</option>
             <option value="completed">Completados</option>
             <option value="processing">En proceso</option>
@@ -88,235 +191,535 @@
           </select>
         </div>
         
-        <div class="orders-list" *ngIf="filteredOrders.length > 0">
-          <div class="order-card" *ngFor="let order of filteredOrders">
+        <div 
+          class="orders-list" 
+          *ngIf="filteredOrders.length > 0"
+          role="list"
+          aria-label="Lista de pedidos"
+        >
+          <div 
+            class="order-card" 
+            *ngFor="let order of filteredOrders"
+            role="listitem"
+          >
             <div class="order-header">
-              <h3>Pedido #{{ order.id }}</h3>
-              <span class="status" [class]="order.status">{{ order.statusText }}</span>
+              <h3 id="order-{{order.id}}">Pedido #{{ order.id }}</h3>
+              <span 
+                class="status" 
+                [class]="order.status"
+                [attr.aria-label]="'Estado: ' + order.statusText"
+              >
+                {{ order.statusText }}
+              </span>
             </div>
             <p>Fecha: {{ formatDate(order.date) }}</p>
             <p>Total: {{ order.total | currency:'EUR':'symbol':'1.2-2' }}</p>
-            <button class="details-btn">Ver detalles</button>
+            <button 
+              class="details-btn"
+              aria-describedby="order-{{order.id}}"
+              aria-label="Ver detalles del pedido #{{order.id}}"
+            >
+              Ver detalles
+            </button>
           </div>
         </div>
         
-        <div class="empty-state" *ngIf="filteredOrders.length === 0">
+        <div 
+          class="empty-state" 
+          *ngIf="filteredOrders.length === 0"
+          aria-live="polite"
+        >
           <p>No tienes pedidos que coincidan con tu búsqueda</p>
-          <button (click)="clearOrderFilters()">Limpiar filtros</button>
+          <button 
+            (click)="clearOrderFilters()"
+            aria-label="Limpiar filtros de búsqueda"
+          >
+            Limpiar filtros
+          </button>
         </div>
       </div>
       
       <!-- Métodos de pago -->
-      <div class="tab-content" *ngIf="activeTab === 'payment'">
-        <h2>Métodos de Pago</h2>
-        <button class="add-btn" (click)="showAddPaymentForm = !showAddPaymentForm">
+      <div class="tab-content" *ngIf="activeTab === 'payment'" role="tabpanel" id="payment-panel" aria-labelledby="payment-tab">
+        <h2 id="payment-heading">Métodos de Pago</h2>
+        <button 
+          class="add-btn" 
+          (click)="showAddPaymentForm = !showAddPaymentForm"
+          aria-label="Añadir nuevo método de pago"
+          [attr.aria-expanded]="showAddPaymentForm"
+          aria-controls="payment-form-panel"
+        >
           Añadir método de pago
         </button>
         
-        <div class="payment-form" *ngIf="showAddPaymentForm">
+        <div 
+          class="payment-form" 
+          *ngIf="showAddPaymentForm"
+          id="payment-form-panel"
+          role="form"
+          aria-labelledby="payment-heading"
+        >
           <form [formGroup]="paymentForm" (ngSubmit)="addPaymentMethod()">
             <div class="form-group">
-              <label for="cardName">Nombre en la tarjeta</label>
-              <input type="text" id="cardName" formControlName="cardName">
+              <label for="cardName" id="cardName-label">Nombre en la tarjeta</label>
+              <input 
+                type="text" 
+                id="cardName" 
+                formControlName="cardName"
+                aria-labelledby="cardName-label"
+                aria-required="true"
+                [attr.aria-invalid]="paymentForm.get('cardName')?.invalid && paymentForm.get('cardName')?.touched ? 'true' : 'false'"
+              >
             </div>
             <div class="form-group">
-              <label for="cardNumber">Número de tarjeta</label>
-              <input type="text" id="cardNumber" formControlName="cardNumber" (input)="formatCardNumber($event)">
+              <label for="cardNumber" id="cardNumber-label">Número de tarjeta</label>
+              <input 
+                type="text" 
+                id="cardNumber" 
+                formControlName="cardNumber" 
+                (input)="formatCardNumber($event)"
+                aria-labelledby="cardNumber-label"
+                aria-required="true"
+                [attr.aria-invalid]="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched ? 'true' : 'false'"
+                autocomplete="cc-number"
+              >
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="expiryDate">Fecha de caducidad</label>
-                <input type="text" id="expiryDate" formControlName="expiryDate" placeholder="MM/AA">
+                <label for="expiryDate" id="expiryDate-label">Fecha de caducidad</label>
+                <input 
+                  type="text" 
+                  id="expiryDate" 
+                  formControlName="expiryDate" 
+                  placeholder="MM/AA"
+                  aria-labelledby="expiryDate-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched ? 'true' : 'false'"
+                  autocomplete="cc-exp"
+                >
               </div>
               <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="password" id="cvv" formControlName="cvv" maxlength="3">
+                <label for="cvv" id="cvv-label">CVV</label>
+                <input 
+                  type="password" 
+                  id="cvv" 
+                  formControlName="cvv" 
+                  maxlength="3"
+                  aria-labelledby="cvv-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched ? 'true' : 'false'"
+                  autocomplete="cc-csc"
+                  aria-describedby="cvv-hint"
+                >
+                <span id="cvv-hint" class="visually-hidden">Código de seguridad de tres dígitos que se encuentra en el reverso de la tarjeta</span>
               </div>
             </div>
             <div class="form-actions">
-              <button type="button" (click)="showAddPaymentForm = false">Cancelar</button>
-              <button type="submit" [disabled]="paymentForm.invalid">Guardar</button>
+              <button 
+                type="button" 
+                (click)="showAddPaymentForm = false"
+                aria-label="Cancelar la adición del método de pago"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit" 
+                [disabled]="paymentForm.invalid"
+                aria-label="Guardar el nuevo método de pago"
+                [attr.aria-disabled]="paymentForm.invalid"
+              >
+                Guardar
+              </button>
             </div>
           </form>
         </div>
         
-        <div class="payment-list">
-          <div class="payment-card" *ngFor="let method of paymentMethods; let i = index">
+        <div class="payment-list" role="list" aria-label="Lista de métodos de pago guardados">
+          <div 
+            class="payment-card" 
+            *ngFor="let method of paymentMethods; let i = index"
+            role="listitem"
+            [attr.aria-label]="'Método de pago: tarjeta terminada en ' + method.last4 + ' a nombre de ' + method.name"
+          >
             <div class="card-info">
-              <i [class]="getCardIcon(method.type)"></i>
+              <i [class]="getCardIcon(method.type)" aria-hidden="true"></i>
               <div>
-                <p>{{ method.name }}</p>
-                <p>**** {{ method.last4 }}</p>
-                <p>{{ method.expiry }}</p>
+                <p id="payment-name-{{i}}">{{ method.name }}</p>
+                <p aria-label="Últimos 4 dígitos: {{method.last4}}">**** {{ method.last4 }}</p>
+                <p aria-label="Fecha de caducidad: {{method.expiry}}">{{ method.expiry }}</p>
               </div>
             </div>
             <div class="card-actions">
-              <button class="default-btn" [class.is-default]="method.isDefault" (click)="setDefaultPaymentMethod(i)">
+              <button 
+                class="default-btn" 
+                [class.is-default]="method.isDefault" 
+                (click)="setDefaultPaymentMethod(i)"
+                [attr.aria-pressed]="method.isDefault"
+                [attr.aria-label]="method.isDefault ? 'Este es tu método de pago predeterminado' : 'Establecer como método de pago predeterminado'"
+              >
                 {{ method.isDefault ? 'Predeterminado' : 'Hacer predeterminado' }}
               </button>
-              <button class="delete-btn" (click)="deletePaymentMethod(i)">Eliminar</button>
+              <button 
+                class="delete-btn" 
+                (click)="deletePaymentMethod(i)"
+                aria-label="Eliminar tarjeta terminada en {{method.last4}}"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Direcciones -->
-      <div class="tab-content" *ngIf="activeTab === 'addresses'">
-        <h2>Mis Direcciones</h2>
-        <button class="add-btn" (click)="showAddAddressForm = !showAddAddressForm">
+      <div class="tab-content" *ngIf="activeTab === 'addresses'" role="tabpanel" id="addresses-panel" aria-labelledby="addresses-tab">
+        <h2 id="addresses-heading">Mis Direcciones</h2>
+        <button 
+          class="add-btn" 
+          (click)="showAddAddressForm = !showAddAddressForm"
+          aria-label="Añadir nueva dirección"
+          [attr.aria-expanded]="showAddAddressForm"
+          aria-controls="address-form-panel"
+        >
           Añadir dirección
         </button>
         
-        <div class="address-form" *ngIf="showAddAddressForm">
+        <div 
+          class="address-form" 
+          *ngIf="showAddAddressForm" 
+          id="address-form-panel"
+          role="form"
+          aria-labelledby="address-form-heading"
+        >
           <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
             <div class="form-group">
-              <label for="addressName">Nombre de la dirección</label>
-              <input type="text" id="addressName" formControlName="addressName">
+              <label for="addressName" id="addressName-label">Nombre de la dirección</label>
+              <input 
+                type="text" 
+                id="addressName" 
+                formControlName="addressName"
+                aria-labelledby="addressName-label"
+                aria-required="true"
+                [attr.aria-invalid]="addressForm.get('addressName')?.invalid && addressForm.get('addressName')?.touched ? 'true' : 'false'"
+              >
             </div>
             <div class="form-group">
-              <label for="fullName">Nombre completo</label>
-              <input type="text" id="fullName" formControlName="fullName">
+              <label for="fullName" id="fullName-label">Nombre completo</label>
+              <input 
+                type="text" 
+                id="fullName" 
+                formControlName="fullName"
+                aria-labelledby="fullName-label"
+                aria-required="true"
+                [attr.aria-invalid]="addressForm.get('fullName')?.invalid && addressForm.get('fullName')?.touched ? 'true' : 'false'"
+              >
             </div>
             <div class="form-group">
-              <label for="address">Dirección</label>
-              <input type="text" id="address" formControlName="address">
+              <label for="address" id="address-label">Dirección</label>
+              <input 
+                type="text" 
+                id="address" 
+                formControlName="address"
+                aria-labelledby="address-label"
+                aria-required="true"
+                [attr.aria-invalid]="addressForm.get('address')?.invalid && addressForm.get('address')?.touched ? 'true' : 'false'"
+              >
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="city">Ciudad</label>
-                <input type="text" id="city" formControlName="city">
+                <label for="city" id="city-label">Ciudad</label>
+                <input 
+                  type="text" 
+                  id="city" 
+                  formControlName="city"
+                  aria-labelledby="city-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="addressForm.get('city')?.invalid && addressForm.get('city')?.touched ? 'true' : 'false'"
+                >
               </div>
               <div class="form-group">
-                <label for="postalCode">Código postal</label>
-                <input type="text" id="postalCode" formControlName="postalCode">
+                <label for="postalCode" id="postalCode-label">Código postal</label>
+                <input 
+                  type="text" 
+                  id="postalCode" 
+                  formControlName="postalCode"
+                  aria-labelledby="postalCode-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="addressForm.get('postalCode')?.invalid && addressForm.get('postalCode')?.touched ? 'true' : 'false'"
+                >
               </div>
             </div>
             <div class="form-group">
-              <label for="phone">Teléfono</label>
-              <input type="tel" id="phone" formControlName="phone">
+              <label for="phone" id="phone-label">Teléfono</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                formControlName="phone"
+                aria-labelledby="phone-label"
+                aria-required="true"
+                [attr.aria-invalid]="addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched ? 'true' : 'false'"
+              >
             </div>
             <div class="form-actions">
-              <button type="button" (click)="showAddAddressForm = false">Cancelar</button>
-              <button type="submit" [disabled]="addressForm.invalid">Guardar</button>
+              <button 
+                type="button" 
+                (click)="showAddAddressForm = false"
+                aria-label="Cancelar la creación de dirección"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit" 
+                [disabled]="addressForm.invalid"
+                aria-label="Guardar nueva dirección"
+                [attr.aria-disabled]="addressForm.invalid"
+              >
+                Guardar
+              </button>
             </div>
           </form>
         </div>
         
-        <div class="address-list">
-          <div class="address-card" *ngFor="let address of addresses; let i = index">
+        <div class="address-list" role="list" aria-label="Lista de direcciones guardadas">
+          <div 
+            class="address-card" 
+            *ngFor="let address of addresses; let i = index"
+            role="listitem"
+            [attr.aria-label]="'Dirección: ' + address.name"
+          >
             <div class="address-info">
-              <h3>{{ address.name }}</h3>
+              <h3 id="address-name-{{i}}">{{ address.name }}</h3>
               <p>{{ address.fullName }}</p>
               <p>{{ address.address }}</p>
               <p>{{ address.city }}, {{ address.postalCode }}</p>
               <p>{{ address.phone }}</p>
             </div>
             <div class="address-actions">
-              <button [class.is-default]="address.isDefault" (click)="setDefaultAddress(i)">
+              <button 
+                [class.is-default]="address.isDefault" 
+                (click)="setDefaultAddress(i)"
+                [attr.aria-pressed]="address.isDefault"
+                [attr.aria-label]="address.isDefault ? 'Esta es tu dirección predeterminada' : 'Establecer como dirección predeterminada'"
+              >
                 {{ address.isDefault ? 'Predeterminada' : 'Hacer predeterminada' }}
               </button>
-              <button (click)="editAddress(i)">Editar</button>
-              <button (click)="deleteAddress(i)">Eliminar</button>
+              <button 
+                (click)="editAddress(i)"
+                aria-label="Editar dirección {{address.name}}"
+              >
+                Editar
+              </button>
+              <button 
+                (click)="deleteAddress(i)"
+                aria-label="Eliminar dirección {{address.name}}"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Seguridad -->
-      <div class="tab-content" *ngIf="activeTab === 'security'">
-        <h2>Seguridad</h2>
+      <div class="tab-content" *ngIf="activeTab === 'security'" role="tabpanel" id="security-panel" aria-labelledby="security-tab">
+        <h2 id="security-heading">Seguridad</h2>
         
-        <div class="security-section">
-          <h3>Cambiar Contraseña</h3>
+        <div class="security-section" aria-labelledby="password-heading">
+          <h3 id="password-heading">Cambiar Contraseña</h3>
           <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
             <div class="form-group">
-              <label for="currentPassword">Contraseña actual</label>
+              <label for="currentPassword" id="currentPassword-label">Contraseña actual</label>
               <div class="password-input-wrapper">
-                <input [type]="showPasswordToggles.current ? 'text' : 'password'" id="currentPassword" formControlName="currentPassword">
-                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('current')">
-                  <i [class]="showPasswordToggles.current ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                <input 
+                  [type]="showPasswordToggles.current ? 'text' : 'password'" 
+                  id="currentPassword" 
+                  formControlName="currentPassword"
+                  aria-labelledby="currentPassword-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched ? 'true' : 'false'"
+                >
+                <button 
+                  type="button" 
+                  class="toggle-password" 
+                  (click)="togglePasswordVisibility('current')"
+                  [attr.aria-label]="showPasswordToggles.current ? 'Ocultar contraseña actual' : 'Mostrar contraseña actual'"
+                  [attr.aria-pressed]="showPasswordToggles.current"
+                  aria-controls="currentPassword"
+                >
+                  <i [class]="showPasswordToggles.current ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
             <div class="form-group">
-              <label for="newPassword">Nueva contraseña</label>
+              <label for="newPassword" id="newPassword-label">Nueva contraseña</label>
               <div class="password-input-wrapper">
-                <input [type]="showPasswordToggles.new ? 'text' : 'password'" id="newPassword" formControlName="newPassword">
-                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('new')">
-                  <i [class]="showPasswordToggles.new ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                <input 
+                  [type]="showPasswordToggles.new ? 'text' : 'password'" 
+                  id="newPassword" 
+                  formControlName="newPassword"
+                  aria-labelledby="newPassword-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched ? 'true' : 'false'"
+                >
+                <button 
+                  type="button" 
+                  class="toggle-password" 
+                  (click)="togglePasswordVisibility('new')"
+                  [attr.aria-label]="showPasswordToggles.new ? 'Ocultar nueva contraseña' : 'Mostrar nueva contraseña'"
+                  [attr.aria-pressed]="showPasswordToggles.new"
+                  aria-controls="newPassword"
+                >
+                  <i [class]="showPasswordToggles.new ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="password-strength" *ngIf="passwordForm.get('newPassword')?.value">
-                <div class="strength-bar" [ngClass]="getPasswordStrength().class"></div>
-                <span>{{ getPasswordStrength().text }}</span>
+              <div 
+                class="password-strength" 
+                *ngIf="passwordForm.get('newPassword')?.value"
+                aria-live="polite"
+              >
+                <div 
+                  class="strength-bar" 
+                  [ngClass]="getPasswordStrength().class"
+                  role="progressbar"
+                  [attr.aria-valuenow]="getPasswordStrength().value"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  [attr.aria-valuetext]="getPasswordStrength().text"
+                ></div>
+                <span aria-live="polite">{{ getPasswordStrength().text }}</span>
               </div>
             </div>
             <div class="form-group">
-              <label for="confirmPassword">Confirmar contraseña</label>
+              <label for="confirmPassword" id="confirmPassword-label">Confirmar contraseña</label>
               <div class="password-input-wrapper">
-                <input [type]="showPasswordToggles.confirm ? 'text' : 'password'" id="confirmPassword" formControlName="confirmPassword">
-                <button type="button" class="toggle-password" (click)="togglePasswordVisibility('confirm')">
-                  <i [class]="showPasswordToggles.confirm ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'"></i>
+                <input 
+                  [type]="showPasswordToggles.confirm ? 'text' : 'password'" 
+                  id="confirmPassword" 
+                  formControlName="confirmPassword"
+                  aria-labelledby="confirmPassword-label"
+                  aria-required="true"
+                  [attr.aria-invalid]="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched ? 'true' : 'false'"
+                  aria-describedby="password-match-error"
+                >
+                <button 
+                  type="button" 
+                  class="toggle-password" 
+                  (click)="togglePasswordVisibility('confirm')"
+                  [attr.aria-label]="showPasswordToggles.confirm ? 'Ocultar confirmar contraseña' : 'Mostrar confirmar contraseña'"
+                  [attr.aria-pressed]="showPasswordToggles.confirm"
+                  aria-controls="confirmPassword"
+                >
+                  <i [class]="showPasswordToggles.confirm ? 'fi fi-br-eye' : 'fi fi-br-eye-crossed'" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="error-message" *ngIf="passwordForm.hasError('notSame') && passwordForm.get('confirmPassword')?.touched">
+              <div 
+                class="error-message" 
+                *ngIf="passwordForm.hasError('notSame') && passwordForm.get('confirmPassword')?.touched"
+                id="password-match-error"
+                role="alert"
+                aria-live="assertive"
+              >
                 <span>Las contraseñas no coinciden</span>
               </div>
             </div>
-            <button type="submit" [disabled]="passwordForm.invalid">Actualizar Contraseña</button>
+            <button 
+              type="submit" 
+              [disabled]="passwordForm.invalid"
+              aria-label="Actualizar contraseña"
+              [attr.aria-disabled]="passwordForm.invalid"
+            >
+              Actualizar Contraseña
+            </button>
           </form>
         </div>
         
-        <div class="security-section">
-          <h3>Opciones de Seguridad</h3>
+        <div class="security-section" aria-labelledby="security-options-heading">
+          <h3 id="security-options-heading">Opciones de Seguridad</h3>
           <div class="option">
             <div>
-              <h4>Verificación en dos pasos</h4>
-              <p>Añade una capa extra de seguridad</p>
+              <h4 id="two-factor-heading">Verificación en dos pasos</h4>
+              <p id="two-factor-description">Añade una capa extra de seguridad</p>
             </div>
-            <label class="switch">
-              <input type="checkbox" [(ngModel)]="securityOptions.twoFactorEnabled">
-              <span class="slider"></span>
+            <label class="switch" aria-labelledby="two-factor-heading" aria-describedby="two-factor-description">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="securityOptions.twoFactorEnabled"
+                [attr.aria-checked]="securityOptions.twoFactorEnabled"
+                aria-label="Activar verificación en dos pasos"
+              >
+              <span class="slider" aria-hidden="true"></span>
             </label>
           </div>
           <div class="option">
             <div>
-              <h4>Alertas de inicio de sesión</h4>
-              <p>Recibir notificaciones cuando se acceda a tu cuenta desde un nuevo dispositivo</p>
+              <h4 id="login-alerts-heading">Alertas de inicio de sesión</h4>
+              <p id="login-alerts-description">Recibir notificaciones cuando se acceda a tu cuenta desde un nuevo dispositivo</p>
             </div>
-            <label class="switch">
-              <input type="checkbox" [(ngModel)]="securityOptions.loginAlerts">
-              <span class="slider"></span>
+            <label class="switch" aria-labelledby="login-alerts-heading" aria-describedby="login-alerts-description">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="securityOptions.loginAlerts"
+                [attr.aria-checked]="securityOptions.loginAlerts"
+                aria-label="Activar alertas de inicio de sesión"
+              >
+              <span class="slider" aria-hidden="true"></span>
             </label>
           </div>
           <div class="option">
             <div>
-              <h4>Mantener sesión iniciada</h4>
-              <p>Permanecer con la sesión iniciada en este dispositivo</p>
+              <h4 id="keep-logged-heading">Mantener sesión iniciada</h4>
+              <p id="keep-logged-description">Permanecer con la sesión iniciada en este dispositivo</p>
             </div>
-            <label class="switch">
-              <input type="checkbox" [(ngModel)]="securityOptions.keepLoggedIn">
-              <span class="slider"></span>
+            <label class="switch" aria-labelledby="keep-logged-heading" aria-describedby="keep-logged-description">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="securityOptions.keepLoggedIn"
+                [attr.aria-checked]="securityOptions.keepLoggedIn"
+                aria-label="Mantener la sesión iniciada"
+              >
+              <span class="slider" aria-hidden="true"></span>
             </label>
           </div>
-          <button (click)="saveSecurityOptions()">Guardar Cambios</button>
+          <button 
+            (click)="saveSecurityOptions()"
+            aria-label="Guardar opciones de seguridad"
+          >
+            Guardar Cambios
+          </button>
         </div>
         
-        <div class="security-section">
-          <h3>Dispositivos conectados</h3>
-          <div class="devices-list">
-            <div class="device-item" *ngFor="let device of connectedDevices; let i = index">
+        <div class="security-section" aria-labelledby="devices-heading">
+          <h3 id="devices-heading">Dispositivos conectados</h3>
+          <div class="devices-list" role="list" aria-label="Lista de dispositivos conectados">
+            <div 
+              class="device-item" 
+              *ngFor="let device of connectedDevices; let i = index"
+              role="listitem"
+              [attr.aria-label]="device.name + ' - ' + (device.isCurrent ? 'Dispositivo actual' : '')"
+            >
               <div class="device-icon">
-                <i [class]="getDeviceIcon(device.type)"></i>
+                <i [class]="getDeviceIcon(device.type)" aria-hidden="true"></i>
               </div>
               <div class="device-details">
-                <h4>{{ device.name }}</h4>
+                <h4 id="device-name-{{i}}">{{ device.name }}</h4>
                 <p>{{ device.location }}</p>
                 <p>Último acceso: {{ formatDate(device.lastActive) }}</p>
-                <span class="device-current" *ngIf="device.isCurrent">Dispositivo actual</span>
+                <span 
+                  class="device-current" 
+                  *ngIf="device.isCurrent"
+                  aria-label="Este es tu dispositivo actual"
+                >
+                  Dispositivo actual
+                </span>
               </div>
-              <button class="revoke-btn" *ngIf="!device.isCurrent" (click)="revokeDevice(i)">
-                <i class="fi fi-br-cross"></i> Revocar acceso
+              <button 
+                class="revoke-btn" 
+                *ngIf="!device.isCurrent" 
+                (click)="revokeDevice(i)"
+                aria-label="Revocar acceso del dispositivo {{device.name}}"
+                aria-describedby="device-name-{{i}}"
+              >
+                <i class="fi fi-br-cross" aria-hidden="true"></i> Revocar acceso
               </button>
             </div>
           </div>

@@ -1,42 +1,42 @@
-<div class="product-page-container">
+<div class="product-page-container" role="main">
   <!-- Imagen principal y galería de imágenes del producto -->
-  <div class="image-gallery">
-    <img class="main-image" src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen principal del producto" />
-    <div class="thumbnail-gallery">
-      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 1" />
-      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 2" />
-      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 3" />
+  <div class="image-gallery" aria-labelledby="product-title">
+    <img class="main-image" src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen principal del producto" aria-describedby="product-description" />
+    <div class="thumbnail-gallery" role="list" aria-label="Galería de imágenes del producto">
+      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 1" role="listitem" tabindex="0" aria-label="Ver imagen 1 del producto" />
+      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 2" role="listitem" tabindex="0" aria-label="Ver imagen 2 del producto" />
+      <img src="https://images.unsplash.com/photo-1606813901444-1f7e3f5a6f7b" alt="Imagen del producto 3" role="listitem" tabindex="0" aria-label="Ver imagen 3 del producto" />
     </div>
   </div>
 
   <!-- Detalles del producto -->
   <div class="product-details">
-    <h1 class="product-title">Producto de Ejemplo</h1>
-    <p class="product-description">Esta es una descripción detallada del producto de ejemplo. Incluye todas las características y beneficios del producto.</p>
-    <p class="product-price">€100.00</p>
-    <p class="product-availability">Disponibilidad: En stock</p>
-    <button class="add-to-cart-button">Añadir al carrito</button>
+    <h1 class="product-title" id="product-title">Producto de Ejemplo</h1>
+    <p class="product-description" id="product-description">Esta es una descripción detallada del producto de ejemplo. Incluye todas las características y beneficios del producto.</p>
+    <p class="product-price" aria-label="Precio: 100 euros">€100.00</p>
+    <p class="product-availability" aria-live="polite">Disponibilidad: En stock</p>
+    <button class="add-to-cart-button" aria-label="Añadir producto al carrito de compras">Añadir al carrito</button>
   </div>
 
   <!-- Opiniones y valoraciones de otros usuarios -->
-  <div class="product-reviews">
-    <h2>Opiniones y valoraciones</h2>
-    <div class="review">
-      <p class="review-author">Usuario 1</p>
-      <p class="review-rating">⭐⭐⭐⭐⭐</p>
+  <div class="product-reviews" aria-labelledby="reviews-title">
+    <h2 id="reviews-title">Opiniones y valoraciones</h2>
+    <div class="review" role="article" aria-labelledby="review-author-1">
+      <p class="review-author" id="review-author-1">Usuario 1</p>
+      <p class="review-rating" aria-label="Valoración: 5 de 5 estrellas">⭐⭐⭐⭐⭐</p>
       <p class="review-text">Excelente producto. Muy recomendable.</p>
     </div>
-    <div class="review">
-      <p class="review-author">Usuario 2</p>
-      <p class="review-rating">⭐⭐⭐⭐</p>
+    <div class="review" role="article" aria-labelledby="review-author-2">
+      <p class="review-author" id="review-author-2">Usuario 2</p>
+      <p class="review-rating" aria-label="Valoración: 4 de 5 estrellas">⭐⭐⭐⭐</p>
       <p class="review-text">Muy bueno, pero podría mejorar en algunos aspectos.</p>
     </div>
   </div>
 
   <!-- Información adicional -->
-  <div class="additional-info">
-    <h2>Información adicional</h2>
-    <p>Envío: Envío en 1-2 días hábiles.</p>
-    <p>Devoluciones: Devoluciones aceptadas dentro de los 30 días.</p>
+  <div class="additional-info" aria-labelledby="additional-info-title">
+    <h2 id="additional-info-title">Información adicional</h2>
+    <p aria-label="Información de envío">Envío: Envío en 1-2 días hábiles.</p>
+    <p aria-label="Política de devoluciones">Devoluciones: Devoluciones aceptadas dentro de los 30 días.</p>
   </div>
 </div>
