@@ -11,6 +11,7 @@ import { ProductService } from '../services/product.service';
 import { CartItem } from '../interfaces/product.interface';
 import { forkJoin } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-payment-process',
@@ -29,12 +30,17 @@ export class PaymentProcessComponent implements OnInit {
   orderNumber = '';
   totalPaid = 0;
   cartId: number = 0; // Store the cart ID for finalizing payment
+  
+  // Variables para tarjetas guardadas
+  savedPaymentMethods: any[] = [];
+  selectedCardId: number | null = null;
 
   // Inyección de dependencias usando inject()
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private productService = inject(ProductService);
   private loginService = inject(LoginService);
+  private profileService = inject(ProfileService);
 
   constructor() {
     this.paymentForm = this.formBuilder.group({
@@ -57,12 +63,15 @@ export class PaymentProcessComponent implements OnInit {
         [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)],
       ],
       cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
-
+      saveCard: [false],
       termsAccepted: [false, Validators.requiredTrue],
     });
   }
 
   ngOnInit(): void {
+    // Cargar las tarjetas guardadas del usuario
+    this.loadSavedPaymentMethods();
+    
     // Initialize empty cart items array
     this.cartItems = [];
 
@@ -137,6 +146,77 @@ export class PaymentProcessComponent implements OnInit {
         this.router.navigate(['/shopping-cart']);
       },
     });
+  }
+
+  // Cargar métodos de pago guardados del usuario
+  loadSavedPaymentMethods(): void {
+    const currentUser = this.loginService.getLoggedUser();
+    if (!currentUser) return;
+
+    this.profileService.getMetodosPago(currentUser.id).subscribe({
+      next: (metodos) => {
+        // Transformar los métodos de pago de la API al formato que usamos en la vista
+        this.savedPaymentMethods = metodos.map((metodo) => ({
+          id: metodo.id,
+          type: this.profileService.detectCardType(metodo.tarjeta),
+          name: metodo.nombre,
+          last4: this.profileService.formatCardNumberForDisplay(metodo.tarjeta),
+          expiry: metodo.caducidad,
+        }));
+      },
+      error: (error) => {
+        console.error('Error al cargar los métodos de pago:', error);
+      },
+    });
+  }
+
+  // Seleccionar tarjeta guardada
+  selectSavedCard(card: any): void {
+    this.selectedCardId = card.id;
+    
+    // Desactivar validaciones de campos de tarjeta cuando se selecciona una tarjeta guardada
+    const cardControls = ['cardName', 'cardNumber', 'expiryDate', 'cvv'];
+    cardControls.forEach(control => {
+      const formControl = this.paymentForm.get(control);
+      formControl?.clearValidators();
+      formControl?.updateValueAndValidity();
+    });
+  }
+
+  // Usar nueva tarjeta
+  useNewCard(): void {
+    this.selectedCardId = null;
+    
+    // Reactivar validaciones para los campos de tarjeta
+    this.paymentForm.get('cardName')?.setValidators(Validators.required);
+    this.paymentForm.get('cardNumber')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/)
+    ]);
+    this.paymentForm.get('expiryDate')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)
+    ]);
+    this.paymentForm.get('cvv')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{3}$/)
+    ]);
+    
+    // Actualizar validez de los controles
+    Object.keys(this.paymentForm.controls).forEach(key => {
+      this.paymentForm.get(key)?.updateValueAndValidity();
+    });
+  }
+
+  // Obtener el icono de la tarjeta según su tipo
+  getCardIcon(type: string): string {
+    const icons: { [key: string]: string } = {
+      visa: 'fi fi-brands-visa',
+      mastercard: 'fi fi-brands-mastercard',
+      amex: 'fi fi-brands-amex',
+    };
+
+    return icons[type] || 'fi fi-br-credit-card';
   }
 
   get f() {
@@ -222,11 +302,45 @@ export class PaymentProcessComponent implements OnInit {
         (control) => !this.paymentForm.get(control)?.invalid
       );
     } else {
-      isValid = this.paymentForm.valid;
+      // Si hemos seleccionado una tarjeta guardada, no validamos los campos de tarjeta
+      if (this.selectedCardId) {
+        const shippingControls = [
+          'fullName',
+          'address',
+          'city',
+          'zipCode',
+          'phone',
+          'termsAccepted',
+        ];
+        isValid = shippingControls.every(
+          (control) => !this.paymentForm.get(control)?.invalid
+        );
+      } else {
+        isValid = this.paymentForm.valid;
+      }
     }
 
     if (isValid) {
       this.isProcessing = true;
+
+      // Si el usuario quiere guardar su tarjeta, la guardamos en la base de datos
+      if (this.paymentMethod === 'card' && !this.selectedCardId && this.paymentForm.get('saveCard')?.value) {
+        const currentUser = this.loginService.getLoggedUser();
+        const paymentData = {
+          user_id: currentUser.id.toString(),
+          nombre: this.paymentForm.value.cardName,
+          tarjeta: this.paymentForm.value.cardNumber.replace(/\s+/g, ''),
+          caducidad: this.paymentForm.value.expiryDate,
+          cvv: this.paymentForm.value.cvv,
+        };
+
+        this.profileService.addMetodoPago(paymentData).subscribe({
+          error: (error) => {
+            console.error('Error al guardar la tarjeta:', error);
+            // Continuamos con el proceso de pago aunque falle el guardado de la tarjeta
+          },
+        });
+      }
 
       // Call finishCarrito to finalize the payment
       if (this.cartId) {

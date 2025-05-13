@@ -184,104 +184,145 @@
             </div>
           </div>
 
-          <!-- Card Details Form -->
-          @if (paymentMethod === 'card') {
-            <div class="card-details">
-              <div class="form-group">
-                <label for="cardName">Nombre en la tarjeta</label>
-                <div class="input-container">
-                  <i class="fi fi-br-user"></i>
-                  <input 
-                    type="text" 
-                    id="cardName" 
-                    formControlName="cardName" 
-                    placeholder="Nombre que aparece en la tarjeta"
-                  >
-                </div>
-                @if (submitted && f['cardName'].errors) {
-                  <div class="error-message">
-                    @if (f['cardName'].errors['required']) {
-                      <span>El nombre en la tarjeta es obligatorio</span>
-                    }
+        <!-- Card Details Form -->
+        @if (paymentMethod === 'card') {
+          <div class="card-details">
+            <!-- Tarjetas guardadas -->
+            <div class="saved-cards" *ngIf="savedPaymentMethods && savedPaymentMethods.length > 0">
+              <h3 class="saved-cards-title">Tus tarjetas guardadas</h3>
+              <div class="saved-cards-list">
+                @for (card of savedPaymentMethods; track card.id) {
+                  <div class="saved-card-item" [class.selected]="selectedCardId === card.id" (click)="selectSavedCard(card)">
+                    <div class="card-icon">
+                      <i [class]="getCardIcon(card.type)"></i>
+                    </div>
+                    <div class="card-info">
+                      <p class="card-name">{{ card.name }}</p>
+                      <p class="card-number">**** {{ card.last4 }}</p>
+                      <p class="card-expiry">Caduca: {{ card.expiry }}</p>
+                    </div>
+                    <div class="card-select">
+                      <div class="radio-button"></div>
+                    </div>
                   </div>
                 }
               </div>
-
-              <div class="form-group">
-                <label for="cardNumber">Número de tarjeta</label>
-                <div class="input-container">
-                  <i class="fi fi-br-credit-card"></i>
-                  <input 
-                    type="text" 
-                    id="cardNumber" 
-                    formControlName="cardNumber" 
-                    placeholder="1234 5678 9012 3456"
-                    maxlength="19"
-                    (input)="formatCardNumber($event)"
-                  >
-                </div>
-                @if (submitted && f['cardNumber'].errors) {
-                  <div class="error-message">
-                    @if (f['cardNumber'].errors['required']) {
-                      <span>El número de tarjeta es obligatorio</span>
-                    }
-                    @if (f['cardNumber'].errors['pattern']) {
-                      <span>Número de tarjeta inválido</span>
-                    }
-                  </div>
-                }
+              
+              <div class="divider">
+                <span>o</span>
               </div>
+              
+              <button type="button" class="add-new-card-btn" (click)="useNewCard()">
+                <i class="fi fi-br-plus"></i> Usar nueva tarjeta
+              </button>
+            </div>
 
-              <div class="form-row">
+            <!-- Formulario de nueva tarjeta -->
+              @if (!selectedCardId || !savedPaymentMethods || savedPaymentMethods.length === 0) {
                 <div class="form-group">
-                  <label for="expiryDate">Fecha de caducidad</label>
+                  <label for="cardName">Nombre en la tarjeta</label>
                   <div class="input-container">
-                    <i class="fi fi-br-calendar"></i>
+                    <i class="fi fi-br-user"></i>
                     <input 
                       type="text" 
-                      id="expiryDate" 
-                      formControlName="expiryDate" 
-                      placeholder="MM/AA"
-                      maxlength="5"
-                      (input)="formatExpiryDate($event)"
+                      id="cardName" 
+                      formControlName="cardName" 
+                      placeholder="Nombre que aparece en la tarjeta"
                     >
                   </div>
-                  @if (submitted && f['expiryDate'].errors) {
+                  @if (submitted && f['cardName'].errors) {
                     <div class="error-message">
-                      @if (f['expiryDate'].errors['required']) {
-                        <span>La fecha de caducidad es obligatoria</span>
-                      }
-                      @if (f['expiryDate'].errors['pattern']) {
-                        <span>Formato inválido (MM/AA)</span>
+                      @if (f['cardName'].errors['required']) {
+                        <span>El nombre en la tarjeta es obligatorio</span>
                       }
                     </div>
                   }
                 </div>
 
                 <div class="form-group">
-                  <label for="cvv">CVV</label>
+                  <label for="cardNumber">Número de tarjeta</label>
                   <div class="input-container">
-                    <i class="fi fi-br-lock"></i>
+                    <i class="fi fi-br-credit-card"></i>
                     <input 
-                      type="password" 
-                      id="cvv" 
-                      formControlName="cvv" 
-                      placeholder="123"
-                      maxlength="3"
+                      type="text" 
+                      id="cardNumber" 
+                      formControlName="cardNumber" 
+                      placeholder="1234 5678 9012 3456"
+                      maxlength="19"
+                      (input)="formatCardNumber($event)"
                     >
                   </div>
-                  @if (submitted && f['cvv'].errors) {
+                  @if (submitted && f['cardNumber'].errors) {
                     <div class="error-message">
-                      @if (f['cvv'].errors['required']) {
-                        <span>El CVV es obligatorio</span>
+                      @if (f['cardNumber'].errors['required']) {
+                        <span>El número de tarjeta es obligatorio</span>
                       }
-                      @if (f['cvv'].errors['pattern']) {
-                        <span>CVV inválido</span>
+                      @if (f['cardNumber'].errors['pattern']) {
+                        <span>Número de tarjeta inválido</span>
                       }
                     </div>
                   }
                 </div>
-              </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="expiryDate">Fecha de caducidad</label>
+                    <div class="input-container">
+                      <i class="fi fi-br-calendar"></i>
+                      <input 
+                        type="text" 
+                        id="expiryDate" 
+                        formControlName="expiryDate" 
+                        placeholder="MM/AA"
+                        maxlength="5"
+                        (input)="formatExpiryDate($event)"
+                      >
+                    </div>
+                    @if (submitted && f['expiryDate'].errors) {
+                      <div class="error-message">
+                        @if (f['expiryDate'].errors['required']) {
+                          <span>La fecha de caducidad es obligatoria</span>
+                        }
+                        @if (f['expiryDate'].errors['pattern']) {
+                          <span>Formato inválido (MM/AA)</span>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <div class="input-container">
+                      <i class="fi fi-br-lock"></i>
+                      <input 
+                        type="password" 
+                        id="cvv" 
+                        formControlName="cvv" 
+                        placeholder="123"
+                        maxlength="3"
+                      >
+                    </div>
+                    @if (submitted && f['cvv'].errors) {
+                      <div class="error-message">
+                        @if (f['cvv'].errors['required']) {
+                          <span>El CVV es obligatorio</span>
+                        }
+                        @if (f['cvv'].errors['pattern']) {
+                          <span>CVV inválido</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                  <label class="checkbox-container">
+                    <input type="checkbox" formControlName="saveCard">
+                    <span class="checkmark"></span>
+                    <span>Guardar esta tarjeta para futuras compras</span>
+                  </label>
+                </div>
+              }
             </div>
           }
         </div>
