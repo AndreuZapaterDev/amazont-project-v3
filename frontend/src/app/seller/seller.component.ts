@@ -104,11 +104,14 @@ export class SellerComponent implements OnInit {
   }
 
   handleImageError(event: any, index: number): void {
-    console.error(`Error loading image at index ${index}:`, this.imagePreviewUrls[index]);
+    console.error(
+      `Error loading image at index ${index}:`,
+      this.imagePreviewUrls[index]
+    );
     if (!this.failedImages.includes(index)) {
       this.failedImages.push(index);
     }
-    
+
     // Opcionalmente, puedes reemplazar con una imagen placeholder
     event.target.src = 'assets/placeholder.png';
   }
@@ -375,7 +378,7 @@ export class SellerComponent implements OnInit {
         console.log('Producto creado con ID:', productoId);
 
         // Subir imágenes si existen
-        if (this.imageFiles.length > 0) {
+        if (this.imagePreviewUrls.length > 0) {
           this.uploadProductImages(productoId);
         }
 
@@ -509,25 +512,31 @@ export class SellerComponent implements OnInit {
   }
 
   // Subir imágenes del producto
-    private uploadProductImages(productoId: number): void {
-      // Upload each image URL associated with the product
-      this.imagePreviewUrls.forEach((url) => {
-        // Skip any images that are already in originalImages (they're already in the database)
-        if (this.editingProduct && this.originalImages.some(img => img.url === url)) {
-          return;
-        }
-        
-        const imageData = {
-          url: url,
-          producto_id: productoId.toString(),
-        };
+  private uploadProductImages(productoId: number): void {
+    // Upload each image URL associated with the product
+    console.log('Hola');
+    this.imagePreviewUrls.forEach((url) => {
+      // Skip any images that are already in originalImages (they're already in the database)
+      if (
+        this.editingProduct &&
+        this.originalImages.some((img) => img.url === url)
+      ) {
+        return;
+      }
 
-        this.productService.postProductImage(imageData).subscribe({
-          next: (response) => console.log('Imagen subida correctamente', response),
-          error: (error) => console.error('Error al guardar URL de imagen:', error),
-        });
+      const imageData = {
+        url: url,
+        producto_id: productoId.toString(),
+      };
+
+      this.productService.postProductImage(imageData).subscribe({
+        next: (response) =>
+          console.log('Imagen subida correctamente', response),
+        error: (error) =>
+          console.error('Error al guardar URL de imagen:', error),
       });
-    }
+    });
+  }
 
   // Guardar categoría del producto
   private saveProductCategory(productoId: number, categoriaId: any): void {
@@ -660,12 +669,13 @@ export class SellerComponent implements OnInit {
       this.imageError = 'Por favor, introduce una URL válida';
       return;
     }
-    
+
     if (!url.match(/^(http|https):\/\/.+\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i)) {
-      this.imageError = 'La URL debe ser una imagen válida (JPG, PNG, GIF, WEBP)';
+      this.imageError =
+        'La URL debe ser una imagen válida (JPG, PNG, GIF, WEBP)';
       return;
     }
-    
+
     // Verificar que la imagen existe antes de añadirla
     const img = new Image();
     img.onload = () => {
@@ -673,7 +683,8 @@ export class SellerComponent implements OnInit {
       this.imagePreviewUrls.push(url);
     };
     img.onerror = () => {
-      this.imageError = 'No se puede cargar la imagen desde esa URL. Verifica que sea accesible.';
+      this.imageError =
+        'No se puede cargar la imagen desde esa URL. Verifica que sea accesible.';
     };
     img.src = url;
   }
