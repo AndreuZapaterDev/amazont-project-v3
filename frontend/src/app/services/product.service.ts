@@ -128,5 +128,29 @@ export class ProductService {
     return this.http.post(`${this.apiPath}/api/producto_usuario`, data);
   }
 
-  //Falta el put del producto, el delete y el get de los productos asociados a un usuario
+  deleteProductUser(product_id: number, user_id: number): Observable<any> {
+    return this.http.delete(
+      `${this.apiPath}/api/producto_usuario/remove/${product_id}/${user_id}`
+    );
+  }
+
+  updateProduct(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiPath}/api/producto/${id}`, data);
+  }
+
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.apiPath}/api/producto/${id}`);
+  }
+
+  deleteProductImage(id: number): Observable<any> {
+    return this.http.delete(`${this.apiPath}/api/imagen/${id}`);
+  }
+
+  getProductsFromUser(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/productos_usuario/user/${id}`);
+  }
+
+  getMonthlyStats(id: number): Observable<any> {
+    return this.http.get(`${this.apiPath}/api/productos_usuario/stats/${id}`);
+  }
 }

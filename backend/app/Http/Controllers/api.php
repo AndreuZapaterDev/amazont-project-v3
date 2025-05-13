@@ -886,9 +886,29 @@ class api extends Controller
             ], 404);
         }
 
+        // Delete related records in productos_usuario (favorites)
+        productos_usuario::where('producto_id', $id)->delete();
+        
+        // Delete related records in productos_carrito (cart items)
+        productos_carrito::where('producto_id', $id)->delete();
+        
+        // Delete related records in valoraciones (ratings)
+        valoraciones::where('producto_id', $id)->delete();
+        
+        // Delete related records in caracteristicas (features)
+        caracteristicas::where('producto_id', $id)->delete();
+        
+        // Delete related records in imagenes (images)
+        imagenes::where('producto_id', $id)->delete();
+        
+        // Delete related records in productoCategorias (category relationships)
+        productoCategorias::where('producto_id', $id)->delete();
+        
+        // Finally delete the product
         $producto->delete();
+        
         return response()->json([
-            "message" => "Producto eliminado"
+            "message" => "Producto y todos sus datos relacionados eliminados correctamente"
         ], 200);
     }
 
@@ -1167,27 +1187,61 @@ class api extends Controller
             ], 404);
         }
 
+        // Get all products in the cart
+        $productos_carrito = productos_carrito::where('carrito_id', $id)->get();
+        $total = 0;
+        $stockErrors = [];
+
+        // First check if all products have enough stock
+        foreach ($productos_carrito as $producto_carrito) {
+            $producto = producto::find($producto_carrito->producto_id);
+            if ($producto == null) {
+                return response()->json([
+                    "message" => "Error: Producto con ID " . $producto_carrito->producto_id . " no encontrado"
+                ], 404);
+            }
+
+            // Check if there's enough stock
+            if ($producto->stock < $producto_carrito->cantidad) {
+                $stockErrors[] = "No hay suficiente stock para el producto '" . $producto->nombre . 
+                                "'. Stock disponible: " . $producto->stock . 
+                                ", Cantidad solicitada: " . $producto_carrito->cantidad;
+            }
+
+            $total += $producto_carrito->precio;
+        }
+
+        // If there are stock errors, return them without finishing the cart
+        if (!empty($stockErrors)) {
+            return response()->json([
+                "message" => "Error: Stock insuficiente",
+                "errors" => $stockErrors
+            ], 400);
+        }
+
+        // Now process all products and update the stock
+        foreach ($productos_carrito as $producto_carrito) {
+            $producto = producto::find($producto_carrito->producto_id);
+            
+            // Reduce the stock
+            $producto->stock -= $producto_carrito->cantidad;
+            $producto->save();
+        }
+
         // Set acabado to true
         $carrito->acabado = true;
 
         // Update fecha_pago to current timestamp
         $carrito->fecha_pago = now();
 
-        // Calculate the total by summing all the products in the cart
-        $productos_carrito = productos_carrito::where('carrito_id', $id)->get();
-        $total = 0;
-
-        foreach ($productos_carrito as $producto) {
-            $total += $producto->precio;
-        }
-
+        // Update total in the cart
         $carrito->total = $total;
 
         // Save the changes
         $carrito->save();
 
         return response()->json([
-            "message" => "Carrito finalizado correctamente",
+            "message" => "Carrito finalizado correctamente, stock de productos actualizado",
             "carrito" => $carrito
         ], 200);
     }
@@ -1326,4 +1380,93 @@ class api extends Controller
         ], 200);
     }
 
+    /**
+     * Get monthly statistics for products associated with a user
+     * 
+     * @param int $user_id The user ID to get stats for
+     * @return \Illuminate\Http\Response
+     */
+    public function getProductStats($user_id)
+    {
+        // Get the start and end dates for the current month
+        $startOfMonth = now()->startOfMonth()->toDateString();
+        $endOfMonth = now()->endOfMonth()->toDateString();
+        
+        // Get all products associated with the user
+        $userProducts = productos_usuario::where('usuario_id', $user_id)->pluck('producto_id');
+        
+        if ($userProducts->isEmpty()) {
+            return response()->json([
+                "message" => "No se encontraron productos asociados a este usuario"
+            ], 404);
+        }
+        
+        // Find all carts that contain these products and were finished this month
+        $cartIds = productos_carrito::whereIn('producto_id', $userProducts)
+            ->pluck('carrito_id')
+            ->unique();
+        
+        $finishedCarts = carrito::whereIn('id', $cartIds)
+            ->where('acabado', true)
+            ->whereBetween('fecha_pago', [$startOfMonth, $endOfMonth])
+            ->get();
+        
+        $totalFinishedCarts = $finishedCarts->count();
+        
+        // Calculate total monthly sales
+        $monthlySales = $finishedCarts->sum('total');
+        
+        // Get total products sold this month
+        $totalProductsSold = productos_carrito::whereIn('carrito_id', $finishedCarts->pluck('id'))
+            ->whereIn('producto_id', $userProducts)
+            ->sum('cantidad');
+        
+        // Collect detailed stats for each product
+        $productStats = [];
+        
+        foreach ($userProducts as $productId) {
+            $product = producto::find($productId);
+            
+            if (!$product) {
+                continue; // Skip if product doesn't exist
+            }
+            
+            // Get the first image for this product
+            $firstImage = imagenes::where('producto_id', $productId)->first();
+            $imageUrl = $firstImage ? $firstImage->url : null;
+            
+            // Get sales for this product in this month
+            $productCartItems = productos_carrito::whereIn('carrito_id', $finishedCarts->pluck('id'))
+                ->where('producto_id', $productId)
+                ->get();
+            
+            $unitsSold = $productCartItems->sum('cantidad');
+            $totalSales = $productCartItems->sum('precio');
+            
+            // Get rating information
+            $reviews = valoraciones::where('producto_id', $productId)->get();
+            $reviewCount = $reviews->count();
+            $averageRating = $reviewCount > 0 ? $reviews->avg('puntuacion') : 0;
+            
+            $productStats[] = [
+                'product_id' => $productId,
+                'name' => $product->nombre,
+                'image' => $imageUrl,
+                'total_sales' => $totalSales,
+                'units_sold' => $unitsSold,
+                'reviews' => [
+                    'count' => $reviewCount,
+                    'average_rating' => round($averageRating, 1)
+                ]
+            ];
+        }
+        
+        return response()->json([
+            'month' => now()->format('F Y'),  // Current month and year (e.g. "May 2023")
+            'monthly_sales' => $monthlySales,
+            'total_products_sold' => $totalProductsSold,
+            'finished_carts' => $totalFinishedCarts,
+            'products' => $productStats
+        ], 200);
+    }
 }

@@ -97,3 +97,6 @@ Route::post('/producto_usuario', [api::class, 'postProductoUsuario']);
 Route::delete('/producto_usuario/{id}', [api::class, 'deleteProductoUsuario']);
 Route::delete('/producto_usuario/remove/{producto_id}/{usuario_id}', [api::class, 'deleteProductoUsuarioByProductAndUser']);
 
+// New route for product statistics
+Route::get('/productos_usuario/stats/{user_id}', [api::class, 'getProductStats']);
+

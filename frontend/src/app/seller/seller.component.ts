@@ -40,6 +40,7 @@ export class SellerComponent implements OnInit {
   imagePreviewUrls: string[] = [];
   imageFiles: File[] = [];
   imageError = '';
+  originalImages: any[] = []; // Store original images when editing
 
   // Filtros y búsqueda
   searchTerm = '';
@@ -69,17 +70,19 @@ export class SellerComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadCategories();
-    this.setupMockData();
+    this.loadUserProducts();
+    // Replace mock data with real data
+    this.loadMonthlyStats();
   }
 
   // Cargar categorías desde la API
   loadCategories(): void {
     this.categoriesService.getCategories().subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.categories = data;
         this.calculateTotalPages();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al cargar categorías:', error);
       },
     });
@@ -98,83 +101,179 @@ export class SellerComponent implements OnInit {
     });
   }
 
-  // Configurar datos de ejemplo para la demo
-  setupMockData(): void {
-    // Productos de ejemplo
-    this.products = [
-      {
-        id: 1,
-        nombre: 'Smartphone XYZ',
-        descripcion: 'Un smartphone de última generación',
-        precio: 599.99,
-        descuento: 10,
-        stock: 25,
-        categoria_id: 1,
-        imagen_url:
-          'https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=500&auto=format&fit=crop',
-      },
-      {
-        id: 2,
-        nombre: 'Camiseta Algodón',
-        descripcion: 'Camiseta 100% algodón',
-        precio: 19.99,
-        descuento: 0,
-        stock: 100,
-        categoria_id: 2,
-        imagen_url:
-          'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500&auto=format&fit=crop',
-      },
-      {
-        id: 3,
-        nombre: 'Lámpara de Mesa',
-        descripcion: 'Lámpara LED para mesa de noche',
-        precio: 45.5,
-        descuento: 15,
-        stock: 8,
-        categoria_id: 3,
-        imagen_url:
-          'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=500&auto=format&fit=crop',
-      },
-    ];
+  // Cargar productos del usuario desde la API
+  loadUserProducts(): void {
+    const loggedUser = this.loginService.getLoggedUser();
+    if (!loggedUser) {
+      console.error('No hay usuario logueado');
+      return;
+    }
 
-    // Estadísticas de ejemplo (ya tienen imágenes reales)
-    this.productStats = [
-      {
-        id: 1,
-        name: 'Smartphone XYZ',
-        image:
-          'https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=200&auto=format&fit=crop',
-        revenue: 2599.99,
-        unitsSold: 5,
-        conversionRate: 15,
-        rating: 4,
-        reviewCount: 12,
+    this.productService.getProductsFromUser(loggedUser.id).subscribe({
+      next: (userProducts: any) => {
+        if (userProducts && userProducts.length > 0) {
+          this.processUserProducts(userProducts);
+        } else {
+          this.products = [];
+          this.calculateTotalPages();
+        }
       },
-      {
-        id: 2,
-        name: 'Camiseta Algodón',
-        image:
-          'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=200&auto=format&fit=crop',
-        revenue: 359.82,
-        unitsSold: 18,
-        conversionRate: 22,
-        rating: 5,
-        reviewCount: 7,
+      error: (error: any) => {
+        console.error('Error al cargar productos del usuario:', error);
+        this.products = [];
+        this.calculateTotalPages();
       },
-      {
-        id: 3,
-        name: 'Lámpara de Mesa',
-        image:
-          'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=200&auto=format&fit=crop',
-        revenue: 386.75,
-        unitsSold: 10,
-        conversionRate: 18,
-        rating: 4,
-        reviewCount: 6,
-      },
-    ];
+    });
+  }
 
-    this.calculateTotalPages();
+  // Procesar productos del usuario y obtener detalles
+  private processUserProducts(userProducts: any[]): void {
+    this.products = [];
+    let completedRequests = 0;
+
+    userProducts.forEach((userProduct) => {
+      this.productService.getAPIproduct(userProduct.producto_id).subscribe({
+        next: (productData: any) => {
+          const product = {
+            id: productData.id,
+            nombre: productData.nombre,
+            descripcion: productData.descripcion,
+            precio: parseFloat(productData.precio),
+            descuento: parseFloat(productData.descuento),
+            stock: parseInt(productData.stock),
+            categoria_id: null, // Will be set when loading categories
+            imagen_url: null, // Will be set when loading images
+          };
+
+          // Load product image
+          this.productService.getProductImages(product.id).subscribe({
+            next: (images: any) => {
+              if (images && images.length > 0) {
+                product.imagen_url = images[0].url;
+              }
+
+              // Load product category
+              this.categoriesService
+                .getProductosCategoriasId(product.id)
+                .subscribe({
+                  next: (categories: any) => {
+                    if (categories && categories.length > 0) {
+                      product.categoria_id = categories[0].categoria_id;
+                    }
+
+                    this.products.push(product);
+                    completedRequests++;
+
+                    // If all requests are completed, calculate pages
+                    if (completedRequests === userProducts.length) {
+                      this.calculateTotalPages();
+                    }
+                  },
+                  error: (error) => {
+                    console.error(
+                      `Error loading category for product ${product.id}:`,
+                      error
+                    );
+                    this.products.push(product);
+                    completedRequests++;
+
+                    if (completedRequests === userProducts.length) {
+                      this.calculateTotalPages();
+                    }
+                  },
+                });
+            },
+            error: (error) => {
+              console.error(
+                `Error loading images for product ${product.id}:`,
+                error
+              );
+              this.products.push(product);
+              completedRequests++;
+
+              // Continue with category loading
+              this.categoriesService
+                .getProductosCategoriasId(product.id)
+                .subscribe({
+                  next: (categories: any) => {
+                    if (categories && categories.length > 0) {
+                      product.categoria_id = categories[0].categoria_id;
+                    }
+
+                    if (completedRequests === userProducts.length) {
+                      this.calculateTotalPages();
+                    }
+                  },
+                  error: (error) => {
+                    console.error(
+                      `Error loading category for product ${product.id}:`,
+                      error
+                    );
+                    if (completedRequests === userProducts.length) {
+                      this.calculateTotalPages();
+                    }
+                  },
+                });
+            },
+          });
+        },
+        error: (error: any) => {
+          console.error(
+            `Error loading product ${userProduct.producto_id}:`,
+            error
+          );
+          completedRequests++;
+          if (completedRequests === userProducts.length) {
+            this.calculateTotalPages();
+          }
+        },
+      });
+    });
+  }
+
+  // Load real monthly statistics from the API
+  loadMonthlyStats(): void {
+    const loggedUser = this.loginService.getLoggedUser();
+    if (!loggedUser) {
+      console.error('No hay usuario logueado');
+      return;
+    }
+
+    this.productService.getMonthlyStats(loggedUser.id).subscribe({
+      next: (stats: any) => {
+        // Update summary statistics
+        this.totalSales = stats.monthly_sales || 0;
+        this.totalItemsSold = parseInt(stats.total_products_sold) || 0;
+        this.completedOrders = stats.finished_carts || 0;
+
+        // Transform product stats to match our interface
+        this.productStats = stats.products.map((product: any) => ({
+          id: product.product_id,
+          name: product.name,
+          image: product.image || 'assets/placeholder.png',
+          revenue: product.total_sales || 0,
+          unitsSold: product.units_sold || 0,
+          conversionRate: 0, // Hardcoded as requested
+          rating: product.reviews
+            ? Math.round(product.reviews.average_rating)
+            : 0,
+          reviewCount: product.reviews ? product.reviews.count : 0,
+        }));
+      },
+      error: (error: any) => {
+        console.error('Error al cargar estadísticas mensuales:', error);
+        // Fallback to empty data if API call fails
+        this.setupEmptyStats();
+      },
+    });
+  }
+
+  // Fallback method for when API fails
+  setupEmptyStats(): void {
+    this.totalSales = 0;
+    this.totalItemsSold = 0;
+    this.completedOrders = 0;
+    this.productStats = [];
   }
 
   // Manejo de imágenes
@@ -197,12 +296,27 @@ export class SellerComponent implements OnInit {
     }
   }
 
+  // Eliminar imagen
   removeImage(index: number): void {
-    this.imagePreviewUrls.splice(index, 1);
-    this.imageFiles.splice(index, 1);
+    // Si estamos editando y es una imagen que ya existe en BD
+    if (this.editingProduct && index < this.originalImages.length) {
+      // Solo marcamos la imagen para eliminación en frontend (se eliminará al guardar)
+      this.imagePreviewUrls.splice(index, 1);
+      // No eliminamos de originalImages aquí, lo haremos en handleProductImages cuando se guarde
+    } else {
+      // Si es una imagen nueva (aún no guardada en BD)
+      this.imagePreviewUrls.splice(index, 1);
+      // Ajustar el índice si estamos en modo edición
+      const fileIndex = this.editingProduct
+        ? index - this.originalImages.length
+        : index;
+      if (fileIndex >= 0 && fileIndex < this.imageFiles.length) {
+        this.imageFiles.splice(fileIndex, 1);
+      }
+    }
   }
 
-  // Guardar producto
+  // Guardar producto (crear nuevo o actualizar existente)
   saveProduct(): void {
     if (this.productForm.invalid) {
       return;
@@ -227,14 +341,24 @@ export class SellerComponent implements OnInit {
       descuento: this.productForm.value.descuento.toString(),
       descripcion: this.productForm.value.descripcion,
       stock: this.productForm.value.stock.toString(),
-      inicio: this.productForm.value.inicio.toString(),
+      inicio: this.productForm.value.inicio
+        ? this.productForm.value.inicio.toString()
+        : '1',
     };
 
-    console.log('Datos del producto:', productData);
+    if (this.editingProduct) {
+      // ACTUALIZACIÓN DE PRODUCTO
+      this.updateExistingProduct(this.editingProduct.id, productData);
+    } else {
+      // CREACIÓN DE NUEVO PRODUCTO
+      this.createNewProduct(productData, loggedUser.id);
+    }
+  }
 
-    // Crear el producto
+  // Crear un nuevo producto
+  private createNewProduct(productData: any, userId: number): void {
     this.productService.postProduct(productData).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         const productoId = response.producto_id;
         console.log('Producto creado con ID:', productoId);
 
@@ -250,15 +374,124 @@ export class SellerComponent implements OnInit {
         );
 
         // Asociar el producto con el usuario
-        this.saveProductUser(productoId, loggedUser.id);
+        this.saveProductUser(productoId, userId);
 
         // Resetear formulario y actualizar UI
         this.resetForm();
+        this.loadUserProducts(); // Recargar la lista de productos
         this.isSubmitting = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al crear producto:', error);
         this.isSubmitting = false;
+        alert(
+          'Hubo un error al crear el producto. Por favor, inténtalo de nuevo.'
+        );
+      },
+    });
+  }
+
+  // Actualizar un producto existente
+  private updateExistingProduct(productId: number, productData: any): void {
+    this.productService.updateProduct(productId, productData).subscribe({
+      next: () => {
+        console.log('Producto actualizado con éxito');
+
+        // Gestionar las imágenes
+        this.handleProductImages(productId);
+
+        // Actualizar la categoría si ha cambiado
+        this.updateProductCategory(
+          productId,
+          this.productForm.value.categoria_id
+        );
+
+        // Recargar datos y resetear formulario
+        this.resetForm();
+        this.loadUserProducts();
+        this.isSubmitting = false;
+      },
+      error: (error: any) => {
+        console.error('Error al actualizar producto:', error);
+        this.isSubmitting = false;
+        alert(
+          'Hubo un error al actualizar el producto. Por favor, inténtalo de nuevo.'
+        );
+      },
+    });
+  }
+
+  // Gestionar las imágenes del producto durante la actualización
+  private handleProductImages(productId: number): void {
+    // Primero procesamos las eliminaciones de imágenes originales
+    const deletedImages = this.originalImages.filter(
+      (originalImage) =>
+        !this.imagePreviewUrls.some((url) => url === originalImage.url)
+    );
+
+    // Crear un array de promesas para manejar las operaciones de manera más ordenada
+    const deletePromises = deletedImages.map(
+      (image) =>
+        new Promise<void>((resolve, reject) => {
+          this.productService.deleteProductImage(image.id).subscribe({
+            next: () => {
+              console.log(`Imagen ${image.id} eliminada correctamente`);
+              resolve();
+            },
+            error: (error) => {
+              console.error(`Error al eliminar imagen ${image.id}:`, error);
+              reject(error);
+            },
+          });
+        })
+    );
+
+    // Después de que se completen todas las eliminaciones, subimos las nuevas imágenes
+    Promise.all(deletePromises)
+      .then(() => {
+        // Subir las nuevas imágenes (las que son archivos seleccionados)
+        if (this.imageFiles.length > 0) {
+          this.uploadProductImages(productId);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al procesar las imágenes:', error);
+      });
+  }
+
+  // Actualizar categoría del producto
+  private updateProductCategory(
+    productId: number,
+    newCategoryId: number
+  ): void {
+    // Obtener la categoría actual
+    this.categoriesService.getProductosCategoriasId(productId).subscribe({
+      next: (categories: any) => {
+        if (categories && categories.length > 0) {
+          const currentCategoryId = categories[0].categoria_id;
+
+          // Si la categoría ha cambiado, actualizarla
+          if (currentCategoryId != newCategoryId) {
+            // Para este caso simple, eliminamos la asociación anterior y creamos una nueva
+            const data = {
+              producto_id: productId.toString(),
+              categoria_id: newCategoryId.toString(),
+            };
+
+            this.productService.postProductCategories(data).subscribe({
+              error: (error) =>
+                console.error('Error al actualizar categoría:', error),
+            });
+          }
+        } else {
+          // Si no tiene categoría, crear una nueva asociación
+          this.saveProductCategory(productId, newCategoryId);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener categoría:', error);
+        // En caso de error, intentamos crear una nueva asociación
+        this.saveProductCategory(productId, newCategoryId);
       },
     });
   }
@@ -275,7 +508,7 @@ export class SellerComponent implements OnInit {
       };
 
       this.productService.postProductImage(imageData).subscribe({
-        error: (error) => console.error('Error al subir imagen:', error),
+        error: (error: any) => console.error('Error al subir imagen:', error),
       });
     });
   }
@@ -288,7 +521,7 @@ export class SellerComponent implements OnInit {
     };
 
     this.productService.postProductCategories(data).subscribe({
-      error: (error) =>
+      error: (error: any) =>
         console.error('Error al guardar categoría del producto:', error),
     });
   }
@@ -301,7 +534,7 @@ export class SellerComponent implements OnInit {
     };
 
     this.productService.postProductUser(data).subscribe({
-      error: (error) =>
+      error: (error: any) =>
         console.error('Error al asociar producto con usuario:', error),
     });
   }
@@ -321,16 +554,50 @@ export class SellerComponent implements OnInit {
       categoria_id: product.categoria_id,
     });
 
-    // Simular carga de imágenes
-    this.imagePreviewUrls = product.imagen_url ? [product.imagen_url] : [];
+    // Limpiar imágenes previas
+    this.imagePreviewUrls = [];
+    this.imageFiles = [];
+    this.originalImages = [];
+
+    // Cargar las imágenes existentes del producto
+    this.productService.getProductImages(product.id).subscribe({
+      next: (images: any) => {
+        if (images && images.length > 0) {
+          this.originalImages = images;
+          // Mostrar las imágenes existentes en la vista previa
+          images.forEach((image: any) => {
+            this.imagePreviewUrls.push(image.url);
+          });
+        }
+      },
+      error: (error: any) => {
+        console.error('Error al cargar imágenes del producto:', error);
+      },
+    });
   }
 
-  // Eliminar producto (simulado)
+  // Eliminar producto - modificado para usar cascada API
   deleteProduct(productId: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
-      // Simular eliminación
-      this.products = this.products.filter((p) => p.id !== productId);
-      this.calculateTotalPages();
+      this.isSubmitting = true;
+
+      // Llamar directamente al método deleteProduct ya que la API maneja la cascada
+      this.productService.deleteProduct(productId).subscribe({
+        next: () => {
+          console.log('Producto eliminado correctamente');
+          // Eliminar producto de la lista local
+          this.products = this.products.filter((p) => p.id !== productId);
+          this.calculateTotalPages();
+          this.isSubmitting = false;
+        },
+        error: (error: any) => {
+          console.error('Error al eliminar el producto:', error);
+          this.isSubmitting = false;
+          alert(
+            'Hubo un error al eliminar el producto. Por favor, inténtalo de nuevo.'
+          );
+        },
+      });
     }
   }
 
