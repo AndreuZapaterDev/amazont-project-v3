@@ -3,8 +3,7 @@
   <div class="product-images" aria-labelledby="product-title">
     <div class="main-image">
       <img [src]="mainImage" [alt]="product.name" aria-describedby="product-description" />
-    </div>
-    <div class="image-thumbnails" role="list" aria-label="Imágenes adicionales del producto">
+    </div>    <div class="image-thumbnails" role="list" [attr.aria-label]="'Imágenes adicionales del producto'">
       @for(img of productImages; track $index) {
       <div class="thumbnail" [class.active]="$index === activeImageIndex" (click)="changeMainImage(img, $index)"
         role="listitem" [attr.aria-label]="'Ver imagen ' + ($index + 1) + ' del producto'" tabindex="0">
@@ -16,14 +15,12 @@
 
   <!-- Columna derecha: Información del producto -->
   <div class="product-info">
-    <h1 class="product-title" id="product-title">{{ product.nombre }}</h1>
-
-    <div class="product-meta">
-      <div class="product-rating" aria-label="Valoración del producto">
+    <h1 class="product-title" id="product-title">{{ product.nombre }}</h1>    <div class="product-meta">
+      <div class="product-rating" [attr.aria-label]="'Valoración del producto'">
         <div class="stars" [attr.aria-label]="'Valoración: ' + numberStars + ' estrellas'">{{ numberStars }}</div>
         <span class="review-count">{{ reviews.length }} valoraciones</span>
       </div>
-      <span class="product-id" aria-label="Referencia del producto">REF: #{{ product.id }}</span>
+      <span class="product-id" [attr.aria-label]="'Referencia del producto'">REF: #{{ product.id }}</span>
     </div>
 
     <div class="product-price-container" aria-live="polite">
@@ -32,12 +29,12 @@
         product.descuento }}%
       </div>
       <div class="prices">
-        <span class="original-price" aria-label="Precio original">{{ product.precio }}€</span>
-        <span class="discounted-price" aria-label="Precio con descuento">{{ discountedPrice | number : "1.2-2"
+        <span class="original-price" [attr.aria-label]="'Precio original'">{{ product.precio }}€</span>
+        <span class="discounted-price" [attr.aria-label]="'Precio con descuento'">{{ discountedPrice | number : "1.2-2"
           }}€</span>
       </div>
       } @else {
-      <div class="regular-price" aria-label="Precio">{{ product.precio }}€</div>
+      <div class="regular-price" [attr.aria-label]="'Precio'">{{ product.precio }}€</div>
       }
     </div>
 
@@ -45,9 +42,7 @@
       <p id="product-description">
         {{ product.descripcion }}
       </p>
-    </div>
-
-    <div class="product-features" role="list" aria-label="Características destacadas">
+    </div>    <div class="product-features" role="list" [attr.aria-label]="'Características destacadas'">
       <div class="feature" role="listitem">
         <i class="fi fi-br-check-circle" aria-hidden="true"></i>
         <span>Envío gratis</span>
@@ -63,14 +58,14 @@
     </div>
 
     <div class="product-actions">
-      <div class="quantity-selector" role="group" aria-label="Selector de cantidad">
-        <button (click)="decreaseQuantity()" class="qty-btn" aria-label="Disminuir cantidad"
+      <div class="quantity-selector" role="group" [attr.aria-label]="'Selector de cantidad'">
+        <button (click)="decreaseQuantity()" class="qty-btn" [attr.aria-label]="'Disminuir cantidad'"
           [attr.aria-disabled]="quantity <= 1 ? 'true' : 'false'">
           <i class="fi fi-br-minus" aria-hidden="true"></i>
         </button>
         <input type="number" id="quantity" [(ngModel)]="quantity" min="1" max="10" readonly
-          aria-label="Cantidad de producto" aria-valuemin="1" aria-valuemax="10" [attr.aria-valuenow]="quantity" />
-        <button (click)="increaseQuantity()" class="qty-btn" aria-label="Aumentar cantidad"
+          [attr.aria-label]="'Cantidad de producto'" aria-valuemin="1" aria-valuemax="10" [attr.aria-valuenow]="quantity" />
+        <button (click)="increaseQuantity()" class="qty-btn" [attr.aria-label]="'Aumentar cantidad'"
           [attr.aria-disabled]="quantity >= 10 ? 'true' : 'false'">
           <i class="fi fi-br-plus" aria-hidden="true"></i>
         </button>
@@ -84,8 +79,7 @@
   </div>
 
   <!-- Tabs de información adicional -->
-  <div class="product-tabs">
-    <div class="tab-headers" role="tablist" aria-label="Información detallada del producto">
+  <div class="product-tabs">    <div class="tab-headers" role="tablist" [attr.aria-label]="'Información detallada del producto'">
       <button class="tab-btn" [class.active]="activeTab === 'description'" (click)="setActiveTab('description')"
         role="tab" id="tab-description" [attr.aria-selected]="activeTab === 'description'"
         aria-controls="panel-description">
@@ -128,14 +122,13 @@
 
       <div class="tab-panel" [class.active]="activeTab === 'reviews'" role="tabpanel" id="panel-reviews"
         aria-labelledby="tab-reviews" [attr.hidden]="activeTab !== 'reviews'">
-        <h3 id="reviews-heading">Opiniones de clientes</h3>
-        <div class="reviews-summary" aria-labelledby="reviews-heading">
-          <div class="rating-overall" aria-label="Valoración global del producto">
-            <div class="big-rating" aria-label="Puntuación media">{{ reviewStats.average }}</div>
+        <h3 id="reviews-heading">Opiniones de clientes</h3>        <div class="reviews-summary" aria-labelledby="reviews-heading">
+          <div class="rating-overall" [attr.aria-label]="'Valoración global del producto'">
+            <div class="big-rating" [attr.aria-label]="'Puntuación media'">{{ reviewStats.average }}</div>
             <div class="stars-big" [attr.aria-label]="numberStars + ' estrellas'">{{ numberStars }}</div>
             <span>Basado en {{ reviewStats.total }} opiniones</span>
           </div>
-          <div class="rating-bars" aria-label="Distribución de valoraciones">
+          <div class="rating-bars" [attr.aria-label]="'Distribución de valoraciones'">
             <div class="rating-bar">
               <span id="five-star-label">5 estrellas</span>
               <div class="bar-container" aria-labelledby="five-star-label" role="meter" aria-valuemin="0"
@@ -207,9 +200,7 @@
                 }}</span>
             </div>
           </div>
-        </div>
-
-        <div class="reviews-list" role="region" aria-label="Listado de opiniones">
+        </div>        <div class="reviews-list" role="region" [attr.aria-label]="'Listado de opiniones'">
           @if(reviews.length > 0) { @for(review of visibleReviews; track
           review.id) {
           <div class="review" role="article" [attr.aria-labelledby]="'reviewer-' + review.id">
@@ -222,7 +213,7 @@
                 <div class="review-stars" [attr.aria-label]="'Valoración: ' + review.puntuacion + ' estrellas'">
                   {{ getStarsForRating(review.puntuacion) }}
                 </div>
-                <span class="review-date" aria-label="Fecha de la opinión">{{ review.fecha }}</span>
+                <span class="review-date" [attr.aria-label]="'Fecha de la opinión'">{{ review.fecha }}</span>
               </div>
               <p class="review-text">{{ review.review }}</p>
               <div class="review-helpful">
@@ -306,11 +297,10 @@
       </div>
     </div>
   </div>
-
   <!-- Productos relacionados -->
   <div class="related-products" aria-labelledby="related-heading">
     <h3 id="related-heading">También te puede interesar</h3>
-    <div class="related-items" role="list" aria-label="Productos relacionados">
+    <div class="related-items" role="list" [attr.aria-label]="'Productos relacionados'">
       @if(relatedProducts.length > 0) { @for(product of relatedProducts; track
       product.id) {
       <div (click)="navigateToProduct(product)" role="listitem" tabindex="0"
