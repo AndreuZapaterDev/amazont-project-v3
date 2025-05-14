@@ -5,16 +5,26 @@ import { CommonModule } from '@angular/common';
 import { DarkModeComponent } from '../dark-mode/dark-mode.component';
 import { LoginService } from '../services/login.service';
 import { AlertComponent } from '../alert/alert.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule, DarkModeComponent, AlertComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    DarkModeComponent,
+    AlertComponent,
+    FormsModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   popup: boolean = false;
+  searchTerm: string = '';
+  filteredProducts: any[] = [];
+
   constructor(
     private productService: ProductService,
     private loginService: LoginService,
@@ -96,5 +106,53 @@ export class NavbarComponent {
       this.popup = true;
       console.log('No hay usuario logueado');
     }
+  }
+
+  searchProducts() {
+    if (!this.searchTerm?.trim()) {
+      this.filteredProducts = []; // Clear results if search is empty
+      return;
+    }
+
+    // Get all products from your API
+    this.productService.getAPIproducts().subscribe({
+      next: (products: any) => {
+        // Make sure products is an array before filtering
+        if (Array.isArray(products)) {
+          // Filter products by name containing the search term (case insensitive)
+          this.filteredProducts = products
+            .filter((product: any) =>
+              product.nombre
+                .toLowerCase()
+                .includes(this.searchTerm.toLowerCase())
+            )
+            .slice(0, 5); // Limit to 5 results in the dropdown
+
+          console.log('Filtered products:', this.filteredProducts);
+        } else {
+          console.error('API did not return an array of products', products);
+          this.filteredProducts = [];
+        }
+      },
+      error: (error: any) => {
+        console.error('Error fetching products:', error);
+        this.filteredProducts = [];
+      },
+    });
+  }
+
+  // Navigate to product detail page
+  goToProductDetail(productId: number) {
+    this.router.navigate(['/home/product', productId]);
+    this.filteredProducts = []; // Clear results after navigation
+    this.searchTerm = ''; // Clear search term
+  }
+
+  // View all search results
+  viewAllResults() {
+    this.router.navigate(['/home/search'], {
+      queryParams: { query: this.searchTerm },
+    });
+    this.filteredProducts = []; // Clear dropdown results
   }
 }
