@@ -1,5 +1,6 @@
 import { Component, Injectable, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alert',
@@ -15,6 +16,8 @@ export class AlertComponent {
   isVisible: boolean = false;
   visible = input<boolean>();
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     if (this.visible()) {
       this.isVisible = true;
@@ -23,5 +26,10 @@ export class AlertComponent {
 
   hideAlert() {
     this.isVisible = false;
+  }
+
+  login() {
+    this.isVisible = false;
+    this.router.navigate(['/login']);
   }
 }

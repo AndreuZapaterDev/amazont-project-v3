@@ -10,13 +10,20 @@
         <img class="logo" src="/images/White_logo.png" alt="Logo de Amazont" />
       </a>
       <div class="search-container">
-        <form class="search-box" action="" role="search" aria-label="Buscar productos">
+        <form
+          class="search-box"
+          action=""
+          role="search"
+          aria-label="Buscar productos"
+        >
           <input
             type="text"
             placeholder="Encuentra lo que necesitas al mejor precio"
             aria-label="Campo de búsqueda"
           />
-          <button type="submit" aria-label="Buscar"><i class="fi fi-br-search" aria-hidden="true"></i></button>
+          <button type="submit" aria-label="Buscar">
+            <i class="fi fi-br-search" aria-hidden="true"></i>
+          </button>
           <div class="slider" aria-hidden="true">
             <div><i class="fi fi-br-hamburger-soda"></i></div>
             <div><i class="fi fi-br-volleyball"></i></div>
@@ -29,13 +36,21 @@
         <app-dark-mode></app-dark-mode>
       </div>
 
-      <div class="languages-container" role="region" aria-label="Selector de idioma">
-        <button aria-label="Cambiar a español"><img src="/images/circle_spain.png" alt="Bandera española" /></button>
-        <button aria-label="Cambiar a inglés"><img src="/images/circle_uk.png" alt="Bandera inglesa" /></button>
+      <div
+        class="languages-container"
+        role="region"
+        aria-label="Selector de idioma"
+      >
+        <button aria-label="Cambiar a español">
+          <img src="/images/circle_spain.png" alt="Bandera española" />
+        </button>
+        <button aria-label="Cambiar a inglés">
+          <img src="/images/circle_uk.png" alt="Bandera inglesa" />
+        </button>
       </div>
 
       <div class="cart-container">
-        <a [routerLink]="['/home/cart']" class="cart-link" aria-label="Ver carrito">
+        <a (click)="goToCart()" class="cart-link" aria-label="Ver carrito">
           <button aria-label="Ir al carrito de compra">
             <i class="fi fi-br-shopping-cart" aria-hidden="true"></i>
             <div class="number-container" aria-live="polite">
@@ -47,21 +62,25 @@
 
       <div>
         @if(!isLoggedIn()) {
-          <a routerLink="/login" aria-label="Iniciar sesión">
-            <button class="learn-more" aria-label="Iniciar sesión en tu cuenta">
-              <span class="circle" aria-hidden="true">
-                <span class="icon arrow"></span>
-              </span>
-              <span class="button-text">Iniciar Sesión</span>
-            </button>
-          </a>
-        } @else {
-          <button (click)="logout()" class="learn-more" aria-label="Cerrar sesión">
+        <a routerLink="/login" aria-label="Iniciar sesión">
+          <button class="learn-more" aria-label="Iniciar sesión en tu cuenta">
             <span class="circle" aria-hidden="true">
               <span class="icon arrow"></span>
             </span>
-            <span class="button-text">Cerrar Sesión</span>
+            <span class="button-text">Iniciar Sesión</span>
           </button>
+        </a>
+        } @else {
+        <button
+          (click)="logout()"
+          class="learn-more"
+          aria-label="Cerrar sesión"
+        >
+          <span class="circle" aria-hidden="true">
+            <span class="icon arrow"></span>
+          </span>
+          <span class="button-text">Cerrar Sesión</span>
+        </button>
         }
       </div>
     </div>
@@ -71,12 +90,20 @@
     <div class="secundary-container">
       <ul role="menubar">
         <li role="none"><a routerLink="/home" role="menuitem">Inicio</a></li>
-        <li role="none"><a routerLink="/home/categories" role="menuitem">Categorías</a></li>
+        <li role="none">
+          <a routerLink="/home/categories" role="menuitem">Categorías</a>
+        </li>
         @if(isVendor()) {
-          <li role="none"><a routerLink="/home/seller" role="menuitem">Vendedor</a></li>
+        <li role="none">
+          <a routerLink="/home/seller" role="menuitem">Vendedor</a>
+        </li>
         }
-        <li style="cursor: pointer;" role="none"><a (click)="goToProfile()" role="menuitem">Ajustes</a></li>
-        <li role="none"><a routerLink="/home/cart" role="menuitem">Carrito</a></li>
+        <li style="cursor: pointer" role="none">
+          <a (click)="goToProfile()" role="menuitem">Ajustes</a>
+        </li>
+        <li role="none">
+          <a routerLink="/home/cart" role="menuitem">Carrito</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -92,7 +119,8 @@
   >
     <!-- Cabecera -->
     <div class="flex items-center justify-between px-4 py-3">
-      <!-- Botón de menú -->      <button
+      <!-- Botón de menú -->
+      <button
         class="text-white focus:outline-none"
         (click)="toggleMobileMenu()"
         aria-label="Abrir menú"
@@ -103,7 +131,11 @@
       </button>
 
       <!-- Logo -->
-      <a routerLink="/home" class="flex items-center" aria-label="Ir a la página de inicio">
+      <a
+        routerLink="/home"
+        class="flex items-center"
+        aria-label="Ir a la página de inicio"
+      >
         <img
           src="/images/White_logo.png"
           alt="Amazont Logo"
@@ -119,7 +151,11 @@
         </div>
 
         <!-- Carrito -->
-        <a routerLink="/home/cart" class="relative flex items-center" aria-label="Ver carrito">
+        <a
+          routerLink="/home/cart"
+          class="relative flex items-center"
+          aria-label="Ver carrito"
+        >
           <i class="fi fi-br-shopping-cart text-2xl" aria-hidden="true"></i>
           <span
             class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary-color text-xs font-bold text-white"
@@ -255,7 +291,10 @@
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
               role="menuitem"
             >
-              <i class="fi fi-br-shopping-cart mr-3 text-lg" aria-hidden="true"></i>
+              <i
+                class="fi fi-br-shopping-cart mr-3 text-lg"
+                aria-hidden="true"
+              ></i>
               <span>Carrito</span>
             </a>
           </li>
@@ -278,7 +317,9 @@
 
       <!-- Idiomas -->
       <div class="px-4 py-2" role="region" aria-label="Selector de idioma">
-        <p class="mb-2 text-sm font-medium text-gray-500" id="language-label">Idioma</p>
+        <p class="mb-2 text-sm font-medium text-gray-500" id="language-label">
+          Idioma
+        </p>
         <div class="flex space-x-3" aria-labelledby="language-label">
           <button
             class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"

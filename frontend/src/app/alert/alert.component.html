@@ -1,13 +1,13 @@
 @if(isVisible){
 <div class="alert-overlay">
-    <div class="alert-container">
-        <div class="alert-message">
-            Para poder usar esta funcionalidad tienes que iniciar sesión.
-        </div>
-        <div class="alert-buttons">
-            <button class="login-button">Iniciar sesión</button>
-            <button class="close-button" (click)="hideAlert()">Cerrar</button>
-        </div>
+  <div class="alert-container">
+    <div class="alert-message">
+      Para poder usar esta funcionalidad tienes que iniciar sesión.
     </div>
+    <div class="alert-buttons">
+      <button class="login-button" (click)="login()">Iniciar sesión</button>
+      <button class="close-button" (click)="hideAlert()">Cerrar</button>
+    </div>
+  </div>
 </div>
 }

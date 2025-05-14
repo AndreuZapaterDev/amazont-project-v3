@@ -87,4 +87,14 @@ export class NavbarComponent {
     this.loginService.logout();
     this.router.navigate(['/home']);
   }
+
+  goToCart() {
+    if (this.loginService.getLoggedUser()) {
+      this.popup = false;
+      this.router.navigate(['/home/cart']);
+    } else {
+      this.popup = true;
+      console.log('No hay usuario logueado');
+    }
+  }
 }
