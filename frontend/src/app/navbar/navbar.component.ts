@@ -52,7 +52,6 @@ export class NavbarComponent {
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
 
-    // Opcional: bloquear el scroll cuando el menú está abierto
     if (this.isMobileMenuOpen) {
       document.body.classList.add('overflow-hidden');
     } else {
@@ -78,5 +77,14 @@ export class NavbarComponent {
   isVendor(): boolean {
     const loggedUser = this.loginService.getLoggedUser();
     return loggedUser && loggedUser.rol === 2; // Vendor has role 2, not 1
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.loginService.getLoggedUser();
+  }
+
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(['/home']);
   }
 }

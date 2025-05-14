@@ -46,14 +46,23 @@
       </div>
 
       <div>
-        <a routerLink="/sign-up" aria-label="Registrarse">
-          <button class="learn-more" aria-label="Crear nueva cuenta">
+        @if(!isLoggedIn()) {
+          <a routerLink="/login" aria-label="Iniciar sesión">
+            <button class="learn-more" aria-label="Iniciar sesión en tu cuenta">
+              <span class="circle" aria-hidden="true">
+                <span class="icon arrow"></span>
+              </span>
+              <span class="button-text">Iniciar Sesión</span>
+            </button>
+          </a>
+        } @else {
+          <button (click)="logout()" class="learn-more" aria-label="Cerrar sesión">
             <span class="circle" aria-hidden="true">
               <span class="icon arrow"></span>
             </span>
-            <span class="button-text">Sign Up</span>
+            <span class="button-text">Cerrar Sesión</span>
           </button>
-        </a>
+        }
       </div>
     </div>
   </nav>
@@ -66,7 +75,7 @@
         @if(isVendor()) {
           <li role="none"><a routerLink="/home/seller" role="menuitem">Vendedor</a></li>
         }
-        <li role="none"><a (click)="goToProfile()" role="menuitem">Ajustes</a></li>
+        <li style="cursor: pointer;" role="none"><a (click)="goToProfile()" role="menuitem">Ajustes</a></li>
         <li role="none"><a routerLink="/home/cart" role="menuitem">Carrito</a></li>
       </ul>
     </div>
