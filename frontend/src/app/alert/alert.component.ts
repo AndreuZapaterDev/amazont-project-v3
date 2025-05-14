@@ -20,7 +20,8 @@ export class AlertComponent {
       this.isVisible = true;
     }
   }
-  // hideAlert() {
-  //   this.visible.set(false);
-  // }
+
+  hideAlert() {
+    this.isVisible = false;
+  }
 }

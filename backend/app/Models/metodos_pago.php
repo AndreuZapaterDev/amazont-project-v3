@@ -8,6 +8,6 @@ class metodos_pago extends Model
 {
     //
     protected $table = 'metodos_pago';
-    protected $fillable = ['user_id', 'nombre', 'tarjeta', 'caducidad', 'cvv', 'genero', 'imagen_usuario'];
+    protected $fillable = ['user_id', 'nombre', 'tarjeta', 'caducidad', 'cvv', 'eliminado'];
     public $timestamps = false;
 }

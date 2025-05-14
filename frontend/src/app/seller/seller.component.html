@@ -4,392 +4,294 @@
     <h1 id="seller-heading">Panel de Vendedor</h1>
     <div class="actions">
       @if (!showAddProductForm) {
-        <button
-          class="add-product-btn"
-          (click)="showAddProductForm = true"
-          aria-label="Añadir un nuevo producto"
-        >
-          <i class="fi fi-br-plus" aria-hidden="true"></i> Añadir Producto
-        </button>
+      <button class="add-product-btn" (click)="showAddProductForm = true" aria-label="Añadir un nuevo producto">
+        <i class="fi fi-br-plus" aria-hidden="true"></i> Añadir Producto
+      </button>
       }
     </div>
   </div>
 
   <!-- Formulario para añadir/editar productos -->
   @if (showAddProductForm) {
-    <div class="product-form-container">
-      <h2 id="product-form-heading">{{ editingProduct ? "Editar Producto" : "Añadir Nuevo Producto" }}</h2>
-      <form [formGroup]="productForm" (ngSubmit)="saveProduct()" aria-labelledby="product-form-heading" role="form">
+  <div class="product-form-container">
+    <h2 id="product-form-heading">{{ editingProduct ? "Editar Producto" : "Añadir Nuevo Producto" }}</h2>
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()" aria-labelledby="product-form-heading" role="form">
+      <div class="form-group">
+        <label for="name" id="name-label">Título del producto</label>
+        <input type="text" id="name" formControlName="nombre" placeholder="Nombre del producto"
+          aria-labelledby="name-label" aria-required="true"
+          [attr.aria-invalid]="productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched ? 'true' : 'false'" />
+        @if (productForm.get('nombre')?.invalid &&
+        productForm.get('nombre')?.touched) {
+        <div class="error-message" role="alert" aria-live="assertive">El título del producto es obligatorio</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion" id="descripcion-label">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Descripción del producto"
+          aria-labelledby="descripcion-label" aria-required="true"
+          [attr.aria-invalid]="productForm.get('descripcion')?.invalid && productForm.get('descripcion')?.touched ? 'true' : 'false'"></textarea>
+        @if (productForm.get('descripcion')?.invalid &&
+        productForm.get('descripcion')?.touched) {
+        <div class="error-message" role="alert" aria-live="assertive">La descripción es obligatoria</div>
+        }
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
-          <label for="name" id="name-label">Título del producto</label>
-          <input
-            type="text"
-            id="name"
-            formControlName="nombre"
-            placeholder="Nombre del producto"
-            aria-labelledby="name-label"
+          <label for="precio" id="precio-label">Precio (€)</label>
+          <input type="number" id="precio" formControlName="precio" min="0" step="0.01" aria-labelledby="precio-label"
             aria-required="true"
-            [attr.aria-invalid]="productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched ? 'true' : 'false'"
-          />
-          @if (productForm.get('nombre')?.invalid &&
-          productForm.get('nombre')?.touched) {
-            <div class="error-message" role="alert" aria-live="assertive">El título del producto es obligatorio</div>
+            [attr.aria-invalid]="productForm.get('precio')?.invalid && productForm.get('precio')?.touched ? 'true' : 'false'" />
+          @if (productForm.get('precio')?.invalid &&
+          productForm.get('precio')?.touched) {
+          <div class="error-message" role="alert" aria-live="assertive">
+            El precio es obligatorio y debe ser mayor que 0
+          </div>
           }
         </div>
 
         <div class="form-group">
-          <label for="descripcion" id="descripcion-label">Descripción</label>
-          <textarea
-            id="descripcion"
-            formControlName="descripcion"
-            rows="4"
-            placeholder="Descripción del producto"
-            aria-labelledby="descripcion-label"
+          <label for="descuento" id="descuento-label">Descuento (%)</label>
+          <input type="number" id="descuento" formControlName="descuento" min="0" max="100"
+            aria-labelledby="descuento-label" aria-valuemin="0" aria-valuemax="100" />
+        </div>
+
+        <div class="form-group">
+          <label for="stock" id="stock-label">Stock</label>
+          <input type="number" id="stock" formControlName="stock" min="0" aria-labelledby="stock-label"
             aria-required="true"
-            [attr.aria-invalid]="productForm.get('descripcion')?.invalid && productForm.get('descripcion')?.touched ? 'true' : 'false'"
-          ></textarea>
-          @if (productForm.get('descripcion')?.invalid &&
-          productForm.get('descripcion')?.touched) {
-            <div class="error-message" role="alert" aria-live="assertive">La descripción es obligatoria</div>
+            [attr.aria-invalid]="productForm.get('stock')?.invalid && productForm.get('stock')?.touched ? 'true' : 'false'" />
+          @if (productForm.get('stock')?.invalid &&
+          productForm.get('stock')?.touched) {
+          <div class="error-message" role="alert" aria-live="assertive">El stock es obligatorio</div>
           }
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="precio" id="precio-label">Precio (€)</label>
-            <input
-              type="number"
-              id="precio"
-              formControlName="precio"
-              min="0"
-              step="0.01"
-              aria-labelledby="precio-label"
-              aria-required="true"
-              [attr.aria-invalid]="productForm.get('precio')?.invalid && productForm.get('precio')?.touched ? 'true' : 'false'"
-            />
-            @if (productForm.get('precio')?.invalid &&
-            productForm.get('precio')?.touched) {
-              <div class="error-message" role="alert" aria-live="assertive">
-                El precio es obligatorio y debe ser mayor que 0
+        <div class="form-group">
+          <label for="categoria" id="categoria-label">Categoría</label>
+          <select id="categoria" formControlName="categoria_id" aria-labelledby="categoria-label" aria-required="true"
+            [attr.aria-invalid]="productForm.get('categoria_id')?.invalid && productForm.get('categoria_id')?.touched ? 'true' : 'false'">
+            <option value="" disabled>Seleccionar categoría</option>
+            @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.nombre }}</option>
+            }
+          </select>
+          @if (productForm.get('categoria_id')?.invalid &&
+          productForm.get('categoria_id')?.touched) {
+          <div class="error-message" role="alert" aria-live="assertive">La categoría es obligatoria</div>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label id="imagenes-label">Imágenes del producto</label>
+        <div class="image-upload-container" aria-labelledby="imagenes-label">
+          @if (imagePreviewUrls.length > 0) {
+          <div class="upload-preview" role="list" aria-label="Imágenes cargadas del producto">
+            @for (url of imagePreviewUrls; track $index) {
+            <div class="preview-item" role="listitem">
+              <img [src]="url" alt="Vista previa de imagen {{$index + 1}}" (error)="handleImageError($event, $index)" />
+              @if (failedImages.includes($index)) {
+              <div class="image-overlay" role="alert" aria-live="assertive">
+                <i class="fi fi-br-exclamation" aria-hidden="true"></i>
+                <span>Error al cargar</span>
               </div>
-            }
-          </div>
-
-          <div class="form-group">
-            <label for="descuento" id="descuento-label">Descuento (%)</label>
-            <input
-              type="number"
-              id="descuento"
-              formControlName="descuento"
-              min="0"
-              max="100"
-              aria-labelledby="descuento-label"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="stock" id="stock-label">Stock</label>
-            <input 
-              type="number" 
-              id="stock" 
-              formControlName="stock" 
-              min="0"
-              aria-labelledby="stock-label"
-              aria-required="true"
-              [attr.aria-invalid]="productForm.get('stock')?.invalid && productForm.get('stock')?.touched ? 'true' : 'false'"
-            />
-            @if (productForm.get('stock')?.invalid &&
-            productForm.get('stock')?.touched) {
-              <div class="error-message" role="alert" aria-live="assertive">El stock es obligatorio</div>
-            }
-          </div>
-
-          <div class="form-group">
-            <label for="categoria" id="categoria-label">Categoría</label>
-            <select 
-              id="categoria" 
-              formControlName="categoria_id"
-              aria-labelledby="categoria-label"
-              aria-required="true"
-              [attr.aria-invalid]="productForm.get('categoria_id')?.invalid && productForm.get('categoria_id')?.touched ? 'true' : 'false'"
-            >
-              <option value="" disabled>Seleccionar categoría</option>
-              @for (category of categories; track category.id) {
-                <option [value]="category.id">{{ category.nombre }}</option>
               }
-            </select>
-            @if (productForm.get('categoria_id')?.invalid &&
-            productForm.get('categoria_id')?.touched) {
-              <div class="error-message" role="alert" aria-live="assertive">La categoría es obligatoria</div>
-            }
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label id="imagenes-label">Imágenes del producto</label>
-          <div class="image-upload-container" aria-labelledby="imagenes-label">
-            @if (imagePreviewUrls.length > 0) {
-              <div class="upload-preview" role="list" aria-label="Imágenes cargadas del producto">
-                @for (url of imagePreviewUrls; track $index) {
-                  <div class="preview-item" role="listitem">
-                    <img [src]="url" alt="Vista previa de imagen {{$index + 1}}" (error)="handleImageError($event, $index)" />
-                    @if (failedImages.includes($index)) {
-                      <div class="image-overlay" role="alert" aria-live="assertive">
-                        <i class="fi fi-br-exclamation" aria-hidden="true"></i>
-                        <span>Error al cargar</span>
-                      </div>
-                    }
-                    <button
-                      type="button"
-                      class="remove-image-btn"
-                      (click)="removeImage($index)"
-                      aria-label="Eliminar imagen {{$index + 1}}"
-                    >
-                      <i class="fi fi-br-trash" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                }
-              </div>
-            }
-            
-            <div class="url-input-container">
-              <input 
-                type="text" 
-                placeholder="Introduce URL de la imagen (https://...)" 
-                #imageUrlInput
-                aria-label="URL de la imagen"
-              />
-              <button 
-                type="button" 
-                class="add-url-btn" 
-                (click)="addImageUrl(imageUrlInput.value); imageUrlInput.value = ''"
-                aria-label="Añadir imagen desde URL"
-              >
-                <i class="fi fi-br-plus" aria-hidden="true"></i> Añadir imagen
+              <button type="button" class="remove-image-btn" (click)="removeImage($index)"
+                [attr.aria-label]="'Eliminar imagen ' + ($index + 1)">
+                <i class="fi fi-br-trash" aria-hidden="true"></i>
               </button>
             </div>
-            
-            @if (imageError) {
-              <div class="error-message" role="alert" aria-live="assertive">{{ imageError }}</div>
             }
           </div>
-        </div>
+          }
 
-        <div class="form-actions">
-          <button 
-            type="button" 
-            class="cancel-btn" 
-            (click)="cancelEdit()"
-            aria-label="Cancelar y cerrar el formulario"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            class="save-btn"
-            [disabled]="productForm.invalid || isSubmitting"
-            [attr.aria-disabled]="productForm.invalid || isSubmitting"
-            aria-label="{{editingProduct ? 'Actualizar producto' : 'Añadir producto'}}"
-          >
-            {{
-              isSubmitting
-                ? "Guardando..."
-                : editingProduct
-                ? "Actualizar Producto"
-                : "Añadir Producto"
-            }}
-          </button>
+          <div class="url-input-container">
+            <input type="text" placeholder="Introduce URL de la imagen (https://...)" #imageUrlInput
+              aria-label="URL de la imagen" />
+            <button type="button" class="add-url-btn"
+              (click)="addImageUrl(imageUrlInput.value); imageUrlInput.value = ''" aria-label="Añadir imagen desde URL">
+              <i class="fi fi-br-plus" aria-hidden="true"></i> Añadir imagen
+            </button>
+          </div>
+
+          @if (imageError) {
+          <div class="error-message" role="alert" aria-live="assertive">{{ imageError }}</div>
+          }
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="cancelEdit()" aria-label="Cancelar y cerrar el formulario">
+          Cancelar
+        </button>
+        <button type="submit" class="save-btn" [disabled]="productForm.invalid || isSubmitting"
+          [attr.aria-disabled]="productForm.invalid || isSubmitting"
+          [attr.aria-label]="editingProduct ? 'Actualizar producto' : 'Añadir producto'">
+          {{
+          isSubmitting
+          ? "Guardando..."
+          : editingProduct
+          ? "Actualizar Producto"
+          : "Añadir Producto"
+          }}
+        </button>
+      </div>
+    </form>
+  </div>
   }
 
   <!-- Pestañas para navegar entre productos y estadísticas -->
   @if (!showAddProductForm) {
-    <div class="tabs-container">
-      <div class="tab-header" role="tablist" aria-label="Opciones del panel de vendedor">
-        <button
-          class="tab-btn"
-          [class.active]="activeTab === 'products'"
-          (click)="activeTab = 'products'"
-          role="tab"
-          id="tab-products"
-          aria-controls="panel-products"
-          [attr.aria-selected]="activeTab === 'products'"
-        >
-          Mis Productos
-        </button>
-        <button
-          class="tab-btn"
-          [class.active]="activeTab === 'sales'"
-          (click)="activeTab = 'sales'"
-          role="tab"
-          id="tab-sales"
-          aria-controls="panel-sales"
-          [attr.aria-selected]="activeTab === 'sales'"
-        >
-          Ventas y Estadísticas
-        </button>
+  <div class="tabs-container">
+    <div class="tab-header" role="tablist" aria-label="Opciones del panel de vendedor">
+      <button class="tab-btn" [class.active]="activeTab === 'products'" (click)="activeTab = 'products'" role="tab"
+        id="tab-products" aria-controls="panel-products" [attr.aria-selected]="activeTab === 'products'">
+        Mis Productos
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'sales'" (click)="activeTab = 'sales'" role="tab"
+        id="tab-sales" aria-controls="panel-sales" [attr.aria-selected]="activeTab === 'sales'">
+        Ventas y Estadísticas
+      </button>
+    </div>
+
+    <!-- Listado de productos -->
+    @if (activeTab === 'products') {
+    <div class="tab-content" role="tabpanel" id="panel-products" aria-labelledby="tab-products">
+      <div class="search-filter">
+        <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchTerm"
+          aria-label="Buscar productos por nombre" />
+        <select [(ngModel)]="stockFilter" aria-label="Filtrar productos por disponibilidad de stock">
+          <option value="all">Todos</option>
+          <option value="inStock">En stock</option>
+          <option value="lowStock">Stock bajo</option>
+          <option value="outOfStock">Sin stock</option>
+        </select>
       </div>
 
-      <!-- Listado de productos -->
-      @if (activeTab === 'products') {
-        <div class="tab-content" role="tabpanel" id="panel-products" aria-labelledby="tab-products">
-          <div class="search-filter">
-            <input
-              type="text"
-              placeholder="Buscar productos..."
-              [(ngModel)]="searchTerm"
-              aria-label="Buscar productos por nombre"
-            />
-            <select 
-              [(ngModel)]="stockFilter"
-              aria-label="Filtrar productos por disponibilidad de stock"
-            >
-              <option value="all">Todos</option>
-              <option value="inStock">En stock</option>
-              <option value="lowStock">Stock bajo</option>
-              <option value="outOfStock">Sin stock</option>
-            </select>
-          </div>
-
-          <div class="products-grid" role="list" aria-label="Lista de productos">
-            @for (product of filteredProducts; track product.id) {
-              <div class="product-card" role="listitem">
-                <div class="product-img">
-                  <img [src]="getProductMainImage(product)" [alt]="product.nombre" />
-                  @if (product.descuento > 0) {
-                    <span class="discount-badge" aria-label="Descuento de {{product.descuento}}%">-{{ product.descuento }}%</span>
-                  }
-                </div>
-                <div class="product-info">
-                  <h3>{{ product.nombre }}</h3>
-                  <div class="product-meta">
-                    <p class="price" aria-label="Precio: {{product.precio}} euros">{{ product.precio }}€</p>
-                    <p
-                      class="stock"
-                      [class.low-stock]="product.stock < 10"
-                      [class.out-of-stock]="product.stock === 0"
-                      aria-label="Stock disponible: {{product.stock}} unidades"
-                    >
-                      Stock: {{ product.stock }}
-                    </p>
-                  </div>
-                  <div class="product-actions">
-                    <button 
-                      (click)="editProduct(product)"
-                      aria-label="Editar el producto {{product.nombre}}"
-                    >
-                      <i class="fi fi-br-edit" aria-hidden="true"></i> Editar
-                    </button>
-                    <button 
-                      class="delete-btn" 
-                      (click)="deleteProduct(product.id)"
-                      aria-label="Eliminar el producto {{product.nombre}}"
-                    >
-                      <i class="fi fi-br-trash" aria-hidden="true"></i> Eliminar
-                    </button>
-                  </div>
-                </div>
-              </div>
+      <div class="products-grid" role="list" aria-label="Lista de productos">
+        @for (product of filteredProducts; track product.id) {
+        <div class="product-card" role="listitem">
+          <div class="product-img">
+            <img [src]="getProductMainImage(product)" [alt]="product.nombre" />
+            @if (product.descuento > 0) {
+            <span class="discount-badge" [attr.aria-label]="'Descuento de ' + product.descuento + '%'">-{{
+              product.descuento }}%</span>
             }
           </div>
-
-          @if (filteredProducts.length === 0) {
-            <div class="empty-state" role="status" aria-live="polite">
-              <i class="fi fi-br-info" aria-hidden="true"></i>
-              <p>
-                No se encontraron productos. Añade tu primer producto o ajusta los
-                filtros de búsqueda.
+          <div class="product-info">
+            <h3>{{ product.nombre }}</h3>
+            <div class="product-meta">
+              <p class="price" [attr.aria-label]="'Precio: ' + product.precio + ' euros'">{{ product.precio }}€</p>
+              <p class="stock" [class.low-stock]="product.stock < 10" [class.out-of-stock]="product.stock === 0"
+                [attr.aria-label]="'Stock disponible: ' + product.stock + ' unidades'">
+                Stock: {{ product.stock }}
               </p>
             </div>
-          }
-
-          <!-- Paginación -->
-          @if (totalPages > 1) {
-            <div class="pagination" role="navigation" aria-label="Navegación de páginas de productos">
-              <button
-                [disabled]="currentPage === 1"
-                (click)="changePage(currentPage - 1)"
-                aria-label="Ir a la página anterior"
-                [attr.aria-disabled]="currentPage === 1"
-              >
-                <i class="fi fi-br-angle-left" aria-hidden="true"></i>
+            <div class="product-actions">
+              <button (click)="editProduct(product)" [attr.aria-label]="'Editar el producto ' + product.nombre">
+                <i class="fi fi-br-edit" aria-hidden="true"></i> Editar
               </button>
-              <span aria-live="polite" aria-atomic="true">Página {{ currentPage }} de {{ totalPages }}</span>
-              <button
-                [disabled]="currentPage === totalPages"
-                (click)="changePage(currentPage + 1)"
-                aria-label="Ir a la página siguiente"
-                [attr.aria-disabled]="currentPage === totalPages"
-              >
-                <i class="fi fi-br-angle-right" aria-hidden="true"></i>
+              <button class="delete-btn" (click)="deleteProduct(product.id)"
+                [attr.aria-label]="'Eliminar el producto ' + product.nombre">
+                <i class="fi fi-br-trash" aria-hidden="true"></i> Eliminar
               </button>
             </div>
-          }
+          </div>
         </div>
+        }
+      </div>
+
+      @if (filteredProducts.length === 0) {
+      <div class="empty-state" role="status" aria-live="polite">
+        <i class="fi fi-br-info" aria-hidden="true"></i>
+        <p>
+          No se encontraron productos. Añade tu primer producto o ajusta los
+          filtros de búsqueda.
+        </p>
+      </div>
       }
 
-      <!-- Estadísticas de ventas -->
-      @if (activeTab === 'sales') {
-        <div class="tab-content" role="tabpanel" id="panel-sales" aria-labelledby="tab-sales">
-          <div class="sales-summary" role="region" aria-label="Resumen de ventas del mes actual">
-            <div class="summary-card">
-              <h3 id="total-sales-heading">Ventas totales</h3>
-              <p class="amount" aria-labelledby="total-sales-heading">{{ totalSales | currency : "EUR" }}</p>
-              <p class="period" aria-label="Período: este mes">Este mes</p>
-            </div>
-            <div class="summary-card">
-              <h3 id="products-sold-heading">Productos vendidos</h3>
-              <p class="amount" aria-labelledby="products-sold-heading">{{ totalItemsSold }}</p>
-              <p class="period" aria-label="Período: este mes">Este mes</p>
-            </div>
-            <div class="summary-card">
-              <h3 id="orders-completed-heading">Pedidos completados</h3>
-              <p class="amount" aria-labelledby="orders-completed-heading">{{ completedOrders }}</p>
-              <p class="period" aria-label="Período: este mes">Este mes</p>
-            </div>
-          </div>
-
-          <h2 id="product-performance-heading">Rendimiento por producto</h2>
-          <div class="product-stats-table" aria-labelledby="product-performance-heading">
-            <table aria-label="Estadísticas de rendimiento por producto">
-              <thead>
-                <tr>
-                  <th scope="col">Producto</th>
-                  <th scope="col">Ventas</th>
-                  <th scope="col">Unidades</th>
-                  <th scope="col">Devolución</th>
-                  <th scope="col">Valoraciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (stat of productStats; track stat.id) {
-                  <tr>
-                    <td>
-                      <div class="product-cell">
-                        <img [src]="stat.image" [alt]="stat.name" />
-                        <span>{{ stat.name }}</span>
-                      </div>
-                    </td>
-                    <td aria-label="Ventas: {{stat.revenue | currency : 'EUR'}}">{{ stat.revenue | currency : "EUR" }}</td>
-                    <td aria-label="Unidades vendidas: {{stat.unitsSold}}">{{ stat.unitsSold }}</td>
-                    <td aria-label="Tasa de devolución: {{stat.conversionRate}}%">{{ stat.conversionRate }}%</td>
-                    <td>
-                      <div class="rating">
-                        <span class="stars" aria-hidden="true">{{ "⭐".repeat(stat.rating) }}</span>
-                        <span class="count" aria-label="Valoración: {{stat.rating}} estrellas de {{stat.reviewCount}} opiniones">({{ stat.reviewCount }})</span>
-                      </div>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <!-- Paginación -->
+      @if (totalPages > 1) {
+      <div class="pagination" role="navigation" aria-label="Navegación de páginas de productos">
+        <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)"
+          aria-label="Ir a la página anterior" [attr.aria-disabled]="currentPage === 1">
+          <i class="fi fi-br-angle-left" aria-hidden="true"></i>
+        </button>
+        <span aria-live="polite" aria-atomic="true">Página {{ currentPage }} de {{ totalPages }}</span>
+        <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)"
+          aria-label="Ir a la página siguiente" [attr.aria-disabled]="currentPage === totalPages">
+          <i class="fi fi-br-angle-right" aria-hidden="true"></i>
+        </button>
+      </div>
       }
     </div>
+    }
+
+    <!-- Estadísticas de ventas -->
+    @if (activeTab === 'sales') {
+    <div class="tab-content" role="tabpanel" id="panel-sales" aria-labelledby="tab-sales">
+      <div class="sales-summary" role="region" aria-label="Resumen de ventas del mes actual">
+        <div class="summary-card">
+          <h3 id="total-sales-heading">Ventas totales</h3>
+          <p class="amount" aria-labelledby="total-sales-heading">{{ totalSales | currency : "EUR" }}</p>
+          <p class="period" aria-label="Período: este mes">Este mes</p>
+        </div>
+        <div class="summary-card">
+          <h3 id="products-sold-heading">Productos vendidos</h3>
+          <p class="amount" aria-labelledby="products-sold-heading">{{ totalItemsSold }}</p>
+          <p class="period" aria-label="Período: este mes">Este mes</p>
+        </div>
+        <div class="summary-card">
+          <h3 id="orders-completed-heading">Pedidos completados</h3>
+          <p class="amount" aria-labelledby="orders-completed-heading">{{ completedOrders }}</p>
+          <p class="period" aria-label="Período: este mes">Este mes</p>
+        </div>
+      </div>
+
+      <h2 id="product-performance-heading">Rendimiento por producto</h2>
+      <div class="product-stats-table" aria-labelledby="product-performance-heading">
+        <table aria-label="Estadísticas de rendimiento por producto">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Ventas</th>
+              <th scope="col">Unidades</th>
+              <th scope="col">Devolución</th>
+              <th scope="col">Valoraciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (stat of productStats; track stat.id) {
+            <tr>
+              <td>
+                <div class="product-cell">
+                  <img [src]="stat.image" [alt]="stat.name" />
+                  <span>{{ stat.name }}</span>
+                </div>
+              </td>
+              <td [attr.aria-label]="'Ventas: ' + (stat.revenue | currency : 'EUR')">{{ stat.revenue | currency : "EUR"
+                }}</td>
+              <td [attr.aria-label]="'Unidades vendidas: ' + stat.unitsSold">{{ stat.unitsSold }}</td>
+              <td [attr.aria-label]="'Tasa de devolución: ' + stat.conversionRate + '%'">{{ stat.conversionRate }}%</td>
+              <td>
+                <div class="rating">
+                  <span class="stars" aria-hidden="true">{{ "⭐".repeat(stat.rating) }}</span>
+                  <span class="count"
+                    [attr.aria-label]="'Valoración: ' + stat.rating + ' estrellas de ' + stat.reviewCount + ' opiniones'">({{
+                    stat.reviewCount }})</span>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    }
+  </div>
   }
 </div>

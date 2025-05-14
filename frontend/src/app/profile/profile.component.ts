@@ -496,9 +496,68 @@ export class ProfileComponent implements OnInit {
     this.showPasswordToggles[field] = !this.showPasswordToggles[field];
   }
 
-  getPasswordStrength(): { class: string; text: string } {
-    const password = this.passwordForm.get('newPassword')?.value;
-    return this.profileService.getPasswordStrength(password);
+  getPasswordStrength(): { class: string; text: string; value: number } {
+    const password = this.passwordForm.get('newPassword')?.value || '';
+
+    // Simple strength evaluation
+    let strength = 0;
+    let strengthClass = '';
+    let strengthText = '';
+
+    if (password.length === 0) {
+      strengthClass = '';
+      strengthText = '';
+      strength = 0;
+    } else if (password.length < 6) {
+      strengthClass = 'weak';
+      strengthText = 'Débil';
+      strength = 25;
+    } else if (password.length < 10) {
+      const hasNumber = /\d/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (hasNumber && hasSpecialChar) {
+        strengthClass = 'strong';
+        strengthText = 'Fuerte';
+        strength = 75;
+      } else if (hasNumber || hasSpecialChar) {
+        strengthClass = 'medium';
+        strengthText = 'Media';
+        strength = 50;
+      } else {
+        strengthClass = 'weak';
+        strengthText = 'Débil';
+        strength = 25;
+      }
+    } else {
+      const hasNumber = /\d/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasLowerCase = /[a-z]/.test(password);
+
+      const complexity = [
+        hasNumber,
+        hasSpecialChar,
+        hasUpperCase,
+        hasLowerCase,
+      ].filter(Boolean).length;
+
+      if (complexity >= 4) {
+        strengthClass = 'very-strong';
+        strengthText = 'Muy fuerte';
+        strength = 100;
+      } else if (complexity >= 3) {
+        strengthClass = 'strong';
+        strengthText = 'Fuerte';
+        strength = 75;
+      } else {
+        strengthClass = 'medium';
+        strengthText = 'Media';
+        strength = 50;
+      }
+    }
+
+    return { class: strengthClass, text: strengthText, value: strength };
   }
 
   changePassword(): void {

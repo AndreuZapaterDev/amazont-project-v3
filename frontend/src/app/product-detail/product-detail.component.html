@@ -6,14 +6,8 @@
     </div>
     <div class="image-thumbnails" role="list" aria-label="Imágenes adicionales del producto">
       @for(img of productImages; track $index) {
-      <div
-        class="thumbnail"
-        [class.active]="$index === activeImageIndex"
-        (click)="changeMainImage(img, $index)"
-        role="listitem"
-        [attr.aria-label]="'Ver imagen ' + ($index + 1) + ' del producto'"
-        tabindex="0"
-      >
+      <div class="thumbnail" [class.active]="$index === activeImageIndex" (click)="changeMainImage(img, $index)"
+        role="listitem" [attr.aria-label]="'Ver imagen ' + ($index + 1) + ' del producto'" tabindex="0">
         <img [src]="img" [alt]="'Vista ' + ($index + 1) + ' del producto'" />
       </div>
       }
@@ -26,7 +20,7 @@
 
     <div class="product-meta">
       <div class="product-rating" aria-label="Valoración del producto">
-        <div class="stars" aria-label="Valoración: {{numberStars}} estrellas">{{ numberStars }}</div>
+        <div class="stars" [attr.aria-label]="'Valoración: ' + numberStars + ' estrellas'">{{ numberStars }}</div>
         <span class="review-count">{{ reviews.length }} valoraciones</span>
       </div>
       <span class="product-id" aria-label="Referencia del producto">REF: #{{ product.id }}</span>
@@ -34,12 +28,13 @@
 
     <div class="product-price-container" aria-live="polite">
       @if(product.descuento) {
-      <div class="discount-tag" aria-label="Descuento de {{product.descuento}} por ciento">-{{ product.descuento }}%</div>
+      <div class="discount-tag" [attr.aria-label]="'Descuento de ' + product.descuento + ' por ciento'">-{{
+        product.descuento }}%
+      </div>
       <div class="prices">
         <span class="original-price" aria-label="Precio original">{{ product.precio }}€</span>
-        <span class="discounted-price" aria-label="Precio con descuento"
-          >{{ discountedPrice | number : "1.2-2" }}€</span
-        >
+        <span class="discounted-price" aria-label="Precio con descuento">{{ discountedPrice | number : "1.2-2"
+          }}€</span>
       </div>
       } @else {
       <div class="regular-price" aria-label="Precio">{{ product.precio }}€</div>
@@ -69,41 +64,20 @@
 
     <div class="product-actions">
       <div class="quantity-selector" role="group" aria-label="Selector de cantidad">
-        <button 
-          (click)="decreaseQuantity()" 
-          class="qty-btn"
-          aria-label="Disminuir cantidad"
-          [attr.aria-disabled]="quantity <= 1 ? 'true' : 'false'"
-        >
+        <button (click)="decreaseQuantity()" class="qty-btn" aria-label="Disminuir cantidad"
+          [attr.aria-disabled]="quantity <= 1 ? 'true' : 'false'">
           <i class="fi fi-br-minus" aria-hidden="true"></i>
         </button>
-        <input
-          type="number"
-          id="quantity"
-          [(ngModel)]="quantity"
-          min="1"
-          max="10"
-          readonly
-          aria-label="Cantidad de producto"
-          aria-valuemin="1"
-          aria-valuemax="10"
-          [attr.aria-valuenow]="quantity"
-        />
-        <button 
-          (click)="increaseQuantity()" 
-          class="qty-btn"
-          aria-label="Aumentar cantidad"
-          [attr.aria-disabled]="quantity >= 10 ? 'true' : 'false'"
-        >
+        <input type="number" id="quantity" [(ngModel)]="quantity" min="1" max="10" readonly
+          aria-label="Cantidad de producto" aria-valuemin="1" aria-valuemax="10" [attr.aria-valuenow]="quantity" />
+        <button (click)="increaseQuantity()" class="qty-btn" aria-label="Aumentar cantidad"
+          [attr.aria-disabled]="quantity >= 10 ? 'true' : 'false'">
           <i class="fi fi-br-plus" aria-hidden="true"></i>
         </button>
       </div>
 
-      <button 
-        class="add-to-cart-btn" 
-        (click)="addToCart()"
-        aria-label="Añadir {{quantity}} unidades al carrito"
-      >
+      <button class="add-to-cart-btn" (click)="addToCart()"
+        [attr.aria-label]="'Añadir ' + quantity + ' unidades al carrito'">
         <i class="fi fi-br-shopping-cart" aria-hidden="true"></i> Añadir al carrito
       </button>
     </div>
@@ -112,50 +86,24 @@
   <!-- Tabs de información adicional -->
   <div class="product-tabs">
     <div class="tab-headers" role="tablist" aria-label="Información detallada del producto">
-      <button
-        class="tab-btn"
-        [class.active]="activeTab === 'description'"
-        (click)="setActiveTab('description')"
-        role="tab"
-        id="tab-description"
-        [attr.aria-selected]="activeTab === 'description'"
-        aria-controls="panel-description"
-      >
+      <button class="tab-btn" [class.active]="activeTab === 'description'" (click)="setActiveTab('description')"
+        role="tab" id="tab-description" [attr.aria-selected]="activeTab === 'description'"
+        aria-controls="panel-description">
         Descripción
       </button>
-      <button
-        class="tab-btn"
-        [class.active]="activeTab === 'reviews'"
-        (click)="setActiveTab('reviews')"
-        role="tab"
-        id="tab-reviews"
-        [attr.aria-selected]="activeTab === 'reviews'"
-        aria-controls="panel-reviews"
-      >
+      <button class="tab-btn" [class.active]="activeTab === 'reviews'" (click)="setActiveTab('reviews')" role="tab"
+        id="tab-reviews" [attr.aria-selected]="activeTab === 'reviews'" aria-controls="panel-reviews">
         Opiniones
       </button>
-      <button
-        class="tab-btn"
-        [class.active]="activeTab === 'shipping'"
-        (click)="setActiveTab('shipping')"
-        role="tab"
-        id="tab-shipping"
-        [attr.aria-selected]="activeTab === 'shipping'"
-        aria-controls="panel-shipping"
-      >
+      <button class="tab-btn" [class.active]="activeTab === 'shipping'" (click)="setActiveTab('shipping')" role="tab"
+        id="tab-shipping" [attr.aria-selected]="activeTab === 'shipping'" aria-controls="panel-shipping">
         Envío y devoluciones
       </button>
     </div>
 
     <div class="tab-content">
-      <div 
-        class="tab-panel" 
-        [class.active]="activeTab === 'description'"
-        role="tabpanel"
-        id="panel-description"
-        aria-labelledby="tab-description"
-        [attr.hidden]="activeTab !== 'description'"
-      >
+      <div class="tab-panel" [class.active]="activeTab === 'description'" role="tabpanel" id="panel-description"
+        aria-labelledby="tab-description" [attr.hidden]="activeTab !== 'description'">
         <h3 id="description-heading">Descripción del producto</h3>
         <div class="tab-content-inner">
           <div class="description-text">
@@ -178,91 +126,85 @@
         </div>
       </div>
 
-      <div 
-        class="tab-panel" 
-        [class.active]="activeTab === 'reviews'"
-        role="tabpanel"
-        id="panel-reviews"
-        aria-labelledby="tab-reviews"
-        [attr.hidden]="activeTab !== 'reviews'"
-      >
+      <div class="tab-panel" [class.active]="activeTab === 'reviews'" role="tabpanel" id="panel-reviews"
+        aria-labelledby="tab-reviews" [attr.hidden]="activeTab !== 'reviews'">
         <h3 id="reviews-heading">Opiniones de clientes</h3>
         <div class="reviews-summary" aria-labelledby="reviews-heading">
           <div class="rating-overall" aria-label="Valoración global del producto">
             <div class="big-rating" aria-label="Puntuación media">{{ reviewStats.average }}</div>
-            <div class="stars-big" aria-label="{{numberStars}} estrellas">{{ numberStars }}</div>
+            <div class="stars-big" [attr.aria-label]="numberStars + ' estrellas'">{{ numberStars }}</div>
             <span>Basado en {{ reviewStats.total }} opiniones</span>
           </div>
           <div class="rating-bars" aria-label="Distribución de valoraciones">
             <div class="rating-bar">
               <span id="five-star-label">5 estrellas</span>
-              <div class="bar-container" aria-labelledby="five-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[4] / reviewStats.total) * 100 : 0">
-                <div
-                  class="bar"
-                  [style.width.%]="
+              <div class="bar-container" aria-labelledby="five-star-label" role="meter" aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[4] / reviewStats.total) * 100 : 0">
+                <div class="bar" [style.width.%]="
                     reviewStats.total > 0
                       ? (reviewStats.distribution[4] / reviewStats.total) * 100
                       : 0
-                  "
-                ></div>
+                  "></div>
               </div>
-              <span aria-label="{{reviewStats.distribution[4]}} opiniones">{{ reviewStats.distribution[4] }}</span>
+              <span [attr.aria-label]="reviewStats.distribution[4] + ' opiniones'">{{ reviewStats.distribution[4]
+                }}</span>
             </div>
             <div class="rating-bar">
               <span id="four-star-label">4 estrellas</span>
-              <div class="bar-container" aria-labelledby="four-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[3] / reviewStats.total) * 100 : 0">
-                <div
-                  class="bar"
-                  [style.width.%]="
+              <div class="bar-container" aria-labelledby="four-star-label" role="meter" aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[3] / reviewStats.total) * 100 : 0">
+                <div class="bar" [style.width.%]="
                     reviewStats.total > 0
                       ? (reviewStats.distribution[3] / reviewStats.total) * 100
                       : 0
-                  "
-                ></div>
+                  "></div>
               </div>
-              <span aria-label="{{reviewStats.distribution[3]}} opiniones">{{ reviewStats.distribution[3] }}</span>
+              <span [attr.aria-label]="reviewStats.distribution[3] + ' opiniones'">{{ reviewStats.distribution[3]
+                }}</span>
             </div>
             <div class="rating-bar">
               <span id="three-star-label">3 estrellas</span>
-              <div class="bar-container" aria-labelledby="three-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[2] / reviewStats.total) * 100 : 0">
-                <div
-                  class="bar"
-                  [style.width.%]="
+              <div class="bar-container" aria-labelledby="three-star-label" role="meter" aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[2] / reviewStats.total) * 100 : 0">
+                <div class="bar" [style.width.%]="
                     reviewStats.total > 0
                       ? (reviewStats.distribution[2] / reviewStats.total) * 100
                       : 0
-                  "
-                ></div>
+                  "></div>
               </div>
-              <span aria-label="{{reviewStats.distribution[2]}} opiniones">{{ reviewStats.distribution[2] }}</span>
+              <span [attr.aria-label]="reviewStats.distribution[2] + ' opiniones'">{{ reviewStats.distribution[2]
+                }}</span>
             </div>
             <div class="rating-bar">
               <span id="two-star-label">2 estrellas</span>
-              <div class="bar-container" aria-labelledby="two-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[1] / reviewStats.total) * 100 : 0">
-                <div
-                  class="bar"
-                  [style.width.%]="
+              <div class="bar-container" aria-labelledby="two-star-label" role="meter" aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[1] / reviewStats.total) * 100 : 0">
+                <div class="bar" [style.width.%]="
                     reviewStats.total > 0
                       ? (reviewStats.distribution[1] / reviewStats.total) * 100
                       : 0
-                  "
-                ></div>
+                  "></div>
               </div>
-              <span aria-label="{{reviewStats.distribution[1]}} opiniones">{{ reviewStats.distribution[1] }}</span>
+              <span [attr.aria-label]="reviewStats.distribution[1] + ' opiniones'">{{ reviewStats.distribution[1]
+                }}</span>
             </div>
             <div class="rating-bar">
               <span id="one-star-label">1 estrella</span>
-              <div class="bar-container" aria-labelledby="one-star-label" role="meter" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[0] / reviewStats.total) * 100 : 0">
-                <div
-                  class="bar"
-                  [style.width.%]="
+              <div class="bar-container" aria-labelledby="one-star-label" role="meter" aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="reviewStats.total > 0 ? (reviewStats.distribution[0] / reviewStats.total) * 100 : 0">
+                <div class="bar" [style.width.%]="
                     reviewStats.total > 0
                       ? (reviewStats.distribution[0] / reviewStats.total) * 100
                       : 0
-                  "
-                ></div>
+                  "></div>
               </div>
-              <span aria-label="{{reviewStats.distribution[0]}} opiniones">{{ reviewStats.distribution[0] }}</span>
+              <span [attr.aria-label]="reviewStats.distribution[0] + ' opiniones'">{{ reviewStats.distribution[0]
+                }}</span>
             </div>
           </div>
         </div>
@@ -270,20 +212,14 @@
         <div class="reviews-list" role="region" aria-label="Listado de opiniones">
           @if(reviews.length > 0) { @for(review of visibleReviews; track
           review.id) {
-          <div class="review" role="article" aria-labelledby="reviewer-{{review.id}}">
+          <div class="review" role="article" [attr.aria-labelledby]="'reviewer-' + review.id">
             <div class="reviewer-avatar">
-              <img
-                [src]="review.avatar || '/images/avatar-default.jpg'"
-                alt="Foto de perfil de {{review.author}}"
-              />
+              <img [src]="review.avatar || '/images/avatar-default.jpg'" alt="Foto de perfil de {{review.author}}" />
             </div>
             <div class="review-content">
               <div class="reviewer-header">
                 <span class="reviewer-name" id="reviewer-{{review.id}}">{{ review.author }}</span>
-                <div 
-                  class="review-stars" 
-                  aria-label="Valoración: {{review.puntuacion}} estrellas"
-                >
+                <div class="review-stars" [attr.aria-label]="'Valoración: ' + review.puntuacion + ' estrellas'">
                   {{ getStarsForRating(review.puntuacion) }}
                 </div>
                 <span class="review-date" aria-label="Fecha de la opinión">{{ review.fecha }}</span>
@@ -291,23 +227,17 @@
               <p class="review-text">{{ review.review }}</p>
               <div class="review-helpful">
                 <span id="helpful-question-{{review.id}}">¿Te ha resultado útil esta opinión?</span>
-                <button 
-                  class="helpful-btn"
-                  aria-labelledby="helpful-question-{{review.id}}"
-                >
+                <button class="helpful-btn" [attr.aria-labelledby]="'helpful-question-' + review.id">
                   <i class="fi fi-br-thumbs-up" aria-hidden="true"></i> Sí ({{ review.util }})
                 </button>
               </div>
             </div>
           </div>
           } @if(reviews.length > maxInitialReviews) {
-          <button 
-            class="load-more-reviews" 
-            (click)="showMoreReviews()"
-            aria-label="{{ showingAllReviews ? 'Ver menos opiniones' : 'Ver más opiniones' }}"
-          >
+          <button class="load-more-reviews" (click)="showMoreReviews()"
+            [attr.aria-label]="showingAllReviews ? 'Ver menos opiniones' : 'Ver más opiniones'">
             {{
-              showingAllReviews ? "Ver menos opiniones" : "Ver más opiniones"
+            showingAllReviews ? "Ver menos opiniones" : "Ver más opiniones"
             }}
           </button>
           } } @else {
@@ -319,14 +249,8 @@
         </div>
       </div>
 
-      <div 
-        class="tab-panel" 
-        [class.active]="activeTab === 'shipping'"
-        role="tabpanel"
-        id="panel-shipping"
-        aria-labelledby="tab-shipping"
-        [attr.hidden]="activeTab !== 'shipping'"
-      >
+      <div class="tab-panel" [class.active]="activeTab === 'shipping'" role="tabpanel" id="panel-shipping"
+        aria-labelledby="tab-shipping" [attr.hidden]="activeTab !== 'shipping'">
         <h3 id="shipping-heading">Envío y Devoluciones</h3>
         <div class="shipping-info" aria-labelledby="shipping-heading">
           <div class="info-section">
@@ -389,12 +313,8 @@
     <div class="related-items" role="list" aria-label="Productos relacionados">
       @if(relatedProducts.length > 0) { @for(product of relatedProducts; track
       product.id) {
-      <div 
-        (click)="navigateToProduct(product)" 
-        role="listitem"
-        tabindex="0"
-        aria-label="Ver detalles de {{product.name}}"
-      >
+      <div (click)="navigateToProduct(product)" role="listitem" tabindex="0"
+        [attr.aria-label]="'Ver detalles de ' + product.name">
         <app-products [product]="product"></app-products>
       </div>
       } } @else {

@@ -1,158 +1,137 @@
 <div class="cart-container" role="main">
-    <div class="cart-header">
-      <h1 class="cart-title" id="cart-title">Tu carrito de compras</h1>
-      <p class="cart-subtitle">Revisa tus productos y completa tu compra</p>
-    </div>
-  
-    <!-- Si hay productos en el carrito -->
-    @if (cartItems && cartItems.length > 0) {
-      <div class="cart-content" aria-labelledby="cart-title">
-        <div class="cart-items" role="list" aria-label="Productos en tu carrito">
-          @for (item of cartItems; track item.id) {
-            <div class="cart-item" role="listitem">
-              <div class="item-image">
-                <img [src]="item.url" [alt]="'Imagen de ' + item.name">
-              </div>
-              
-              <div class="item-details">
-                <div class="item-info">
-                  <h3 class="item-name" id="item-name-{{item.id}}">{{ item.name }}</h3>
-                  <p class="item-category">{{ item.category }}</p>
-                  
-                  <div class="item-availability" aria-live="polite">
-                    <i class="fi fi-br-check-circle" aria-hidden="true"></i>
-                    <span>En stock</span>
-                  </div>
-                </div>
-                
-                <div class="item-pricing">
-                  <div class="quantity-selector" role="group" aria-label="Selector de cantidad para {{item.name}}">
-                    <button 
-                      class="qty-btn" 
-                      (click)="decreaseQuantity(item)" 
-                      aria-label="Disminuir cantidad de {{item.name}}"
-                      [attr.aria-disabled]="item.quantity <= 1 ? true : false"
-                    >
-                      <i class="fi fi-br-minus" aria-hidden="true"></i>
-                    </button>
-                    <input 
-                      type="number" 
-                      [(ngModel)]="item.quantity" 
-                      min="1" 
-                      max="10" 
-                      readonly
-                      aria-label="Cantidad de {{item.name}}"
-                      aria-valuemin="1"
-                      aria-valuemax="10"
-                      aria-valuenow="{{item.quantity}}"
-                    >
-                    <button 
-                      class="qty-btn" 
-                      (click)="increaseQuantity(item)"
-                      aria-label="Aumentar cantidad de {{item.name}}"
-                      [attr.aria-disabled]="item.quantity >= 10 ? true : false"
-                    >
-                      <i class="fi fi-br-plus" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  
-                  <div class="item-price">
-                    @if (item.discount) {
-                      <div class="price-container">
-                        <div class="price-breakdown">
-                          <span class="original-price" aria-label="Precio original: {{item.price}}€">{{ item.price }}€</span>
-                          <span class="discounted-price-unit" aria-label="Precio con descuento por unidad: {{(item.price - (item.price * item.discount / 100)) | number:'1.2-2'}}€">{{ (item.price - (item.price * item.discount / 100)) | number:'1.2-2' }}€/ud.</span>
-                        </div>
-                        <span class="total-price discounted-price" aria-label="Precio total con descuento: {{getDiscountedPrice(item) | number:'1.2-2'}}€">{{ getDiscountedPrice(item) | number:'1.2-2' }}€</span>
-                      </div>
-                    } @else {
-                      <div class="price-container">
-                        <div class="price-breakdown">
-                          <span class="unit-price" aria-label="Precio por unidad: {{item.price}}€">{{ item.price }}€/ud.</span>
-                        </div>
-                        <span class="total-price regular-price" aria-label="Precio total: {{item.price * item.quantity | number:'1.2-2'}}€">{{ item.price * item.quantity | number:'1.2-2' }}€</span>
-                      </div>
-                    }
-                  </div>
-                  
-                  <button 
-                    class="remove-btn" 
-                    (click)="removeItem(item)"
-                    aria-label="Eliminar {{item.name}} del carrito"
-                  >
-                    <i class="fi fi-br-trash" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
-        
-        <div class="cart-summary" role="region" aria-label="Resumen del carrito">
-          <h2 class="summary-title" id="summary-title">Resumen de tu pedido</h2>
-          
-          <div class="summary-row">
-            <span id="subtotal-label">Subtotal ({{ totalItems }} productos)</span>
-            <span aria-labelledby="subtotal-label">{{ subtotal | number:'1.2-2' }}€</span>
-          </div>
-          
-          @if (totalDiscount > 0) {
-            <div class="summary-row discount">
-              <span id="discount-label">Descuento</span>
-              <span aria-labelledby="discount-label">-{{ totalDiscount | number:'1.2-2' }}€</span>
-            </div>
-          }
-          
-          <div class="summary-row shipping">
-            <span id="shipping-label">Envío</span>
-            @if (subtotal >= 50) {
-              <span aria-labelledby="shipping-label">Gratis</span>
-            } @else if (subtotal < 50) {
-              <span aria-labelledby="shipping-label">3.99€</span>
-            }
-          </div>
-          
-          <div class="summary-divider" aria-hidden="true"></div>
-          
-          <div class="summary-row total">
-            <span id="total-label">Total</span>
-            <span aria-labelledby="total-label">{{ calculateTotal() | number:'1.2-2' }}€</span>
-          </div>
-          
-          <button 
-            class="checkout-btn" 
-            routerLink="/home/payment-process"
-            aria-label="Finalizar compra con un total de {{ calculateTotal() | number:'1.2-2' }}€"
-          >
-            Finalizar compra <i class="fi fi-br-angle-right" aria-hidden="true"></i>
-          </button>
-          
-          <a 
-            routerLink="/home" 
-            class="continue-shopping"
-            aria-label="Seguir comprando"
-          >
-            <i class="fi fi-br-angle-left" aria-hidden="true"></i> Seguir comprando
-          </a>
-        </div>
-      </div>
-    }
-    
-    <!-- Si el carrito está vacío -->
-    @if (!cartItems || cartItems.length === 0) {
-      <div class="empty-cart" role="region" aria-labelledby="empty-cart-heading">
-        <div class="empty-cart-icon">
-          <i class="fi fi-br-shopping-cart" aria-hidden="true"></i>
-        </div>
-        <h2 id="empty-cart-heading">Tu carrito está vacío</h2>
-        <p>Parece que aún no has añadido productos a tu carrito</p>
-        <a 
-          routerLink="/home" 
-          class="browse-btn"
-          aria-label="Explorar productos disponibles"
-        >
-          Explorar productos
-        </a>
-      </div>
-    }
+  <div class="cart-header">
+    <h1 class="cart-title" id="cart-title">Tu carrito de compras</h1>
+    <p class="cart-subtitle">Revisa tus productos y completa tu compra</p>
   </div>
+
+  <!-- Si hay productos en el carrito -->
+  @if (cartItems && cartItems.length > 0) {
+  <div class="cart-content" aria-labelledby="cart-title">
+    <div class="cart-items" role="list" aria-label="Productos en tu carrito">
+      @for (item of cartItems; track item.id) {
+      <div class="cart-item" role="listitem">
+        <div class="item-image">
+          <img [src]="item.url" [alt]="'Imagen de ' + item.name">
+        </div>
+
+        <div class="item-details">
+          <div class="item-info">
+            <h3 class="item-name" id="item-name-{{item.id}}">{{ item.name }}</h3>
+            <p class="item-category">{{ item.category }}</p>
+
+            <div class="item-availability" aria-live="polite">
+              <i class="fi fi-br-check-circle" aria-hidden="true"></i>
+              <span>En stock</span>
+            </div>
+          </div>
+
+          <div class="item-pricing">
+            <div class="quantity-selector" role="group" [attr.aria-label]="'Selector de cantidad para ' + item.name">
+              <button class="qty-btn" (click)="decreaseQuantity(item)"
+                [attr.aria-label]="'Disminuir cantidad de ' + item.name"
+                [attr.aria-disabled]="item.quantity <= 1 ? true : false">
+                <i class="fi fi-br-minus" aria-hidden="true"></i>
+              </button>
+              <input type="number" [(ngModel)]="item.quantity" min="1" max="10" readonly
+                [attr.aria-label]="'Cantidad de ' + item.name" aria-valuemin="1" aria-valuemax="10"
+                [attr.aria-valuenow]="item.quantity">
+              <button class="qty-btn" (click)="increaseQuantity(item)"
+                [attr.aria-label]="'Aumentar cantidad de ' + item.name"
+                [attr.aria-disabled]="item.quantity >= 10 ? true : false">
+                <i class="fi fi-br-plus" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <div class="item-price">
+              @if (item.discount) {
+              <div class="price-container">
+                <div class="price-breakdown">
+                  <span class="original-price" [attr.aria-label]="'Precio original: ' + item.price + '€'">{{ item.price
+                    }}€</span>
+                  <span class="discounted-price-unit"
+                    [attr.aria-label]="'Precio con descuento por unidad: ' + (item.price - (item.price * item.discount / 100)) | number:'1.2-2' + '€'">{{
+                    (item.price - (item.price * item.discount / 100)) | number:'1.2-2' }}€/ud.</span>
+                </div>
+                <span class="total-price discounted-price"
+                  [attr.aria-label]="'Precio total con descuento: ' + (getDiscountedPrice(item) | number:'1.2-2') + '€'">{{
+                  getDiscountedPrice(item) | number:'1.2-2' }}€</span>
+              </div>
+              } @else {
+              <div class="price-container">
+                <div class="price-breakdown">
+                  <span class="unit-price" [attr.aria-label]="'Precio por unidad: ' + item.price + '€'">{{ item.price
+                    }}€/ud.</span>
+                </div>
+                <span class="total-price regular-price"
+                  [attr.aria-label]="'Precio total: ' + (item.price * item.quantity | number:'1.2-2') + '€'">{{
+                  item.price * item.quantity | number:'1.2-2' }}€</span>
+              </div>
+              }
+            </div>
+
+            <button class="remove-btn" (click)="removeItem(item)"
+              [attr.aria-label]="'Eliminar ' + item.name + ' del carrito'">
+              <i class="fi fi-br-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="cart-summary" role="region" aria-label="Resumen del carrito">
+      <h2 class="summary-title" id="summary-title">Resumen de tu pedido</h2>
+
+      <div class="summary-row">
+        <span id="subtotal-label">Subtotal ({{ totalItems }} productos)</span>
+        <span aria-labelledby="subtotal-label">{{ subtotal | number:'1.2-2' }}€</span>
+      </div>
+
+      @if (totalDiscount > 0) {
+      <div class="summary-row discount">
+        <span id="discount-label">Descuento</span>
+        <span aria-labelledby="discount-label">-{{ totalDiscount | number:'1.2-2' }}€</span>
+      </div>
+      }
+
+      <div class="summary-row shipping">
+        <span id="shipping-label">Envío</span>
+        @if (subtotal >= 50) {
+        <span aria-labelledby="shipping-label">Gratis</span>
+        } @else if (subtotal < 50) { <span aria-labelledby="shipping-label">3.99€</span>
+          }
+      </div>
+
+      <div class="summary-divider" aria-hidden="true"></div>
+
+      <div class="summary-row total">
+        <span id="total-label">Total</span>
+        <span aria-labelledby="total-label">{{ calculateTotal() | number:'1.2-2' }}€</span>
+      </div>
+
+      <button class="checkout-btn" routerLink="/home/payment-process"
+        [attr.aria-label]="'Finalizar compra con un total de ' + (calculateTotal() | number:'1.2-2') + '€'">
+        Finalizar compra <i class="fi fi-br-angle-right" aria-hidden="true"></i>
+      </button>
+
+      <a routerLink="/home" class="continue-shopping" aria-label="Seguir comprando">
+        <i class="fi fi-br-angle-left" aria-hidden="true"></i> Seguir comprando
+      </a>
+    </div>
+  </div>
+  }
+
+  <!-- Si el carrito está vacío -->
+  @if (!cartItems || cartItems.length === 0) {
+  <div class="empty-cart" role="region" aria-labelledby="empty-cart-heading">
+    <div class="empty-cart-icon">
+      <i class="fi fi-br-shopping-cart" aria-hidden="true"></i>
+    </div>
+    <h2 id="empty-cart-heading">Tu carrito está vacío</h2>
+    <p>Parece que aún no has añadido productos a tu carrito</p>
+    <a routerLink="/home" class="browse-btn" aria-label="Explorar productos disponibles">
+      Explorar productos
+    </a>
+  </div>
+  }
+</div>

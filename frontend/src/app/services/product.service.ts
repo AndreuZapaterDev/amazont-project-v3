@@ -37,7 +37,20 @@ export class ProductService {
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      this._shoppingCart.push({ ...product, quantity });
+      // Create a CartItem with proper defaults for any potentially undefined properties
+      const cartItem: CartItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        category: product.category || '',
+        stars: product.stars,
+        discount: product.discount || 0, // Default to 0 if undefined
+        description: product.description || '',
+        stock: product.stock || 0, // Default to 0 if undefined
+        url: product.url || '',
+      };
+      this._shoppingCart.push(cartItem);
     }
     this.saveCart();
   }
@@ -77,6 +90,10 @@ export class ProductService {
 
   finishCarrito(id: number): Observable<any> {
     return this.http.put(`${this.apiPath}/api/acabar_carrito/${id}`, {});
+  }
+
+  updateCarrito(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiPath}/api/carrito/${id}`, data);
   }
 
   getProducosCarrito(id: number): Observable<any> {
@@ -152,5 +169,13 @@ export class ProductService {
 
   getMonthlyStats(id: number): Observable<any> {
     return this.http.get(`${this.apiPath}/api/productos_usuario/stats/${id}`);
+  }
+
+  deleteProductosCarrito(id: number): Observable<any> {
+    return this.http.delete(`${this.apiPath}/api/producto_carrito/${id}`);
+  }
+
+  updateProductoCarrito(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiPath}/api/producto_carrito/${id}`, data);
   }
 }

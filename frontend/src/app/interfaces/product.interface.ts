@@ -19,9 +19,19 @@ export interface Product {
   stock?: number;
   discount?: number;
   reviews?: Review[];
-  images?: any[]; // Add support for images array
+  images?: any[]; // Support for images array
 }
 
-export interface CartItem extends Product {
+export interface CartItem {
+  id: number;
+  name: string;
+  price: number;
   quantity: number;
+  category: string;
+  stars: number;
+  discount?: number; // Made optional to match Product interface
+  description: string;
+  stock: number;
+  url: string;
+  producto_carrito_id?: number;
 }

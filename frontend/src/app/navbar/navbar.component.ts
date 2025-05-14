@@ -32,13 +32,13 @@ export class NavbarComponent {
     //         cartItems = cartProducts.length;
     //         // console.log('Número de items en el carrito:', cartItems);
     //       },
-    //       error: (error) => {
+    //       error: (error: any) => {
     //         console.error('Error fetching cart products:', error);
     //       },
     //     });
     //   },
-    //   error: (error) => {
-    //     // console.error('Error fetching cart items:', error);
+    //   error: (error: any) => {
+    //     console.error('Error fetching cart items:', error);
     //   },
     // });
     // return cartItems;

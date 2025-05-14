@@ -59,6 +59,7 @@ export class ShoppingCartComponent implements OnInit {
                     description: product.descripcion,
                     stock: product.stock,
                     url: '', // Will be populated with the first image URL
+                    producto_carrito_id: cartProduct.id, // Store the relationship ID
                   };
 
                   tempCartItems.push(cartItem);
@@ -134,19 +135,74 @@ export class ShoppingCartComponent implements OnInit {
   // Funciones para manejo del carrito
   increaseQuantity(item: CartItem): void {
     if (item.quantity < 10) {
+      // First update local UI to be responsive
       item.quantity++;
+
+      // Then update the server
+      if (item.producto_carrito_id) {
+        const data = { cantidad: item.quantity };
+        this.productService
+          .updateProductoCarrito(item.producto_carrito_id, data)
+          .subscribe({
+            next: (response) => {
+              console.log('Cantidad actualizada en el servidor:', response);
+            },
+            error: (error) => {
+              console.error('Error al actualizar cantidad:', error);
+              // Revert the local change if the server update fails
+              item.quantity--;
+            },
+          });
+      }
     }
   }
 
   decreaseQuantity(item: CartItem): void {
     if (item.quantity > 1) {
+      // First update local UI to be responsive
       item.quantity--;
+
+      // Then update the server
+      if (item.producto_carrito_id) {
+        const data = { cantidad: item.quantity };
+        this.productService
+          .updateProductoCarrito(item.producto_carrito_id, data)
+          .subscribe({
+            next: (response) => {
+              console.log('Cantidad actualizada en el servidor:', response);
+            },
+            error: (error) => {
+              console.error('Error al actualizar cantidad:', error);
+              // Revert the local change if the server update fails
+              item.quantity++;
+            },
+          });
+      }
     }
   }
 
   removeItem(item: CartItem): void {
-    // this.cartItems = this.cartItems.filter((i) => i.id !== item.id);
-    this.productService.removeFromCart(item.id);
+    if (item.producto_carrito_id) {
+      // First remove from UI for responsiveness
+      this.cartItems = this.cartItems.filter((i) => i.id !== item.id);
+
+      // Then remove from server
+      this.productService
+        .deleteProductosCarrito(item.producto_carrito_id)
+        .subscribe({
+          next: (response) => {
+            console.log(
+              'Producto eliminado del carrito en el servidor:',
+              response
+            );
+          },
+          error: (error) => {
+            console.error('Error al eliminar producto del carrito:', error);
+            // If there's an error, add the item back to the cart
+            this.cartItems.push(item);
+          },
+        });
+    }
   }
 
   getDiscountedPrice(item: CartItem): number {
@@ -156,46 +212,5 @@ export class ShoppingCartComponent implements OnInit {
       return discountedUnitPrice * item.quantity;
     }
     return item.price * item.quantity;
-  }
-
-  // Cargar productos recomendados (ejemplo)
-  loadRecommendedProducts(): void {
-    // this.recommendedProducts = [
-    //   {
-    //     id: 4,
-    //     name: 'Sartén',
-    //     url: 'https://cdn.speedsize.com/7ea397ab-9451-4e4a-a8e0-a877fed40d95/https://www.arcos.com/media/catalog/product/7/1/716400_1.png',
-    //     price: 25.0,
-    //     stars: 4,
-    //     category: 'kitchen',
-    //     discount: 20,
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Camisa',
-    //     url: 'https://media.wuerth.com/stmedia/modyf/eshop/products/std.lang.all/resolutions/normal/png-546x410px/26501189.png',
-    //     price: 30.0,
-    //     stars: 5,
-    //     category: 'clothes',
-    //     discount: 30,
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Smartphone',
-    //     url: 'https://oukitel.com/cdn/shop/files/1___11.png?v=1732246275&width=600',
-    //     price: 500.0,
-    //     stars: 4,
-    //     category: 'electronics',
-    //     discount: 40,
-    //   },
-    //   {
-    //     id: 7,
-    //     name: 'Camiseta',
-    //     url: 'https://timshop.timhortons.ca/cdn/shop/files/retro-logo-tshirt-back-1000px.png?v=1707853862&width=1000',
-    //     price: 15.0,
-    //     stars: 4,
-    //     category: 'clothes',
-    //   },
-    // ];
   }
 }

@@ -30,7 +30,7 @@ export class PaymentProcessComponent implements OnInit {
   orderNumber = '';
   totalPaid = 0;
   cartId: number = 0; // Store the cart ID for finalizing payment
-  
+
   // Variables para tarjetas guardadas
   savedPaymentMethods: any[] = [];
   selectedCardId: number | null = null;
@@ -71,7 +71,7 @@ export class PaymentProcessComponent implements OnInit {
   ngOnInit(): void {
     // Cargar las tarjetas guardadas del usuario
     this.loadSavedPaymentMethods();
-    
+
     // Initialize empty cart items array
     this.cartItems = [];
 
@@ -173,10 +173,10 @@ export class PaymentProcessComponent implements OnInit {
   // Seleccionar tarjeta guardada
   selectSavedCard(card: any): void {
     this.selectedCardId = card.id;
-    
+
     // Desactivar validaciones de campos de tarjeta cuando se selecciona una tarjeta guardada
     const cardControls = ['cardName', 'cardNumber', 'expiryDate', 'cvv'];
-    cardControls.forEach(control => {
+    cardControls.forEach((control) => {
       const formControl = this.paymentForm.get(control);
       formControl?.clearValidators();
       formControl?.updateValueAndValidity();
@@ -186,24 +186,27 @@ export class PaymentProcessComponent implements OnInit {
   // Usar nueva tarjeta
   useNewCard(): void {
     this.selectedCardId = null;
-    
+
     // Reactivar validaciones para los campos de tarjeta
     this.paymentForm.get('cardName')?.setValidators(Validators.required);
-    this.paymentForm.get('cardNumber')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/)
-    ]);
-    this.paymentForm.get('expiryDate')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)
-    ]);
-    this.paymentForm.get('cvv')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^\d{3}$/)
-    ]);
-    
+    this.paymentForm
+      .get('cardNumber')
+      ?.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/),
+      ]);
+    this.paymentForm
+      .get('expiryDate')
+      ?.setValidators([
+        Validators.required,
+        Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/),
+      ]);
+    this.paymentForm
+      .get('cvv')
+      ?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
+
     // Actualizar validez de los controles
-    Object.keys(this.paymentForm.controls).forEach(key => {
+    Object.keys(this.paymentForm.controls).forEach((key) => {
       this.paymentForm.get(key)?.updateValueAndValidity();
     });
   }
@@ -323,33 +326,57 @@ export class PaymentProcessComponent implements OnInit {
     if (isValid) {
       this.isProcessing = true;
 
-      // Si el usuario quiere guardar su tarjeta, la guardamos en la base de datos
-      if (this.paymentMethod === 'card' && !this.selectedCardId && this.paymentForm.get('saveCard')?.value) {
-        const currentUser = this.loginService.getLoggedUser();
-        const paymentData = {
-          user_id: currentUser.id.toString(),
-          nombre: this.paymentForm.value.cardName,
-          tarjeta: this.paymentForm.value.cardNumber.replace(/\s+/g, ''),
-          caducidad: this.paymentForm.value.expiryDate,
-          cvv: this.paymentForm.value.cvv,
-        };
-
-        this.profileService.addMetodoPago(paymentData).subscribe({
-          error: (error) => {
-            console.error('Error al guardar la tarjeta:', error);
-          },
-        });
-      }
-
       // Finalizar pago
       if (this.cartId) {
         this.productService.finishCarrito(this.cartId).subscribe({
           next: () => {
-            this.orderNumber = this.generateOrderNumber();
-            this.totalPaid = this.calculateTotal();
-            this.paymentSuccess = true;
-            this.isProcessing = false;
-            this.productService.clearCart();
+            // Si el usuario seleccionó una tarjeta guardada, actualizar el carrito con ese método de pago
+            if (this.selectedCardId && this.paymentMethod === 'card') {
+              this.updateCarritoWithPaymentMethod(this.selectedCardId);
+            }
+            // Si el usuario está usando una nueva tarjeta y desea guardarla
+            else if (this.paymentMethod === 'card' && !this.selectedCardId) {
+              const currentUser = this.loginService.getLoggedUser();
+              const paymentData = {
+                user_id: currentUser.id.toString(),
+                nombre: this.paymentForm.value.cardName,
+                tarjeta: this.paymentForm.value.cardNumber.replace(/\s+/g, ''),
+                caducidad: this.paymentForm.value.expiryDate,
+                cvv: this.paymentForm.value.cvv,
+              };
+
+              // Crear el método de pago y luego actualizar el carrito con su ID
+              this.profileService.addMetodoPago(paymentData).subscribe({
+                next: (response) => {
+                  console.log('Tarjeta guardada correctamente:', response);
+
+                  // Acceder al ID del método de pago desde la respuesta correcta
+                  // La respuesta tiene un objeto anidado llamado "metodo_pago" que contiene el ID
+                  if (
+                    response &&
+                    response.metodo_pago &&
+                    response.metodo_pago.id
+                  ) {
+                    const metodoPagoId = response.metodo_pago.id;
+                    this.updateCarritoWithPaymentMethod(metodoPagoId);
+                  } else {
+                    console.error(
+                      'Respuesta del método de pago no contiene un ID válido:',
+                      response
+                    );
+                    this.completePaymentProcess();
+                  }
+                },
+                error: (error) => {
+                  console.error('Error al guardar la tarjeta:', error);
+                  // Aún así completamos el proceso ya que el carrito se finalizó correctamente
+                  this.completePaymentProcess();
+                },
+              });
+            } else {
+              // Paypal o cualquier otro caso, simplemente completamos el proceso
+              this.completePaymentProcess();
+            }
           },
           error: (error) => {
             console.error('Error finalizing cart:', error);
@@ -366,6 +393,36 @@ export class PaymentProcessComponent implements OnInit {
         }, 2000);
       }
     }
+  }
+
+  // Método para actualizar el carrito con el ID del método de pago
+  private updateCarritoWithPaymentMethod(paymentMethodId: number): void {
+    const paymentMethodData = {
+      metodo_pago_id: paymentMethodId.toString(),
+    };
+
+    this.productService
+      .updateCarrito(this.cartId, paymentMethodData)
+      .subscribe({
+        next: () => {
+          console.log('Método de pago asignado correctamente al carrito');
+          this.completePaymentProcess();
+        },
+        error: (error) => {
+          console.error('Error al asignar método de pago al carrito:', error);
+          // Aún así completamos el proceso ya que el carrito se finalizó correctamente
+          this.completePaymentProcess();
+        },
+      });
+  }
+
+  // Método para completar el proceso de pago (común para todos los casos)
+  private completePaymentProcess(): void {
+    this.orderNumber = this.generateOrderNumber();
+    this.totalPaid = this.calculateTotal();
+    this.paymentSuccess = true;
+    this.isProcessing = false;
+    this.productService.clearCart();
   }
 
   getItemTotal(item: CartItem): number {

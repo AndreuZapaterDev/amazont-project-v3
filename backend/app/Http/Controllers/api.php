@@ -16,6 +16,7 @@ use App\Models\carrito;
 use App\Models\metodos_pago;
 use App\Models\productos_usuario; // Add the model import
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt; // Add Crypt facade for encryption
 
 //Perfil de usuario
 //Usuarios
@@ -514,20 +515,41 @@ class api extends Controller
             ], 404);
         }
 
-        // Calculate the correct price (product price * quantity)
-        $precio_calculado = $producto->precio * $request->cantidad;
+        // Check if the product already exists in the cart
+        $existingProduct = productos_carrito::where('carrito_id', $request->carrito_id)
+            ->where('producto_id', $request->producto_id)
+            ->first();
 
-        $productos_carrito = new productos_carrito;
-        $productos_carrito->carrito_id = $request->carrito_id;
-        $productos_carrito->producto_id = $request->producto_id;
-        $productos_carrito->cantidad = $request->cantidad;
-        $productos_carrito->precio = $precio_calculado; // Use the calculated price instead of user input
+        if ($existingProduct) {
+            // Product already exists in the cart, update the quantity
+            $existingProduct->cantidad += $request->cantidad;
+            
+            // Calculate the correct price (product price * new total quantity)
+            $existingProduct->precio = $producto->precio * $existingProduct->cantidad;
+            
+            $existingProduct->save();
+            
+            return response()->json([
+                "message" => "Cantidad de producto actualizada en el carrito",
+                "producto_carrito" => $existingProduct
+            ], 200);
+        } else {
+            // Product doesn't exist in the cart, create a new entry
+            // Calculate the correct price (product price * quantity)
+            $precio_calculado = $producto->precio * $request->cantidad;
 
-        $productos_carrito->save();
-        return response()->json([
-            "message" => "Producto carrito creado",
-            "producto_carrito" => $productos_carrito
-        ], 201);
+            $productos_carrito = new productos_carrito;
+            $productos_carrito->carrito_id = $request->carrito_id;
+            $productos_carrito->producto_id = $request->producto_id;
+            $productos_carrito->cantidad = $request->cantidad;
+            $productos_carrito->precio = $precio_calculado; // Use the calculated price instead of user input
+
+            $productos_carrito->save();
+            return response()->json([
+                "message" => "Producto carrito creado",
+                "producto_carrito" => $productos_carrito
+            ], 201);
+        }
     }
 
 
@@ -1048,6 +1070,14 @@ class api extends Controller
             ], 404);
         }
 
+        // Decrypt sensitive data before returning
+        foreach ($metodos_pago as $metodo) {
+            $metodo->nombre = $this->decryptField($metodo->nombre);
+            $metodo->tarjeta = $this->decryptField($metodo->tarjeta);
+            $metodo->caducidad = $this->decryptField($metodo->caducidad); // Also decrypt caducidad
+            $metodo->cvv = $this->decryptField($metodo->cvv);
+        }
+
         return response()->json($metodos_pago, 200);
     }
 
@@ -1065,6 +1095,14 @@ class api extends Controller
             ], 404);
         }
 
+        // Decrypt sensitive data before returning
+        foreach ($metodo_pago as $metodo) {
+            $metodo->nombre = $this->decryptField($metodo->nombre);
+            $metodo->tarjeta = $this->decryptField($metodo->tarjeta);
+            $metodo->caducidad = $this->decryptField($metodo->caducidad); // Also decrypt caducidad
+            $metodo->cvv = $this->decryptField($metodo->cvv);
+        }
+
         return response()->json($metodo_pago, 200);
     }
 
@@ -1077,25 +1115,36 @@ class api extends Controller
             ], 400);
         }
 
-        // Check if the card number already exists
-        $existingCard = metodos_pago::where('tarjeta', $request->tarjeta)->first();
-        if ($existingCard) {
-            return response()->json([
-                "message" => "Error, ya existe un método de pago con esta tarjeta"
-            ], 400);
+        // Check if the card number already exists - need to check encrypted values
+        $existingCards = metodos_pago::all();
+        foreach ($existingCards as $card) {
+            $decryptedCard = $this->decryptField($card->tarjeta);
+            if ($decryptedCard === $request->tarjeta) {
+                return response()->json([
+                    "message" => "Error, ya existe un método de pago con esta tarjeta"
+                ], 400);
+            }
         }
 
         $metodo_pago = new metodos_pago;
         $metodo_pago->user_id = $request->user_id;
-        $metodo_pago->nombre = $request->nombre;
-        $metodo_pago->tarjeta = $request->tarjeta;
-        $metodo_pago->caducidad = $request->caducidad;
-        $metodo_pago->cvv = $request->cvv;
+        $metodo_pago->nombre = $this->encryptField($request->nombre);
+        $metodo_pago->tarjeta = $this->encryptField($request->tarjeta);
+        $metodo_pago->caducidad = $this->encryptField($request->caducidad); // Encrypt caducidad
+        $metodo_pago->cvv = $this->encryptField($request->cvv);
 
         $metodo_pago->save();
+        
+        // Decrypt the data for the response
+        $responseData = $metodo_pago->toArray();
+        $responseData['nombre'] = $request->nombre;
+        $responseData['tarjeta'] = $request->tarjeta;
+        $responseData['caducidad'] = $request->caducidad; // Include original caducidad
+        $responseData['cvv'] = $request->cvv;
+        
         return response()->json([
             "message" => "Método de pago creado",
-            "metodo_pago" => $metodo_pago
+            "metodo_pago" => $responseData
         ], 201);
     }
 
@@ -1117,62 +1166,73 @@ class api extends Controller
         }
 
         if ($request->nombre != null) {
-            $metodo_pago->nombre = $request->nombre;
+            $metodo_pago->nombre = $this->encryptField($request->nombre);
         }
 
         if ($request->tarjeta != null) {
             // Check if the new card number already exists (except for this record)
-            $existingCard = metodos_pago::where('tarjeta', $request->tarjeta)
-                              ->where('id', '!=', $id)
-                              ->where(function($query) {
-                                  $query->where('eliminado', false)->orWhereNull('eliminado');
-                              })
-                              ->first();
-            if ($existingCard) {
-                return response()->json([
-                    "message" => "Error, ya existe un método de pago con esta tarjeta"
-                ], 400);
+            $existingCards = metodos_pago::where('id', '!=', $id)
+                             ->where(function($query) {
+                                 $query->where('eliminado', false)->orWhereNull('eliminado');
+                             })->get();
+                             
+            foreach ($existingCards as $card) {
+                $decryptedCard = $this->decryptField($card->tarjeta);
+                if ($decryptedCard === $request->tarjeta) {
+                    return response()->json([
+                        "message" => "Error, ya existe un método de pago con esta tarjeta"
+                    ], 400);
+                }
             }
-            $metodo_pago->tarjeta = $request->tarjeta;
+            
+            $metodo_pago->tarjeta = $this->encryptField($request->tarjeta);
         }
 
         if ($request->caducidad != null) {
-            $metodo_pago->caducidad = $request->caducidad;
+            $metodo_pago->caducidad = $this->encryptField($request->caducidad); // Encrypt caducidad
         }
 
         if ($request->cvv != null) {
-            $metodo_pago->cvv = $request->cvv;
+            $metodo_pago->cvv = $this->encryptField($request->cvv);
         }
 
         $metodo_pago->save();
+        
+        // Create response with decrypted data
+        $responseData = $metodo_pago->toArray();
+        $responseData['nombre'] = $request->nombre ?? $this->decryptField($metodo_pago->nombre);
+        $responseData['tarjeta'] = $request->tarjeta ?? $this->decryptField($metodo_pago->tarjeta);
+        $responseData['caducidad'] = $request->caducidad ?? $this->decryptField($metodo_pago->caducidad); // Decrypt caducidad
+        $responseData['cvv'] = $request->cvv ?? $this->decryptField($metodo_pago->cvv);
+        
         return response()->json([
             "message" => "Método de pago actualizado",
-            "metodo_pago" => $metodo_pago
+            "metodo_pago" => $responseData
         ], 200);
     }
 
-    public function deleteMetodoPago($id)
+    // Helper methods for encryption and decryption
+    private function encryptField($value)
     {
-        $metodo_pago = metodos_pago::where('id', $id)
-                      ->where(function($query) {
-                          $query->where('eliminado', false)->orWhereNull('eliminado');
-                      })->first();
-
-        if ($metodo_pago == null) {
-            return response()->json([
-                "message" => "Método de pago no encontrado"
-            ], 404);
+        if ($value === null) {
+            return null;
         }
-
-        // Logical deletion instead of physical deletion
-        $metodo_pago->eliminado = true;
-        $metodo_pago->save();
-
-        return response()->json([
-            "message" => "Método de pago eliminado"
-        ], 200);
+        return Crypt::encryptString($value);
     }
 
+    private function decryptField($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            // If decryption fails (e.g., for non-encrypted legacy data)
+            return $value;
+        }
+    }
+    
     /**
      * Finish a cart by setting acabado = true, updating fecha_pago,
      * and calculating the total from all cart items
