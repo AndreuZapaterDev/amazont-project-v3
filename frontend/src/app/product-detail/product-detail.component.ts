@@ -379,8 +379,5 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         });
       },
     });
-    // Aquí puedes implementar la lógica para agregar el producto al carrito
-    // this.productService.addToCart(this.product, this.quantity);
-    // console.log(this.productService.getCartItems());
   }
 }

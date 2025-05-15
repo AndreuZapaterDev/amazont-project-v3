@@ -156,8 +156,8 @@ export class SellerComponent implements OnInit {
             precio: parseFloat(productData.precio),
             descuento: parseFloat(productData.descuento),
             stock: parseInt(productData.stock),
-            categoria_id: null, // Will be set when loading categories
-            imagen_url: null, // Will be set when loading images
+            categoria_id: null,
+            imagen_url: null,
           };
 
           // Load product image

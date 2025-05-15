@@ -24,6 +24,7 @@ export class NavbarComponent {
   popup: boolean = false;
   searchTerm: string = '';
   filteredProducts: any[] = [];
+  cartItems: number = 0;
 
   constructor(
     private productService: ProductService,
@@ -31,28 +32,41 @@ export class NavbarComponent {
     private router: Router
   ) {}
 
+  ngOnInit() {
+    this.cartItemCount();
+  }
+
   // Método para obtener el número total de items en el carrito
-  get cartItemCount(): number {
-    // let cartItems = 0;
-    // const user = this.loginService.getLoggedUser();
-    // this.productService.getActiveCart(user.id).subscribe({
-    //   next: (data: any) => {
-    //     this.productService.getProducosCarrito(data.carrito.id).subscribe({
-    //       next: (cartProducts: any) => {
-    //         cartItems = cartProducts.length;
-    //         // console.log('Número de items en el carrito:', cartItems);
-    //       },
-    //       error: (error: any) => {
-    //         console.error('Error fetching cart products:', error);
-    //       },
-    //     });
-    //   },
-    //   error: (error: any) => {
-    //     console.error('Error fetching cart items:', error);
-    //   },
-    // });
-    // return cartItems;
-    return 0;
+  cartItemCount(): number {
+    try {
+      const user = this.loginService.getLoggedUser();
+      this.productService.getActiveCart(user.id).subscribe({
+        next: (data: any) => {
+          this.productService.getProducosCarrito(data.carrito.id).subscribe({
+            next: (cartProducts: any) => {
+              this.cartItems = cartProducts.length;
+              console.log('Número de items en el carrito:', this.cartItems);
+              return this.cartItems;
+            },
+            error: (error: any) => {
+              console.error('Error obteniendo los productos');
+              return 0;
+            },
+          });
+        },
+        error: (error: any) => {
+          console.error('Error obteniendo los items del carrito');
+          return 0;
+        },
+      });
+      return this.cartItems;
+    } catch (error) {
+      console.error('Error obteniendo los items del carrito');
+
+      return 0;
+    }
+
+    // return 0;
     // const cartItems = this.productService.getCartItems();
     // return cartItems.reduce((total, item) => total + item.quantity, 0);
   }
@@ -86,7 +100,7 @@ export class NavbarComponent {
 
   isVendor(): boolean {
     const loggedUser = this.loginService.getLoggedUser();
-    return loggedUser && loggedUser.rol === 2; // Vendor has role 2, not 1
+    return loggedUser && loggedUser.rol === 2;
   }
 
   isLoggedIn(): boolean {
@@ -109,24 +123,25 @@ export class NavbarComponent {
   }
 
   searchProducts() {
+    // Verifica si hay un término de búsqueda válido
     if (!this.searchTerm?.trim()) {
-      this.filteredProducts = []; // Clear results if search is empty
+      this.filteredProducts = [];
       return;
     }
 
-    // Get all products from your API
+    // Obtiene todos los productos desde la API
     this.productService.getAPIproducts().subscribe({
       next: (products: any) => {
-        // Make sure products is an array before filtering
+        // Asegura que la respuesta sea un array antes de filtrar
         if (Array.isArray(products)) {
-          // Filter products by name containing the search term (case insensitive)
+          // Filtra productos por nombre que contengan el término de búsqueda (sin distinguir mayúsculas/minúsculas)
           this.filteredProducts = products
             .filter((product: any) =>
               product.nombre
                 .toLowerCase()
                 .includes(this.searchTerm.toLowerCase())
             )
-            .slice(0, 5); // Limit to 5 results in the dropdown
+            .slice(0, 5); // Limita a 5 resultados en el desplegable
 
           console.log('Filtered products:', this.filteredProducts);
         } else {
@@ -135,24 +150,18 @@ export class NavbarComponent {
         }
       },
       error: (error: any) => {
+        // Maneja errores en la búsqueda
         console.error('Error fetching products:', error);
         this.filteredProducts = [];
       },
     });
   }
 
-  // Navigate to product detail page
+  // Navega a la página de detalle del producto
   goToProductDetail(productId: number) {
+    // Redirige al usuario a la página del producto seleccionado
     this.router.navigate(['/home/product', productId]);
-    this.filteredProducts = []; // Clear results after navigation
-    this.searchTerm = ''; // Clear search term
-  }
-
-  // View all search results
-  viewAllResults() {
-    this.router.navigate(['/home/search'], {
-      queryParams: { query: this.searchTerm },
-    });
-    this.filteredProducts = []; // Clear dropdown results
+    this.filteredProducts = []; // Limpia los resultados después de la navegación
+    this.searchTerm = ''; // Limpia el término de búsqueda
   }
 }

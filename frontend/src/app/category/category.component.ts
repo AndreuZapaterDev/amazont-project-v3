@@ -33,19 +33,23 @@ export class CategoryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Inicializa el componente y obtiene los datos de la categoría desde la URL
     this.route.paramMap.subscribe((params: any) => {
       const categoryParam = params.get('name');
 
       if (categoryParam) {
         const possibleId = parseInt(categoryParam, 10);
 
+        // Si es un ID numérico, carga directamente por ID
         if (!isNaN(possibleId)) {
           this.categoryId = possibleId;
           this.loadCategoryNameAndProducts(possibleId);
         } else {
+          // Si es un nombre o identificador, busca la categoría correspondiente
           this.loadCategoriesByIdentifier(categoryParam);
         }
       } else {
+        // Si no hay parámetro, carga la primera categoría disponible
         this.categoriesService.getCategories().subscribe({
           next: (categories: any) => {
             if (categories && categories.length > 0) {
@@ -62,6 +66,7 @@ export class CategoryComponent implements OnInit {
   }
 
   loadCategoriesByIdentifier(identifier: string) {
+    // Mapeo de identificadores amigables a nombres de categorías
     const categoryMapping: { [key: string]: string } = {
       electronic: 'Electrónica',
       clothes: 'Moda',
@@ -72,6 +77,7 @@ export class CategoryComponent implements OnInit {
 
     const possibleName = categoryMapping[identifier] || identifier;
 
+    // Busca la categoría por nombre o por icono
     this.categoriesService.getCategories().subscribe({
       next: (categories: any) => {
         const category = categories.find(
@@ -81,9 +87,11 @@ export class CategoryComponent implements OnInit {
         );
 
         if (category) {
+          // Si encuentra la categoría, carga sus productos
           this.categoryId = category.id;
           this.loadCategoryNameAndProducts(category.id);
         } else {
+          // Si no encuentra la categoría, usa la primera disponible
           if (categories && categories.length > 0) {
             this.categoryId = categories[0].id;
             this.loadCategoryNameAndProducts(this.categoryId);
@@ -97,6 +105,7 @@ export class CategoryComponent implements OnInit {
   }
 
   loadCategoryNameAndProducts(categoryId: number) {
+    // Método principal para cargar los productos de una categoría
     this.isLoading = true;
     this.error = null;
 
@@ -104,9 +113,11 @@ export class CategoryComponent implements OnInit {
       .getCategoryById(categoryId)
       .pipe(
         switchMap((category: any) => {
+          // Guarda el nombre y ID de la categoría
           this.categoryName = category.nombre;
           this.categoryId = category.id;
 
+          // Obtiene la relación entre productos y categorías
           return this.categoriesService.getProductoCategorias().pipe(
             catchError((err: any) => {
               this.handleError('Error loading product categories');
@@ -115,11 +126,13 @@ export class CategoryComponent implements OnInit {
           );
         }),
         switchMap((productCategories: any) => {
+          // Filtra solo los productos de esta categoría
           const productsInCategory = productCategories.filter(
             (pc: any) => pc.categoria_id === this.categoryId
           );
 
           if (productsInCategory.length === 0) {
+            // Si no hay productos en esta categoría
             this.products = [];
             this.filteredProducts = [];
             this.displayedProducts = [];
@@ -127,6 +140,7 @@ export class CategoryComponent implements OnInit {
             return of([]);
           }
 
+          // Crea un array de peticiones para obtener cada producto
           const productRequests = productsInCategory.map((pc: any) =>
             this.productService.getAPIproduct(pc.producto_id).pipe(
               catchError((err: any) => {
@@ -136,13 +150,16 @@ export class CategoryComponent implements OnInit {
             )
           );
 
+          // Ejecuta todas las peticiones en paralelo
           return forkJoin(productRequests);
         })
       )
       .subscribe({
         next: (apiProducts: any) => {
+          // Filtra productos nulos (que dieron error)
           const validProducts = apiProducts.filter((p: any) => p !== null);
 
+          // Transforma los datos de la API al formato del componente
           this.products = validProducts.map((apiProduct: any) => ({
             id: apiProduct.id,
             name: apiProduct.nombre,
@@ -156,6 +173,7 @@ export class CategoryComponent implements OnInit {
             images: [],
           }));
 
+          // Carga las imágenes adicionales de cada producto
           const loadImagesPromises = this.products.map((product) =>
             this.productService.getProductImages(product.id).subscribe({
               next: (images: any) => {
@@ -166,7 +184,7 @@ export class CategoryComponent implements OnInit {
                   }`
                 );
               },
-              error: (err) => {
+              error: (err: any) => {
                 console.error(
                   `Error loading images for product ${product.id}:`,
                   err
@@ -191,52 +209,60 @@ export class CategoryComponent implements OnInit {
   }
 
   handleError(message: string) {
+    // Maneja errores y muestra mensajes al usuario
     this.error = message;
     this.isLoading = false;
     console.error(message);
   }
 
   applyFilters() {
+    // Aplica filtros de búsqueda y orden a los productos
     let filtered = [...this.filteredProducts];
 
+    // Filtrado por término de búsqueda
     if (this.searchTerm) {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(this.searchTerm)
       );
     }
 
+    // Ordenación según la opción seleccionada
     switch (this.sortOption) {
       case 'price+':
-        filtered.sort((a, b) => b.price - a.price);
+        filtered.sort((a, b) => b.price - a.price); // Mayor a menor precio
         break;
       case 'price-':
-        filtered.sort((a, b) => a.price - b.price);
+        filtered.sort((a, b) => a.price - b.price); // Menor a mayor precio
         break;
       case 'name':
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        filtered.sort((a, b) => a.name.localeCompare(b.name)); // Alfabético
         break;
     }
 
     this.displayedProducts = filtered;
   }
 
+  // Método para manejar el cambio en el campo de búsqueda
   onSearch(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchTerm = input.value.toLowerCase();
     this.applyFilters();
   }
 
+  // Método para manejar el cambio de orden
   onSort(event: Event) {
     const select = event.target as HTMLSelectElement;
     this.sortOption = select.value;
     this.applyFilters();
   }
 
+  // Método para limpiar el campo de búsqueda
   clearSearch() {
     this.searchTerm = '';
     this.applyFilters();
   }
 
+  // Método para limpiar los filtros
   resetFilters() {
     this.searchTerm = '';
     this.sortOption = 'default';
@@ -250,6 +276,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // Método para obtener el icono de la categoría
   getCategoryIcon(categoryCode: string | null): string {
     if (!categoryCode) return 'fi fi-br-box';
 
@@ -276,6 +303,7 @@ export class CategoryComponent implements OnInit {
     return 'fi fi-br-box';
   }
 
+  // Método para obtener el icono de la categoría a partir de su ID
   getCategoryIconFromId(categoryId: number): string {
     const iconMap: { [key: number]: string } = {
       1: 'fi-br-computer',

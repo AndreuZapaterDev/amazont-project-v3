@@ -22,8 +22,8 @@ export class CategoriesComponent implements OnInit {
   ngOnInit() {
     this.categoriesService.getCategories().subscribe({
       next: (response: any) => {
-        console.log('Categories fetched successfully:', response);
-        // Map the API response to our Category interface format
+        // console.log('Categorias cargadas correctamente:', response);
+        // Mapeamos la respuesta a nuestro modelo Category
         this.categories = response.map((item: any) => ({
           id: item.id,
           name: item.nombre,
@@ -33,14 +33,15 @@ export class CategoriesComponent implements OnInit {
         this.updateVisibleCategories();
       },
       error: (error: any) => {
-        console.error('Error fetching categories:', error);
-        // Instead of using fallback, just show an empty state
+        console.error('Error cargando categorías:', error);
+        // En caso de error, cargamos un array vacío
         this.categories = [];
         this.updateVisibleCategories();
       },
     });
   }
 
+  // Actualiza las categorías visibles según el índice actual
   updateVisibleCategories() {
     this.visibleCategories = [];
     for (let i = 0; i < this.itemsToShow; i++) {
@@ -50,12 +51,14 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  // Cambia la categoría actual y actualiza las categorías visibles
   nextCategory() {
     if (this.categories.length === 0) return;
     this.currentIndex = (this.currentIndex + 1) % this.categories.length;
     this.updateVisibleCategories();
   }
 
+  // Cambia a la categoría anterior y actualiza las categorías visibles
   previousCategory() {
     if (this.categories.length === 0) return;
     this.currentIndex =
@@ -65,7 +68,7 @@ export class CategoriesComponent implements OnInit {
 
   // Obtiene el icono correspondiente a cada categoría
   getCategoryIcon(categoryCode: string): string {
-    // First check if the category has its own icon from the API
+    // Mira si la categoría tiene un icono definido en la respuesta de la API
     const category = this.categories.find(
       (cat) => cat.category === categoryCode
     );
@@ -73,7 +76,7 @@ export class CategoriesComponent implements OnInit {
       return category.icono;
     }
 
-    // Fallback to our hardcoded mapping
+    // Si no, asigna un icono por defecto según el código de la categoría
     const icons: { [key: string]: string } = {
       electronic: 'fi fi-br-computer',
       clothes: 'fi fi-br-tshirt',
@@ -86,7 +89,7 @@ export class CategoriesComponent implements OnInit {
       games: 'fi fi-br-gamepad',
     };
 
-    return icons[categoryCode] || 'fi fi-br-apps'; // Default icon if not found
+    return icons[categoryCode] || 'fi fi-br-apps';
   }
 
   // Verifica si una categoría está actualmente seleccionada/activa

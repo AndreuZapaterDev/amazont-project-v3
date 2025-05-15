@@ -25,27 +25,27 @@ export class ShoppingCartComponent implements OnInit {
   recommendedProducts: any[] = [];
 
   ngOnInit() {
-    // Initialize empty cart items array
+    // Inicializa el array de productos del carrito vacío
     this.cartItems = [];
 
-    // Get user's active cart from API
+    // Obtiene el carrito activo del usuario desde la API
     const user = this.loginService.getLoggedUser();
     this.productService.getActiveCart(user.id).subscribe({
       next: (data: any) => {
+        // Obtiene los productos asociados al carrito del usuario
         this.productService.getProducosCarrito(data.carrito.id).subscribe({
           next: (cartProducts: any) => {
-            // Process each product in the cart
+            // Prepara las peticiones para obtener detalles de cada producto
             const productRequests = cartProducts.map((cartProduct: any) => {
               return this.productService.getAPIproduct(cartProduct.producto_id);
             });
 
-            // Wait for all product requests to complete
+            // Ejecuta todas las peticiones en paralelo y espera a que terminen
             forkJoin(productRequests).subscribe({
               next: (products: any) => {
-                // Create temporary array to hold items while we fetch images
                 const tempCartItems: CartItem[] = [];
 
-                // For each product, we'll create a cart item and then fetch its images
+                // Procesa cada producto y crea los items del carrito
                 products.forEach((product: any, index: number) => {
                   const cartProduct = cartProducts[index];
                   const cartItem: CartItem = {
@@ -53,22 +53,22 @@ export class ShoppingCartComponent implements OnInit {
                     name: product.nombre,
                     price: product.precio,
                     quantity: cartProduct.cantidad,
-                    category: '', // API doesn't seem to provide this
-                    stars: 0, // API doesn't seem to provide this
+                    category: '',
+                    stars: 0,
                     discount: product.descuento,
                     description: product.descripcion,
                     stock: product.stock,
-                    url: '', // Will be populated with the first image URL
-                    producto_carrito_id: cartProduct.id, // Store the relationship ID
+                    url: '',
+                    producto_carrito_id: cartProduct.id,
                   };
 
                   tempCartItems.push(cartItem);
 
-                  // Fetch images for this product
+                  // Obtiene las imágenes para cada producto
                   this.productService.getProductImages(product.id).subscribe({
                     next: (images: any[]) => {
+                      // Usa la primera imagen como imagen principal
                       if (images && images.length > 0) {
-                        // Use the first image URL
                         cartItem.url = images[0].url;
                       }
                     },
@@ -81,7 +81,7 @@ export class ShoppingCartComponent implements OnInit {
                   });
                 });
 
-                // Update cart items with the temp array that will be populated with image URLs
+                // Actualiza el carrito con los productos obtenidos
                 this.cartItems = tempCartItems;
               },
               error: (error) => {
@@ -135,10 +135,8 @@ export class ShoppingCartComponent implements OnInit {
   // Funciones para manejo del carrito
   increaseQuantity(item: CartItem): void {
     if (item.quantity < 10) {
-      // First update local UI to be responsive
       item.quantity++;
 
-      // Then update the server
       if (item.producto_carrito_id) {
         const data = { cantidad: item.quantity };
         this.productService
@@ -183,10 +181,8 @@ export class ShoppingCartComponent implements OnInit {
 
   removeItem(item: CartItem): void {
     if (item.producto_carrito_id) {
-      // First remove from UI for responsiveness
       this.cartItems = this.cartItems.filter((i) => i.id !== item.id);
 
-      // Then remove from server
       this.productService
         .deleteProductosCarrito(item.producto_carrito_id)
         .subscribe({
@@ -198,7 +194,6 @@ export class ShoppingCartComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error al eliminar producto del carrito:', error);
-            // If there's an error, add the item back to the cart
             this.cartItems.push(item);
           },
         });

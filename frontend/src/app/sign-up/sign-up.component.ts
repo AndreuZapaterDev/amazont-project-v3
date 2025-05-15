@@ -43,6 +43,7 @@ export class SignUpComponent implements OnInit {
         confirmPassword: ['', Validators.required],
         newsletter: [false],
         terms: [false, Validators.requiredTrue],
+        role: [''],
       },
       {
         validators: this.passwordMatchValidator,
@@ -135,6 +136,7 @@ export class SignUpComponent implements OnInit {
       direccion: this.signupForm.value.address,
       telefono: this.signupForm.value.phone,
       genero: this.signupForm.value.gender,
+      rol: this.signupForm.value.role,
       imagen_usuario: 'test',
     };
 
@@ -145,7 +147,7 @@ export class SignUpComponent implements OnInit {
         const usuario = {
           email: this.signupForm.value.email,
           password: this.signupForm.value.password,
-          rol: 1,
+          rol: this.signupForm.value.role,
           user_profile_id: idPerfilUsuario,
           // newsletter: this.signupForm.value.newsletter,
         };

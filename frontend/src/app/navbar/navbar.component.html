@@ -10,20 +10,10 @@
         <img class="logo" src="/images/White_logo.png" alt="Logo de Amazont" />
       </a>
       <div class="search-container">
-        <form
-          class="search-box"
-          (ngSubmit)="searchProducts()"
-          role="search"
-          aria-label="Buscar productos"
-        >
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            name="searchTerm"
-            placeholder="Encuentra lo que necesitas al mejor precio"
-            aria-label="Campo de búsqueda"
-            (input)="searchProducts()"
-          />
+        <form class="search-box" (ngSubmit)="searchProducts()" role="search" aria-label="Buscar productos">
+          <input type="text" [(ngModel)]="searchTerm" name="searchTerm"
+            placeholder="Encuentra lo que necesitas al mejor precio" aria-label="Campo de búsqueda"
+            (input)="searchProducts()" />
           <button type="submit" aria-label="Buscar">
             <i class="fi fi-br-search" aria-hidden="true"></i>
           </button>
@@ -49,9 +39,6 @@
             </li>
             }
           </ul>
-          <div class="view-all" (click)="viewAllResults()">
-            Ver todos los resultados
-          </div>
         </div>
         }
       </div>
@@ -60,11 +47,7 @@
         <app-dark-mode></app-dark-mode>
       </div>
 
-      <div
-        class="languages-container"
-        role="region"
-        aria-label="Selector de idioma"
-      >
+      <div class="languages-container" role="region" aria-label="Selector de idioma">
         <button aria-label="Cambiar a español">
           <img src="/images/circle_spain.png" alt="Bandera española" />
         </button>
@@ -78,7 +61,7 @@
           <button aria-label="Ir al carrito de compra">
             <i class="fi fi-br-shopping-cart" aria-hidden="true"></i>
             <div class="number-container" aria-live="polite">
-              <h3>{{ cartItemCount }}</h3>
+              <h3>{{ cartItems }}</h3>
             </div>
           </button>
         </a>
@@ -95,11 +78,7 @@
           </button>
         </a>
         } @else {
-        <button
-          (click)="logout()"
-          class="learn-more"
-          aria-label="Cerrar sesión"
-        >
+        <button (click)="logout()" class="learn-more" aria-label="Cerrar sesión">
           <span class="circle" aria-hidden="true">
             <span class="icon arrow"></span>
           </span>
@@ -137,34 +116,19 @@
 
 <div class="md:hidden">
   <!-- Barra principal -->
-  <nav
-    class="bg-gradient-to-r from-primary-color to-background-navbar2 text-white shadow-md"
-    aria-label="Menú principal móvil"
-  >
+  <nav class="bg-gradient-to-r from-primary-color to-background-navbar2 text-white shadow-md"
+    aria-label="Menú principal móvil">
     <!-- Cabecera -->
     <div class="flex items-center justify-between px-4 py-3">
       <!-- Botón de menú -->
-      <button
-        class="text-white focus:outline-none"
-        (click)="toggleMobileMenu()"
-        aria-label="Abrir menú"
-        [attr.aria-expanded]="isMobileMenuOpen"
-        aria-controls="mobile-menu"
-      >
+      <button class="text-white focus:outline-none" (click)="toggleMobileMenu()" aria-label="Abrir menú"
+        [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-menu">
         <i class="fi fi-br-menu-burger text-2xl" aria-hidden="true"></i>
       </button>
 
       <!-- Logo -->
-      <a
-        routerLink="/home"
-        class="flex items-center"
-        aria-label="Ir a la página de inicio"
-      >
-        <img
-          src="/images/White_logo.png"
-          alt="Amazont Logo"
-          class="h-10 w-auto"
-        />
+      <a routerLink="/home" class="flex items-center" aria-label="Ir a la página de inicio">
+        <img src="/images/White_logo.png" alt="Amazont Logo" class="h-10 w-auto" />
       </a>
 
       <!-- Acciones rápidas -->
@@ -175,42 +139,22 @@
         </div>
 
         <!-- Carrito -->
-        <a
-          routerLink="/home/cart"
-          class="relative flex items-center"
-          aria-label="Ver carrito"
-        >
+        <a routerLink="/home/cart" class="relative flex items-center" aria-label="Ver carrito">
           <i class="fi fi-br-shopping-cart text-2xl" aria-hidden="true"></i>
           <span
             class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary-color text-xs font-bold text-white"
-            aria-live="polite"
-            >{{ cartItemCount }}</span
-          >
+            aria-live="polite">{{ cartItemCount }}</span>
         </a>
       </div>
     </div>
 
     <!-- Barra de búsqueda -->
     <div class="px-4 pb-3 relative">
-      <form
-        class="relative"
-        role="search"
-        (ngSubmit)="searchProducts()"
-        aria-label="Buscar productos"
-      >
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          name="searchTerm"
-          placeholder="Buscar productos..."
+      <form class="relative" role="search" (ngSubmit)="searchProducts()" aria-label="Buscar productos">
+        <input type="text" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Buscar productos..."
           class="w-full rounded-lg border-2 border-transparent bg-white py-2 pl-10 pr-4 text-gray-700 focus:border-secondary-color focus:outline-none"
-          aria-label="Campo de búsqueda"
-          (input)="searchProducts()"
-        />
-        <span
-          class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"
-          aria-hidden="true"
-        >
+          aria-label="Campo de búsqueda" (input)="searchProducts()" />
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500" aria-hidden="true">
           <i class="fi fi-br-search text-lg"></i>
         </span>
       </form>
@@ -230,54 +174,28 @@
           </li>
           }
         </ul>
-        <div class="view-all" (click)="viewAllResults()">
-          Ver todos los resultados
-        </div>
       </div>
       }
     </div>
   </nav>
 
   <!-- Menú desplegable -->
-  <div
-    id="mobile-menu"
-    class="fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out"
-    [ngClass]="{
+  <div id="mobile-menu" class="fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out" [ngClass]="{
       'translate-x-0': isMobileMenuOpen,
       '-translate-x-full': !isMobileMenuOpen
-    }"
-    role="dialog"
-    aria-label="Menú móvil"
-    aria-modal="true"
-    [attr.aria-hidden]="!isMobileMenuOpen"
-  >
+    }" role="dialog" aria-label="Menú móvil" aria-modal="true" [attr.aria-hidden]="!isMobileMenuOpen">
     <!-- Fondo con overlay -->
-    <div
-      class="absolute inset-0 bg-black bg-opacity-50"
-      (click)="toggleMobileMenu()"
-      aria-hidden="true"
-    ></div>
+    <div class="absolute inset-0 bg-black bg-opacity-50" (click)="toggleMobileMenu()" aria-hidden="true"></div>
 
     <!-- Panel lateral del menú -->
-    <div
-      class="absolute inset-y-0 left-0 max-w-xs w-4/5 transform bg-card-background-color shadow-xl transition-all"
-      role="navigation"
-    >
+    <div class="absolute inset-y-0 left-0 max-w-xs w-4/5 transform bg-card-background-color shadow-xl transition-all"
+      role="navigation">
       <!-- Encabezado del menú -->
-      <div
-        class="bg-gradient-to-r from-primary-color to-background-navbar2 p-4"
-      >
+      <div class="bg-gradient-to-r from-primary-color to-background-navbar2 p-4">
         <div class="flex justify-between items-center">
-          <img
-            src="/images/White_logo.png"
-            alt="Amazont Logo"
-            class="h-8 w-auto"
-          />
-          <button
-            class="rounded-full p-1 text-white hover:bg-white hover:bg-opacity-20"
-            (click)="toggleMobileMenu()"
-            aria-label="Cerrar menú"
-          >
+          <img src="/images/White_logo.png" alt="Amazont Logo" class="h-8 w-auto" />
+          <button class="rounded-full p-1 text-white hover:bg-white hover:bg-opacity-20" (click)="toggleMobileMenu()"
+            aria-label="Cerrar menú">
             <i class="fi fi-br-cross text-xl" aria-hidden="true"></i>
           </button>
         </div>
@@ -285,18 +203,14 @@
 
       <!-- Botones de cuenta -->
       <div class="flex p-4 space-x-2">
-        <a
-          routerLink="/login"
+        <a routerLink="/login"
           class="flex-1 rounded-md border border-secondary-color py-2 px-3 text-center text-sm font-medium text-secondary-color"
-          aria-label="Iniciar sesión en tu cuenta"
-        >
+          aria-label="Iniciar sesión en tu cuenta">
           Iniciar sesión
         </a>
-        <a
-          routerLink="/sign-up"
+        <a routerLink="/sign-up"
           class="flex-1 rounded-md bg-secondary-color py-2 px-3 text-center text-sm font-medium text-white"
-          aria-label="Crear una nueva cuenta"
-        >
+          aria-label="Crear una nueva cuenta">
           Registrarse
         </a>
       </div>
@@ -305,59 +219,46 @@
       <nav class="px-2 pt-2 pb-4" aria-label="Menú de navegación">
         <ul class="space-y-1" role="menu">
           <li role="none">
-            <a
-              routerLink="/home"
+            <a routerLink="/home"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
-              role="menuitem"
-            >
+              role="menuitem">
               <i class="fi fi-br-home mr-3 text-lg" aria-hidden="true"></i>
               <span>Inicio</span>
             </a>
           </li>
           <li role="none">
-            <a
-              routerLink="/home/categories"
+            <a routerLink="/home/categories"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
-              role="menuitem"
-            >
+              role="menuitem">
               <i class="fi fi-br-apps mr-3 text-lg" aria-hidden="true"></i>
               <span>Categorías</span>
             </a>
           </li>
           <li role="none">
-            <a
-              routerLink="/home/offers"
+            <a routerLink="/home/offers"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
-              role="menuitem"
-            >
+              role="menuitem">
               <i class="fi fi-br-tags mr-3 text-lg" aria-hidden="true"></i>
               <span>Ofertas</span>
             </a>
           </li>
           <li role="none">
-            <a
-              routerLink="/home/cart"
+            <a routerLink="/home/cart"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
-              role="menuitem"
-            >
-              <i
-                class="fi fi-br-shopping-cart mr-3 text-lg"
-                aria-hidden="true"
-              ></i>
+              role="menuitem">
+              <i class="fi fi-br-shopping-cart mr-3 text-lg" aria-hidden="true"></i>
               <span>Carrito</span>
             </a>
           </li>
           <li role="none">
-            <a
-              routerLink="/profile"
+            <a routerLink="/profile"
               routerLinkActive="bg-[var(--secondary-color)] bg-opacity-10 text-[var(--secondary-color)]"
               class="flex items-center rounded-md px-4 py-3 text-[var(--text-color)] transition-colors hover:bg-[var(--secondary-color)] hover:bg-opacity-10 hover:text-[var(--secondary-color)]"
-              role="menuitem"
-            >
+              role="menuitem">
               <i class="fi fi-br-envelope mr-3 text-lg" aria-hidden="true"></i>
               <span>Ajustes</span>
             </a>
@@ -374,26 +275,14 @@
           Idioma
         </p>
         <div class="flex space-x-3" aria-labelledby="language-label">
-          <button
-            class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
-            aria-label="Cambiar a español"
-          >
-            <img
-              src="/images/circle_spain.png"
-              alt="Español"
-              class="mr-2 h-5 w-5"
-            />
+          <button class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+            aria-label="Cambiar a español">
+            <img src="/images/circle_spain.png" alt="Español" class="mr-2 h-5 w-5" />
             <span class="text-sm text-gray-700">ES</span>
           </button>
-          <button
-            class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
-            aria-label="Cambiar a inglés"
-          >
-            <img
-              src="/images/circle_uk.png"
-              alt="English"
-              class="mr-2 h-5 w-5"
-            />
+          <button class="flex items-center rounded-md border border-gray-200 px-3 py-1 hover:border-secondary-color"
+            aria-label="Cambiar a inglés">
+            <img src="/images/circle_uk.png" alt="English" class="mr-2 h-5 w-5" />
             <span class="text-sm text-gray-700">EN</span>
           </button>
         </div>

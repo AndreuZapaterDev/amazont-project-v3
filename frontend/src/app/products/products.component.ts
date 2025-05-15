@@ -15,23 +15,18 @@ export class ProductsComponent implements OnInit {
 
   numberStars: string = '';
   discountedPrice: number = 0;
-  ratingCount: number = 0; // New property to store the rating count
+  ratingCount: number = 0;
 
   constructor(private router: Router, private productService: ProductService) {}
 
   getProductImage(): string {
-    // Handle different product image formats
     if (this.product().images && this.product().images.length > 0) {
-      // API images format
       return this.product().images[0].url;
     } else if (this.product().imagen_url) {
-      // Direct imagen_url property
       return this.product().imagen_url;
     } else if (this.product().url) {
-      // Fallback to url property
       return this.product().url;
     }
-    // Default placeholder image if no image is available
     return 'assets/placeholder.png';
   }
 
@@ -40,7 +35,6 @@ export class ProductsComponent implements OnInit {
   }
 
   getStars() {
-    // Get star rating from API or local data
     const stars = this.product()?.stars || this.product()?.calificacion || 0;
     this.numberStars = '';
     for (let i = 0; i < stars; i++) {
@@ -49,7 +43,6 @@ export class ProductsComponent implements OnInit {
   }
 
   getDiscount() {
-    // Handle different discount formats (descuento from API or discount from local)
     const discount = this.product().descuento || this.product().discount || 0;
     const price = this.product().precio || this.product().price || 0;
 
@@ -57,9 +50,7 @@ export class ProductsComponent implements OnInit {
       Math.round((price - (price * discount) / 100) * 100) / 100;
   }
 
-  // Nuevos métodos
   getCategoryName(categoryCode: string): string {
-    // If we have a direct category name from API, use it
     if (
       typeof this.product().category === 'string' &&
       ![
@@ -123,12 +114,11 @@ export class ProductsComponent implements OnInit {
   }
 
   getProductPrice(): number {
-    // Handle different price formats
     return this.product().precio || this.product().price || 0;
   }
 
   ngOnInit() {
-    console.log('Product component initialized with product:', this.product());
+    // console.log('Product component initialized with product:', this.product());
     this.getStars();
     this.getDiscount();
     this.getRatingCount();

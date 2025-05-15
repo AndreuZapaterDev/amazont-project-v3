@@ -45,15 +45,21 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (error: any) => {
-          console.error('Error en login:', error); 
-          
+          console.error('Error en login:', error);
+
           // Mostrar mensaje al usuario
           if (error.status === 401) {
-            alert('Credenciales incorrectas. Por favor, verifica tu email y contraseña.');
+            alert(
+              'Credenciales incorrectas. Por favor, verifica tu email y contraseña.'
+            );
           } else if (error.status === 0) {
-            alert('No se pudo conectar con el servidor. Verifica que el backend esté funcionando.');
+            alert(
+              'No se pudo conectar con el servidor. Verifica que el backend esté funcionando.'
+            );
           } else {
-            alert('Ocurrió un error al iniciar sesión. Inténtalo de nuevo más tarde.');
+            alert(
+              'Ocurrió un error al iniciar sesión. Inténtalo de nuevo más tarde.'
+            );
           }
         },
       });
@@ -79,14 +85,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-    // Aquí iría la lógica para autenticar al usuario
-    // console.log('Credenciales enviadas:', this.loginForm.value);
     this.logIn();
-    // Simulación de inicio de sesión
-    // setTimeout(() => {
-    //   // Redireccionar a la página principal tras un inicio de sesión exitoso
-    //   this.router.navigate(['/home']);
-    // }, 1000);
   }
 }

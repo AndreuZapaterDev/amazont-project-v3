@@ -69,31 +69,33 @@ export class PaymentProcessComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Cargar las tarjetas guardadas del usuario
+    // Carga los métodos de pago guardados del usuario
     this.loadSavedPaymentMethods();
 
-    // Initialize empty cart items array
+    // Inicializa el array de productos del carrito
     this.cartItems = [];
 
-    // Get user's active cart from API
+    // Obtiene el carrito activo del usuario desde la API
     const user = this.loginService.getLoggedUser();
     this.productService.getActiveCart(user.id).subscribe({
       next: (data: any) => {
-        this.cartId = data.carrito.id; // Store cart ID for later use
+        this.cartId = data.carrito.id; // Almacena el ID del carrito para su uso posterior
+
+        // Obtiene los productos asociados a este carrito
         this.productService.getProducosCarrito(data.carrito.id).subscribe({
           next: (cartProducts: any) => {
-            // Process each product in the cart
+            // Crea un array de peticiones para obtener los detalles de cada producto
             const productRequests = cartProducts.map((cartProduct: any) => {
               return this.productService.getAPIproduct(cartProduct.producto_id);
             });
 
-            // Wait for all product requests to complete
+            // Espera a que todas las peticiones de productos se completen
             forkJoin(productRequests).subscribe({
               next: (products: any) => {
-                // Create temporary array to hold items while we fetch images
+                // Crea un array temporal para almacenar los items mientras se obtienen las imágenes
                 const tempCartItems: CartItem[] = [];
 
-                // For each product, we'll create a cart item and then fetch its images
+                // Para cada producto, crea un item de carrito y obtiene sus imágenes
                 products.forEach((product: any, index: number) => {
                   const cartProduct = cartProducts[index];
                   const cartItem: CartItem = {
@@ -101,25 +103,25 @@ export class PaymentProcessComponent implements OnInit {
                     name: product.nombre,
                     price: product.precio,
                     quantity: cartProduct.cantidad,
-                    category: '', // API doesn't seem to provide this
-                    stars: 0, // API doesn't seem to provide this
+                    category: '', // La API no proporciona esta información
+                    stars: 0, // La API no proporciona esta información
                     discount: product.descuento,
                     description: product.descripcion,
                     stock: product.stock,
-                    url: '', // Will be populated with the first image URL
+                    url: '', // Se rellenará con la URL de la primera imagen
                   };
 
                   tempCartItems.push(cartItem);
 
-                  // Fetch images for this product
+                  // Obtiene las imágenes para este producto
                   this.productService.getProductImages(product.id).subscribe({
                     next: (images: any[]) => {
+                      // Usa la primera imagen como imagen principal del producto
                       if (images && images.length > 0) {
-                        // Use the first image URL
                         cartItem.url = images[0].url;
                       }
                     },
-                    error: (error) => {
+                    error: (error: any) => {
                       console.error(
                         `Error al cargar imágenes para producto ${product.id}:`,
                         error
@@ -128,20 +130,21 @@ export class PaymentProcessComponent implements OnInit {
                   });
                 });
 
-                // Update cart items with the temp array that will be populated with image URLs
+                // Actualiza los items del carrito con el array temporal que se poblará con URLs de imágenes
                 this.cartItems = tempCartItems;
               },
-              error: (error) => {
+              error: (error: any) => {
                 console.error('Error al cargar detalles de productos:', error);
               },
             });
           },
-          error: (error) => {
+          error: (error: any) => {
             console.error('Error al cargar los productos del carrito:', error);
           },
         });
       },
-      error: (error) => {
+      error: (error: any) => {
+        // Si hay un error al cargar el carrito, redirige a la página del carrito
         console.error('Error al cargar el carrito:', error);
         this.router.navigate(['/shopping-cart']);
       },
@@ -154,9 +157,9 @@ export class PaymentProcessComponent implements OnInit {
     if (!currentUser) return;
 
     this.profileService.getMetodosPago(currentUser.id).subscribe({
-      next: (metodos) => {
+      next: (metodos: any) => {
         // Transformar los métodos de pago de la API al formato que usamos en la vista
-        this.savedPaymentMethods = metodos.map((metodo) => ({
+        this.savedPaymentMethods = metodos.map((metodo: any) => ({
           id: metodo.id,
           type: this.profileService.detectCardType(metodo.tarjeta),
           name: metodo.nombre,
@@ -164,7 +167,7 @@ export class PaymentProcessComponent implements OnInit {
           expiry: metodo.caducidad,
         }));
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al cargar los métodos de pago:', error);
       },
     });
@@ -347,7 +350,7 @@ export class PaymentProcessComponent implements OnInit {
 
               // Crear el método de pago y luego actualizar el carrito con su ID
               this.profileService.addMetodoPago(paymentData).subscribe({
-                next: (response) => {
+                next: (response: any) => {
                   console.log('Tarjeta guardada correctamente:', response);
 
                   // Acceder al ID del método de pago desde la respuesta correcta
@@ -367,7 +370,7 @@ export class PaymentProcessComponent implements OnInit {
                     this.completePaymentProcess();
                   }
                 },
-                error: (error) => {
+                error: (error: any) => {
                   console.error('Error al guardar la tarjeta:', error);
                   // Aún así completamos el proceso ya que el carrito se finalizó correctamente
                   this.completePaymentProcess();
@@ -378,7 +381,7 @@ export class PaymentProcessComponent implements OnInit {
               this.completePaymentProcess();
             }
           },
-          error: (error) => {
+          error: (error: any) => {
             console.error('Error finalizing cart:', error);
             this.isProcessing = false;
           },
@@ -408,7 +411,7 @@ export class PaymentProcessComponent implements OnInit {
           console.log('Método de pago asignado correctamente al carrito');
           this.completePaymentProcess();
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error al asignar método de pago al carrito:', error);
           // Aún así completamos el proceso ya que el carrito se finalizó correctamente
           this.completePaymentProcess();
