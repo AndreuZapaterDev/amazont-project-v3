@@ -282,7 +282,7 @@ class api extends Controller
         return response()->json($productos_carrito, 200);
     }
 
-    // New method to get products by cart ID
+
     public function getProductosCarritoByCarritoId($carrito_id)
     {
         $productos_carrito = productos_carrito::where('carrito_id', $carrito_id)->get();
@@ -338,8 +338,6 @@ class api extends Controller
                 "message" => "Error, el usuario debe tener email, password, rol y user_profile_id"
             ], 400);
         }
-
-
 
         $usuario = new User;
         $usuario->email = $request->email;
@@ -507,7 +505,7 @@ class api extends Controller
             ], 400);
         }
 
-        // Retrieve the product to get its price
+        // Buscamos el producto para obtener su precio
         $producto = producto::find($request->producto_id);
         if ($producto == null) {
             return response()->json([
@@ -515,16 +513,16 @@ class api extends Controller
             ], 404);
         }
 
-        // Check if the product already exists in the cart
+        // Mirar si el producto ya existe en el carrito
         $existingProduct = productos_carrito::where('carrito_id', $request->carrito_id)
             ->where('producto_id', $request->producto_id)
             ->first();
 
         if ($existingProduct) {
-            // Product already exists in the cart, update the quantity
+            // Como ya existe, solo actualizamos la cantidad
             $existingProduct->cantidad += $request->cantidad;
             
-            // Calculate the correct price (product price * new total quantity)
+            // Calcular el nuevo precio (producto precio * cantidad)
             $existingProduct->precio = $producto->precio * $existingProduct->cantidad;
             
             $existingProduct->save();
@@ -534,15 +532,15 @@ class api extends Controller
                 "producto_carrito" => $existingProduct
             ], 200);
         } else {
-            // Product doesn't exist in the cart, create a new entry
-            // Calculate the correct price (product price * quantity)
+            // El producto no existe en el carrito, así que lo creamos
+            // Calcular el nuevo precio (producto precio * cantidad)
             $precio_calculado = $producto->precio * $request->cantidad;
 
             $productos_carrito = new productos_carrito;
             $productos_carrito->carrito_id = $request->carrito_id;
             $productos_carrito->producto_id = $request->producto_id;
             $productos_carrito->cantidad = $request->cantidad;
-            $productos_carrito->precio = $precio_calculado; // Use the calculated price instead of user input
+            $productos_carrito->precio = $precio_calculado;
 
             $productos_carrito->save();
             return response()->json([
@@ -595,14 +593,16 @@ class api extends Controller
             ], 404);
         }
 
-        if ($request->email == null || $request->password == null || $request->rol == null || $request->user_profile_id == null) {
+        if ($request->email == null || $request->rol == null || $request->user_profile_id == null) {
             return response()->json([
-                "message" => "Error, el usuario debe tener email, password y user_profile_id"
+                "message" => "Error, el usuario debe tener email, rol y user_profile_id"
             ], 400);
         }
 
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
+        if ($request->password != null) {
+            $usuario->password = bcrypt($request->password);
+        }
         $usuario->rol = $request->rol;
         $usuario->perfil_usuario_id = $request->user_profile_id;
 
@@ -829,18 +829,16 @@ class api extends Controller
             $productos_carrito->producto_id = $request->producto_id;
         }
 
-        // If quantity is changed, recalculate the price
+        // Si la cantidad se proporciona, actualizamos la cantidad y el precio
         if ($request->cantidad) {
             $productos_carrito->cantidad = $request->cantidad;
 
-            // Get the current product to calculate the new price
+            // Obtener el precio del producto
             $producto = producto::find($productos_carrito->producto_id);
             if ($producto) {
                 $productos_carrito->precio = $producto->precio * $request->cantidad;
             }
         }
-
-        // We're ignoring any price input from the request since it's automatically calculated
 
         $productos_carrito->save();
         return response()->json([
@@ -908,25 +906,25 @@ class api extends Controller
             ], 404);
         }
 
-        // Delete related records in productos_usuario (favorites)
+        // Eliminar registros relacionados en productos_usuario (favoritos)
         productos_usuario::where('producto_id', $id)->delete();
         
-        // Delete related records in productos_carrito (cart items)
+        // Eliminar registros relacionados en productos_carrito (ítems del carrito)
         productos_carrito::where('producto_id', $id)->delete();
         
-        // Delete related records in valoraciones (ratings)
+        // Eliminar registros relacionados en valoraciones
         valoraciones::where('producto_id', $id)->delete();
         
-        // Delete related records in caracteristicas (features)
+        // Eliminar registros relacionados en caracteristicas
         caracteristicas::where('producto_id', $id)->delete();
         
-        // Delete related records in imagenes (images)
+        // Eliminar registros relacionados en imagenes
         imagenes::where('producto_id', $id)->delete();
         
-        // Delete related records in productoCategorias (category relationships)
+        // Eliminar registros relacionados en productoCategorias (relaciones de categorías)
         productoCategorias::where('producto_id', $id)->delete();
         
-        // Finally delete the product
+        // Finalmente eliminar el producto
         $producto->delete();
         
         return response()->json([
@@ -1070,11 +1068,11 @@ class api extends Controller
             ], 404);
         }
 
-        // Decrypt sensitive data before returning
+        // Desencriptar datos sensibles antes de devolverlos
         foreach ($metodos_pago as $metodo) {
             $metodo->nombre = $this->decryptField($metodo->nombre);
             $metodo->tarjeta = $this->decryptField($metodo->tarjeta);
-            $metodo->caducidad = $this->decryptField($metodo->caducidad); // Also decrypt caducidad
+            $metodo->caducidad = $this->decryptField($metodo->caducidad);
             $metodo->cvv = $this->decryptField($metodo->cvv);
         }
 
@@ -1095,11 +1093,11 @@ class api extends Controller
             ], 404);
         }
 
-        // Decrypt sensitive data before returning
+        // Desencriptar datos sensibles antes de devolverlos
         foreach ($metodo_pago as $metodo) {
             $metodo->nombre = $this->decryptField($metodo->nombre);
             $metodo->tarjeta = $this->decryptField($metodo->tarjeta);
-            $metodo->caducidad = $this->decryptField($metodo->caducidad); // Also decrypt caducidad
+            $metodo->caducidad = $this->decryptField($metodo->caducidad);
             $metodo->cvv = $this->decryptField($metodo->cvv);
         }
 
@@ -1115,7 +1113,7 @@ class api extends Controller
             ], 400);
         }
 
-        // Check if the card number already exists - need to check encrypted values
+        // Mirar si la tarjeta ya existe
         $existingCards = metodos_pago::all();
         foreach ($existingCards as $card) {
             $decryptedCard = $this->decryptField($card->tarjeta);
@@ -1130,16 +1128,16 @@ class api extends Controller
         $metodo_pago->user_id = $request->user_id;
         $metodo_pago->nombre = $this->encryptField($request->nombre);
         $metodo_pago->tarjeta = $this->encryptField($request->tarjeta);
-        $metodo_pago->caducidad = $this->encryptField($request->caducidad); // Encrypt caducidad
+        $metodo_pago->caducidad = $this->encryptField($request->caducidad);
         $metodo_pago->cvv = $this->encryptField($request->cvv);
 
         $metodo_pago->save();
         
-        // Decrypt the data for the response
+        // Desencriptar datos sensibles antes de devolverlos
         $responseData = $metodo_pago->toArray();
         $responseData['nombre'] = $request->nombre;
         $responseData['tarjeta'] = $request->tarjeta;
-        $responseData['caducidad'] = $request->caducidad; // Include original caducidad
+        $responseData['caducidad'] = $request->caducidad;
         $responseData['cvv'] = $request->cvv;
         
         return response()->json([
@@ -1170,7 +1168,7 @@ class api extends Controller
         }
 
         if ($request->tarjeta != null) {
-            // Check if the new card number already exists (except for this record)
+            // Mirar si la tarjeta ya existe, sin contar esta
             $existingCards = metodos_pago::where('id', '!=', $id)
                              ->where(function($query) {
                                  $query->where('eliminado', false)->orWhereNull('eliminado');
@@ -1189,7 +1187,7 @@ class api extends Controller
         }
 
         if ($request->caducidad != null) {
-            $metodo_pago->caducidad = $this->encryptField($request->caducidad); // Encrypt caducidad
+            $metodo_pago->caducidad = $this->encryptField($request->caducidad);
         }
 
         if ($request->cvv != null) {
@@ -1198,11 +1196,11 @@ class api extends Controller
 
         $metodo_pago->save();
         
-        // Create response with decrypted data
+        // Desencriptar datos sensibles antes de devolverlos
         $responseData = $metodo_pago->toArray();
         $responseData['nombre'] = $request->nombre ?? $this->decryptField($metodo_pago->nombre);
         $responseData['tarjeta'] = $request->tarjeta ?? $this->decryptField($metodo_pago->tarjeta);
-        $responseData['caducidad'] = $request->caducidad ?? $this->decryptField($metodo_pago->caducidad); // Decrypt caducidad
+        $responseData['caducidad'] = $request->caducidad ?? $this->decryptField($metodo_pago->caducidad);
         $responseData['cvv'] = $request->cvv ?? $this->decryptField($metodo_pago->cvv);
         
         return response()->json([
@@ -1211,7 +1209,7 @@ class api extends Controller
         ], 200);
     }
 
-    // Helper methods for encryption and decryption
+    // Funciones helper para encriptar y desencriptar campos
     private function encryptField($value)
     {
         if ($value === null) {
@@ -1228,18 +1226,15 @@ class api extends Controller
         try {
             return Crypt::decryptString($value);
         } catch (\Exception $e) {
-            // If decryption fails (e.g., for non-encrypted legacy data)
             return $value;
         }
     }
     
     /**
-     * Finish a cart by setting acabado = true, updating fecha_pago,
-     * and calculating the total from all cart items
+     * Finalizar el carrito y actualizar el stock de los productos
      */
     public function acabarCarrito($id)
     {
-        // Find the cart
         $carrito = carrito::find($id);
         if ($carrito == null) {
             return response()->json([
@@ -1247,12 +1242,12 @@ class api extends Controller
             ], 404);
         }
 
-        // Get all products in the cart
+        // Obtener todos los productos del carrito
         $productos_carrito = productos_carrito::where('carrito_id', $id)->get();
         $total = 0;
         $stockErrors = [];
 
-        // First check if all products have enough stock
+        // Mirar si hay stock suficiente
         foreach ($productos_carrito as $producto_carrito) {
             $producto = producto::find($producto_carrito->producto_id);
             if ($producto == null) {
@@ -1261,7 +1256,6 @@ class api extends Controller
                 ], 404);
             }
 
-            // Check if there's enough stock
             if ($producto->stock < $producto_carrito->cantidad) {
                 $stockErrors[] = "No hay suficiente stock para el producto '" . $producto->nombre . 
                                 "'. Stock disponible: " . $producto->stock . 
@@ -1271,7 +1265,7 @@ class api extends Controller
             $total += $producto_carrito->precio;
         }
 
-        // If there are stock errors, return them without finishing the cart
+        // Si hay errores de stock, no se puede finalizar el carrito
         if (!empty($stockErrors)) {
             return response()->json([
                 "message" => "Error: Stock insuficiente",
@@ -1279,7 +1273,7 @@ class api extends Controller
             ], 400);
         }
 
-        // Now process all products and update the stock
+        // Procesamos el carrito y actualizamos el stock
         foreach ($productos_carrito as $producto_carrito) {
             $producto = producto::find($producto_carrito->producto_id);
             
@@ -1288,16 +1282,15 @@ class api extends Controller
             $producto->save();
         }
 
-        // Set acabado to true
+        // Ponemos acabado a true
         $carrito->acabado = true;
 
-        // Update fecha_pago to current timestamp
+        // Actualizamos la fecha de pago
         $carrito->fecha_pago = now();
 
-        // Update total in the cart
+        // Actualizamos el total
         $carrito->total = $total;
 
-        // Save the changes
         $carrito->save();
 
         return response()->json([
@@ -1306,7 +1299,7 @@ class api extends Controller
         ], 200);
     }
 
-    // New method to get the count of ratings per product
+    // Función para obtener la puntuación de un producto
     public function getPuntuacionPorProducto($producto_id)
     {
         $count = valoraciones::where('producto_id', $producto_id)->count();
@@ -1318,8 +1311,7 @@ class api extends Controller
     }
 
     /**
-     * Get active cart for a user
-     * Returns the cart with acabado = false for the given user
+     * Obtener el carrito activo de un usuario
      */
     public function getCarritoActivo($user_id)
     {
@@ -1385,14 +1377,14 @@ class api extends Controller
             ], 400);
         }
 
-        // Check if the product is already in favorites
-        $existingFavorite = productos_usuario::where('producto_id', $request->producto_id)
+        // Miramos si la relación ya existe
+        $existingRelation = productos_usuario::where('producto_id', $request->producto_id)
             ->where('usuario_id', $request->usuario_id)
             ->first();
 
-        if ($existingFavorite) {
+        if ($existingRelation) {
             return response()->json([
-                "message" => "Este producto ya existe"
+                "message" => "Esta relación ya existe"
             ], 400);
         }
 
@@ -1402,7 +1394,7 @@ class api extends Controller
 
         $producto_usuario->save();
         return response()->json([
-            "message" => "Producto añadido",
+            "message" => "Relación añadida",
             "producto_usuario" => $producto_usuario
         ], 201);
     }
@@ -1412,13 +1404,13 @@ class api extends Controller
         $producto_usuario = productos_usuario::find($id);
         if ($producto_usuario == null) {
             return response()->json([
-                "message" => "Producto no encontrado"
+                "message" => "Relación no encontrada"
             ], 404);
         }
 
         $producto_usuario->delete();
         return response()->json([
-            "message" => "Producto eliminado"
+            "message" => "Relación eliminada"
         ], 200);
     }
 
@@ -1441,18 +1433,15 @@ class api extends Controller
     }
 
     /**
-     * Get monthly statistics for products associated with a user
-     * 
-     * @param int $user_id The user ID to get stats for
-     * @return \Illuminate\Http\Response
+     * Obtenemos las estadísticas de los productos de un usuario
      */
     public function getProductStats($user_id)
     {
-        // Get the start and end dates for the current month
+        // Obtenemos el inicio y fin del mes actual
         $startOfMonth = now()->startOfMonth()->toDateString();
         $endOfMonth = now()->endOfMonth()->toDateString();
         
-        // Get all products associated with the user
+        // Obtener todos los productos del usuario
         $userProducts = productos_usuario::where('usuario_id', $user_id)->pluck('producto_id');
         
         if ($userProducts->isEmpty()) {
@@ -1461,7 +1450,7 @@ class api extends Controller
             ], 404);
         }
         
-        // Find all carts that contain these products and were finished this month
+        // Buscamos los carritos que contienen estos productos y que están acabados
         $cartIds = productos_carrito::whereIn('producto_id', $userProducts)
             ->pluck('carrito_id')
             ->unique();
@@ -1473,37 +1462,37 @@ class api extends Controller
         
         $totalFinishedCarts = $finishedCarts->count();
         
-        // Calculate total monthly sales
+        // Calcular las ventas totales del mes
         $monthlySales = $finishedCarts->sum('total');
         
-        // Get total products sold this month
+        // Mirar el total de productos vendidos este mes
         $totalProductsSold = productos_carrito::whereIn('carrito_id', $finishedCarts->pluck('id'))
             ->whereIn('producto_id', $userProducts)
             ->sum('cantidad');
         
-        // Collect detailed stats for each product
+        // Obtenemos información de cada producto
         $productStats = [];
         
         foreach ($userProducts as $productId) {
             $product = producto::find($productId);
             
             if (!$product) {
-                continue; // Skip if product doesn't exist
+                continue;
             }
             
-            // Get the first image for this product
+            // Obtener la imagen del producto
             $firstImage = imagenes::where('producto_id', $productId)->first();
             $imageUrl = $firstImage ? $firstImage->url : null;
             
-            // Get sales for this product in this month
+            // Obtener el total vendido y unidades vendidas
             $productCartItems = productos_carrito::whereIn('carrito_id', $finishedCarts->pluck('id'))
                 ->where('producto_id', $productId)
                 ->get();
             
             $unitsSold = $productCartItems->sum('cantidad');
             $totalSales = $productCartItems->sum('precio');
-            
-            // Get rating information
+
+            // Obtener información de la puntuación
             $reviews = valoraciones::where('producto_id', $productId)->get();
             $reviewCount = $reviews->count();
             $averageRating = $reviewCount > 0 ? $reviews->avg('puntuacion') : 0;
@@ -1522,7 +1511,7 @@ class api extends Controller
         }
         
         return response()->json([
-            'month' => now()->format('F Y'),  // Current month and year (e.g. "May 2023")
+            'month' => now()->format('F Y'),
             'monthly_sales' => $monthlySales,
             'total_products_sold' => $totalProductsSold,
             'finished_carts' => $totalFinishedCarts,
